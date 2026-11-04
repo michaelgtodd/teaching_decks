@@ -1,0 +1,61 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T15:15:53Z"
+  },
+  "lists": "css",
+  "title": "Your first robot program",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "watch-it-move",
+    "five-parts",
+    "message-chain",
+    "two-apps",
+    "three-words",
+    "open-apps",
+    "two-vs-codes",
+    "make-project",
+    "build-it",
+    "laptop-ready",
+    "cable-first",
+    "deploy",
+    "three-lights",
+    "red-light",
+    "stop-keys",
+    "turn-it-on",
+    "sense-decide-act",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Meet the robot, get your laptop ready, send code to the robot and turn it on safely.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Part 1: meet the robot and get your laptop ready.",
+      "start": "watch-it-move"
+    },
+    "s2": {
+      "description": "Part 2: send your code to the robot, in groups of 3 or 4.",
+      "start": "cable-first"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

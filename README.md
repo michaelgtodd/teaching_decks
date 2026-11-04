@@ -1,10 +1,10 @@
 # FRC Java crash course decks
 
-Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. 2027 and Systemcore appear only as short notes on what's changing.
+Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
 | # | Deck | Slides | Minutes |
 |---|---|---|---|
-| 1 | [Install WPILib and set up your robot](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1) | 19 | 30 |
+| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1), in two sittings | 20 | 95 |
 | 2 | [KitBot drive: command-based Java and a joystick](https://claude.ai/artifact/GTK83fawoiqT1J83sS2YZS) | 21 | 35 |
 | 3 | [AdvantageScope: see what your robot is doing](https://claude.ai/artifact/JaTKFBgGZosZcVh4rAZYfV) | 18 | 30 |
 | 4 | [Driving the KitBot in the WPILib simulator](https://claude.ai/artifact/34wN5wfhF5zk26S62gMEP4) | 20 | 35 |
@@ -14,7 +14,8 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 8 | [Understanding motors: how to read a motor curve](https://claude.ai/artifact/B48BWKmNvk9TpxTMFg7GJM) | 20 | 30 |
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 | 35 |
 | 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 | 30 |
-| | **Total** | **205** | **325** |
+| | **Total** | **206** | **390** |
+| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F), one job at a time | 17 | 2.5 to 4 hours |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://claude.ai/artifact/WzcPfnPBQ1gA6uvLpfdEji) (every slide layout).
 
@@ -25,6 +26,7 @@ This repo and the playground are public. The slide links above stay private to t
 Nothing here has run on a real robot, and no one has viewed the slides, the animated embed or the playground in a browser yet.
 
 **Worth doing first**
+- Work through [MENTOR-PREP.md](MENTOR-PREP.md). Deck 1 needs a finished robot and installed laptops.
 - Page through each deck once. Layout was checked by estimate only.
 - Scan a few QR codes with a phone, from the back of the room. They pass a decoder check, but no phone has tried them.
 - Export PDFs if the shop wifi is unreliable. Fonts load from the web.
@@ -47,9 +49,8 @@ Nothing here has run on a real robot, and no one has viewed the slides, the anim
 
 **Smaller items**
 - Confirm Elastic appears in the Driver Station `Dashboard Type` list, and try its submit button on a real setup (Deck 5).
-- Driver Station version text and using the microSD slot to identify a roboRIO 2 (Deck 1).
+- Using the microSD slot to identify a roboRIO 2 (Setup lab).
 - The sign of `getAppliedOutput()` on an inverted SPARK (Deck 3).
-- Deck 1's Getting Started program uses PWM, so a CAN robot won't move with it. Prepare one robot ahead of time.
 
 ## What was verified
 
@@ -66,6 +67,7 @@ Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's p
 
 - `decks/NN-name/deck.mjs` is the source for a deck. `project/` is generated from it.
 - `docs/` is the GitHub Pages site, which only holds the playground.
+- `decks/setup-lab/` is the unnumbered Setup lab.
 - `template/` holds the layouts, Java highlighter, QR encoder and build tools. `template/GUIDE.md` explains how to write a deck.
 - `examples/` is a complete WPILib project. Every code slide pulls from it. Open it in WPILib VS Code to build it.
 - `PLAN.md` holds the plan and the facts all decks share.

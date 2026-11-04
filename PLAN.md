@@ -20,7 +20,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 
 | # | Folder | Topic | Minutes | Slides |
 |---|---|---|---|---|
-| 1 | `01-install-and-first-setup` | Installing WPILib, first-time robot setup, QR codes to official docs | 30 | ~16 |
+| 1 | `01-first-robot-program` | First session in two sittings: meet the robot, build, deploy, enable safely | 95 | ~20 |
 | 2 | `02-kitbot-drive` | Command-based basics, KitBot drivetrain, joystick | 35 | ~21 |
 | 3 | `03-advantagescope` | Reading robot data live and from logs | 30 | ~15 |
 | 4 | `04-sim-in-advantagescope` | Driving the WPILib simulator in AdvantageScope | 35 | ~16 |
@@ -30,10 +30,11 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 8 | `08-understanding-motors` | Motor curves, gearing, heat, battery sag, current limits | 30 | ~20 |
 | 9 | `09-advanced-controls` | Input shaping, drivetrain feedforward, onboard loops, S-curves | 35 | ~20 |
 | 10 | `10-auto-path-planning` | PathPlanner, Choreo, BLine and WPILib compared | 30 | ~18 |
+| Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | 2.5 to 4 hours | ~17 |
 
 Every deck follows the same rhythm: cover, outcomes, content, at least one `gotcha`, one `practice`,
 one `exercise`, one slide with eyebrow exactly `Control theory`, `change2027`, `recap`, `links` (QR codes).
-Decks 8 to 10 may skip the full `change2027` slide when there is little to say.
+Decks 8 to 10 may skip the full `change2027` slide when there is little to say. Deck 1 and the Setup lab have none: those notes are in `MENTOR-PREP.md`.
 
 ## Verified facts all decks must agree on
 
@@ -84,6 +85,7 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - **REV stack:** stay on REVLib 2026 and 2026 firmware on the roboRIO. REVLib 2027 has no roboRIO build, and REVLib 2026 reports SPARK firmware 27 as too new. Code stays in the new style: no conversion factors, rotations and RPM.
 - **Moved:** current limits and voltage compensation from Deck 2 to Deck 8. Input shaping from Deck 2, and the onboard SPARK arm from Deck 6, to Deck 9.
 - **Added:** Deck 8 (understanding motors), Deck 9 (advanced controls), Deck 10 (auto path planning).
+- **Deck 1:** rebuilt after a newcomer review as a first-day lesson in two sittings. Installing and robot setup became the Setup lab, and mentor material became `MENTOR-PREP.md`.
 - **Playground:** served from `docs/arm-playground/` on GitHub Pages so students need no login.
 
 ## Build and verification

@@ -50,7 +50,7 @@ function header(id, eyebrow, title, dark = false) {
 }
 function footer(ctx, { dark, flag2027, id }) {
   const soft = dark ? C.onDarkSoft : C.soft;
-  let html = `<p style="position:absolute;left:${G.pad}px;bottom:56px;width:420px;font-size:${T.small}px;color:${soft}">Deck ${ctx.deck.no} · ${esc(smart(ctx.deck.short))}</p>`;
+  let html = `<p style="position:absolute;left:${G.pad}px;bottom:56px;width:420px;font-size:${T.small}px;color:${soft}">${esc(ctx.deck.label ?? `Deck ${ctx.deck.no}`)} · ${esc(smart(ctx.deck.short))}</p>`;
   if (flag2027) {
     need(plain(flag2027).length <= 72, id, 'flag2027 is 72 chars max');
     html += `<p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:${T.small}px;font-weight:600;color:${dark ? C.blueBright : C.blue}">2027: ${rich(flag2027, dark ? C.blueBright : C.blue)}</p>`;
@@ -79,7 +79,7 @@ export function cover(spec) {
     id: spec.id || 'cover', bg: C.ink, color: C.onDark, chrome: false, notes: spec.notes, justify: 'center', gap: 32,
     padding: `${G.pad}px ${G.pad}px ${G.bottom}px`,
     backdrop: `${blueprint}<div style="position:absolute;left:0;top:1032px;width:1920px;height:48px;background:${HAZARD}"></div>`,
-    body: `${eyebrowHtml(`Deck ${ctx.deck.no} of ${ctx.deck.of} · FRC Java crash course`, C.orangeBright)}
+    body: `${eyebrowHtml(`${ctx.deck.label ?? `Deck ${ctx.deck.no} of ${ctx.deck.of}`} · FRC Java crash course`, C.orangeBright)}
 <h1 style="font-family:${F.display};font-size:${T.display}px;font-weight:600;line-height:1.08;color:${C.onDark}">${rich(title)}</h1>
 <p style="font-size:${T.lead}px;line-height:1.3;color:${C.onDarkSoft}">${rich(subtitle, C.blueBright)}</p>
 <div style="display:flex;flex-direction:row;gap:20px;align-items:center">

@@ -1,0 +1,50 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T15:16:50Z"
+  },
+  "lists": "css",
+  "title": "Setup lab: install the tools and set up a robot",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "jobs",
+    "get-wpilib",
+    "run-wpilib",
+    "game-tools",
+    "which-rio",
+    "image-rio1",
+    "image-rio2",
+    "radio-connect",
+    "radio-update",
+    "radio-modes",
+    "spark-update",
+    "spark-settings",
+    "write-it-down",
+    "wont-connect",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "A hands-on lab: install WPILib and the Game Tools, then image the roboRIO, program the radios and set up the motor controllers.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

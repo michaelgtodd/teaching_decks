@@ -52,7 +52,7 @@ export default {
       { title: 'Build once', text: 'Run `WPILib: Build Robot Code` to prove the library is in.' },
       { title: 'Set up each SPARK in REV Hardware Client 2', text: 'Use 2026 firmware (26.x), then set the CAN ID and motor type.' },
     ], qr: { url: 'https://docs.revrobotics.com/revlib/install', label: 'REVLib install', short: 'docs.revrobotics.com: Installation' },
-    notes: '(2 min) Drive this live if you can. OneDrive matters: its caching interferes with the build. We need REVLib because the SPARK MAX is a REV product and WPILib does not include its code. The online install is fine in this room, and the FIRST KitBot guide recommends the offline installer for the robot laptop. Deck 1 has the firmware steps: pick the newest 26.x, even if a newer version is listed.' }),
+    notes: '(2 min) Drive this live if you can. OneDrive matters: its caching interferes with the build. We need REVLib because the SPARK MAX is a REV product and WPILib does not include its code. The online install is fine in this room, and the FIRST KitBot guide recommends the offline installer for the robot laptop. The Setup lab has the firmware steps: pick the newest 26.x, even if a newer version is listed.' }),
 
     L.codeNotes({ id: 'motors', eyebrow: 'CANDriveSubsystem', title: 'Step 1: create the motors', file: 'CANDriveSubsystem.java', src: { file: DRIVE, region: 'hardware' }, callouts: [
       { line: [3, 5, 7, 9], title: 'Brushed', text: 'CIMs have brushes. Tell the SPARK, because it can\'t detect that.' },
