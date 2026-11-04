@@ -1,0 +1,51 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:44:46Z"
+  },
+  "lists": "css",
+  "title": "AdvantageScope: see what your robot is doing",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "why",
+    "connect",
+    "window",
+    "level1",
+    "level2",
+    "level3",
+    "getlog",
+    "story",
+    "practice",
+    "gotcha-live",
+    "gotcha-log",
+    "control-theory",
+    "exercise",
+    "change2027",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Reading robot data live and from logs with AdvantageScope, and getting that data out of Java.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

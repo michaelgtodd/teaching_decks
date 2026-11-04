@@ -1,0 +1,50 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:50:32Z"
+  },
+  "lists": "css",
+  "title": "Elastic: your robot on a dashboard",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "networktables",
+    "open-connect",
+    "interface",
+    "publish",
+    "chooser",
+    "live-tuning",
+    "tune-gain",
+    "driver-debug",
+    "layout-on-robot",
+    "notifications",
+    "symptoms",
+    "exercise",
+    "change",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Using the Elastic dashboard bundled with WPILib 2026 to see data, pick an auto, tune a value and keep a layout.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

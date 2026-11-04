@@ -1,0 +1,73 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:56:44Z"
+  },
+  "lists": "css",
+  "title": "Arm PID: control theory and a PID + feedforward arm",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "open-closed",
+    "feedback-loop",
+    "example-arm",
+    "p-sag",
+    "too-much-p",
+    "p-plus-d",
+    "d-noise",
+    "i-windup",
+    "gravity-cos",
+    "kg-physics",
+    "add-feedforward",
+    "core-idea",
+    "ks-kv",
+    "motion-profile",
+    "gain-cycle",
+    "tuning-recipe",
+    "playground-exercise",
+    "code-section",
+    "units-boundary",
+    "rio-loop",
+    "commands",
+    "bindings",
+    "profiled",
+    "safety",
+    "sim-setup",
+    "sim-exercise",
+    "onboard-faster",
+    "spark-config",
+    "gotcha-sim-kcos",
+    "gotcha-runaway",
+    "gotcha-table",
+    "change-2027",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO and on the SPARK MAX.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Programming the arm",
+      "start": "code-section"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

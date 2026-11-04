@@ -1,18 +1,14 @@
 # Example code
 
-Every code slide pulls from these files by `// #region name` markers, so what's on the slide is what's here.
-There is one package per deck under `frc.robot`.
+A complete WPILib 2026.2.1 project, built from the official Java command-based template.
+Every code slide pulls from these files by `// #region name` markers, so what's on a slide is what compiles here.
 
-## Status: not compiled yet
+- `src/main/java/frc/robot/deckN/` holds the code for deck N, one package per deck.
+- `Main`, `Robot`, `RobotContainer`, `Constants`, `commands/` and `subsystems/` are the unchanged template.
+- `vendordeps/` pins REVLib 2026.0.5 and Phoenix 6 26.3.0.
 
-Each API call was checked against WPILib, REV and CTRE source or Javadoc, but no compiler has run on this code.
+## To build it
 
-## To compile it (about 5 minutes on any machine with WPILib 2026)
+Open this `examples/` folder in WPILib VS Code and run **WPILib: Build Robot Code**.
 
-1. In WPILib VS Code: **Create a new project**, Template, Java, Command Robot, team number 0.
-2. Copy `examples/src/main/java/frc/robot/deck*` into that project's `src/main/java/frc/robot/`.
-3. Manage Vendor Libraries: install **REVLib** and **CTRE Phoenix 6**.
-4. Run **WPILib: Build Robot Code**.
-
-The template's own `Robot.java` keeps using the template's `RobotContainer`, so these packages compile
-alongside it without touching it.
+From a terminal, with JDK 17: `./gradlew compileJava`

@@ -9,7 +9,7 @@ Focus: **Java command-based only**, best practices, and **as much control theory
 |---|---|---|
 | WPILib | **2026.2.1** (latest stable) | GradleRIO 2026.2.1, Java 17, roboRIO |
 | REVLib | 2026.0.5 | vendordep `https://software-metadata.revrobotics.com/REVLib-2026.json` |
-| Phoenix 6 | 26.x | Confirm the exact current version in deck 7 |
+| Phoenix 6 | 26.3.0 | Latest in the WPILib vendor index on 2026-11-04 |
 | Docs links | `docs.wpilib.org/en/stable/...` | `/en/2026/` does not exist yet. `stable` flips to 2027 at kickoff. |
 
 **Decision from the lead mentor:** teach 2026 only. Systemcore kits are not out yet, so 2027 appears
@@ -24,7 +24,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 2 | `02-kitbot-drive` | Command-based basics, KitBot drivetrain, joystick | 45 | ~20 |
 | 3 | `03-advantagescope` | Reading robot data live and from logs | 30 | ~15 |
 | 4 | `04-sim-in-advantagescope` | Driving the WPILib simulator in AdvantageScope | 35 | ~16 |
-| 5 | `05-shuffleboard` | Shuffleboard, plus where dashboards are going | 25 | ~14 |
+| 5 | `05-elastic` | The Elastic dashboard: live data, choosers, tuning | 25 | ~14 |
 | 6 | `06-arm-pid` | Control theory and a PID + feedforward arm | 50 | ~24 |
 | 7 | `07-rev-vs-ctre` | REV vs CTRE motors and their on-board capabilities, 2026 | 30 | ~15 |
 
@@ -48,7 +48,7 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - Project classes are `CANDriveSubsystem` and `CANFuelSubsystem`; two variants (class-based and inline). We teach inline: command factories on the subsystem.
 - Split-stick arcade: left stick Y drives, right stick X turns. `CommandXboxController` on port 0.
 - Logitech F310: back switch on `X`, and the Mode light off. With Mode on, the left stick and D-pad swap.
-- Set CAN IDs in REV Hardware Client over USB with the robot off, one SPARK at a time.
+- Set CAN IDs in REV Hardware Client 2 over USB with the robot off, one SPARK at a time.
 - CAN bus starts at the roboRIO and ends at a terminator (PDH termination on, or a 120 ohm resistor); yellow to yellow, green to green. Leave the PDH ID at its default.
 
 **REVLib 2026**
@@ -79,4 +79,6 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - `node template/build.mjs [deck]` builds and enforces fit limits.
 - `node template/verify-qr.mjs` round-trips every QR. `node template/check-links.mjs [deck]` fetches every link.
 - **Code on slides comes from `examples/`** through `src: {file, region}`, so one compile covers all of it. See `examples/README.md`.
-- **Not yet compiled.** The automatic safety check blocked downloading a JDK here. API calls are checked against source and Javadoc instead, until someone runs the build in `examples/README.md`.
+- **`examples/` is a full WPILib 2026 project** built from the official template. See `examples/README.md`.
+
+**Decision from the lead mentor:** Elastic replaces Shuffleboard as Deck 5, because Shuffleboard is deprecated and removed for 2027.

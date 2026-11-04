@@ -1,0 +1,50 @@
+<section id="gain-cycle" data-transition="fade" style="background:#F7F5EF;color:#1A2733;font-family:'Public Sans', Arial, sans-serif;padding:88px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#B8430A">Control theory</p><h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#12202E">Five gain sets on one arm</h2></div><x-embed style="position:absolute;left:128px;top:232px;width:1664px;height:650px"><!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;height:100%;background:#F7F5EF;overflow:hidden}
+svg{display:block;width:100%;height:100%}
+text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:24px;fill:#45545F}
+.b{font-size:44px;font-weight:700;fill:#12202E}.m{font-size:30px;fill:#1A2733}.v{font-size:32px;font-weight:700;fill:#B8430A}
+</style></head><body>
+<svg viewBox="0 0 1664 650" role="img" aria-label="An arm moving to 45 degrees beside a plot of its angle, cycling through five sets of gains">
+<text id="c" x="0" y="42">5 of 5</text>
+<text id="n" class="b" x="96" y="46">Add a profile</text>
+<text id="g" class="m" x="1664" y="42" text-anchor="end">kP 30, kD 1.2, kG 1.21, kV 1.19</text>
+<text id="s" class="v" x="0" y="94">On target, 1.2° overshoot, 4.8 V peak</text>
+<line x1="300" y1="400" x2="300" y2="630" stroke="#12202E" stroke-width="18"/>
+<line x1="30" x2="570" y1="400" y2="400" stroke="#D9D3C4" stroke-width="2"/>
+<text x="576" y="408" text-anchor="end" transform="translate(0,-16)">0° is flat</text>
+<line x1="300" y1="400" x2="490.9" y2="209.1" stroke="#0B5CAD" stroke-width="4" stroke-dasharray="14 10"/>
+<line id="a" x1="300" y1="400" x2="462.6" y2="237.4" stroke="#B8430A" stroke-width="22" stroke-linecap="round"/>
+<circle cx="300" cy="400" r="20" fill="#12202E"/>
+<text id="d" class="m" x="300" y="620" dx="30">45°</text>
+<line x1="720" x2="720" y1="130" y2="580" stroke="#45545F" stroke-width="2"/>
+<line x1="720" x2="1630" y1="542.5" y2="542.5" stroke="#45545F" stroke-width="2"/>
+<line x1="720" x2="1630" y1="430" y2="430" stroke="#D9D3C4" stroke-width="1"/>
+<line x1="720" x2="1630" y1="261.25" y2="261.25" stroke="#0B5CAD" stroke-width="3" stroke-dasharray="14 10"/>
+<text x="708" y="269.25" text-anchor="end">45°</text>
+<text x="708" y="438" text-anchor="end">0°</text>
+<text x="708" y="550.5" text-anchor="end">-30°</text>
+<text x="720" y="614" text-anchor="middle">0</text><text x="1023.3333333333333" y="614" text-anchor="middle">1</text><text x="1326.6666666666665" y="614" text-anchor="middle">2</text><text x="1630" y="614" text-anchor="middle">3</text>
+<text x="1175" y="646" text-anchor="middle">Time (s). Dashed: the setpoint</text>
+<polyline id="p" points="720,543 726,542 732,542 738,540 744,538 750,535 756,531 762,526 769,521 775,515 781,510 787,503 793,496 799,489 805,481 811,473 817,464 823,454 829,444 835,433 841,422 847,410 853,399 860,387 866,375 872,364 878,353 884,342 890,332 896,323 902,315 908,307 914,300 920,294 926,288 932,283 938,278 944,273 951,269 957,266 963,263 969,261 975,259 981,258 987,257 993,257 999,257 1005,258 1011,259 1017,260 1023,261 1029,262 1035,262 1042,262 1048,261 1054,261 1060,261 1066,261 1072,261 1078,261 1084,261 1090,261 1096,261 1102,261 1108,261 1114,261 1120,261 1126,261 1133,261 1139,261 1145,261 1151,261 1157,261 1163,261 1169,261 1175,261 1181,261 1187,261 1193,261 1199,261 1205,261 1211,261 1217,261 1224,261 1230,261 1236,261 1242,261 1248,261 1254,261 1260,261 1266,261 1272,261 1278,261 1284,261 1290,261 1296,261 1302,261 1308,261 1315,261 1321,261 1327,261 1333,261 1339,261 1345,261 1351,261 1357,261 1363,261 1369,261 1375,261 1381,261 1387,261 1393,261 1399,261 1406,261 1412,261 1418,261 1424,261 1430,261 1436,261 1442,261 1448,261 1454,261 1460,261 1466,261 1472,261 1478,261 1484,261 1490,261 1497,261 1503,261 1509,261 1515,261 1521,261 1527,261 1533,261 1539,261 1545,261 1551,261 1557,261 1563,261 1569,261 1575,261 1581,261 1588,261 1594,261 1600,261 1606,261 1612,261 1618,261 1624,261 1630,261" fill="none" stroke="#B8430A" stroke-width="5" stroke-linejoin="round"/>
+</svg>
+<script>
+var S=[{"n":"P only","g":"kP 8","s":"Stops 6.8° short","d":[-300,-285,-248,-194,-131,-63,5,72,134,191,241,284,321,351,375,394,407,417,423,426,427,426,423,420,416,412,408,404,400,396,393,390,387,385,384,382,381,381,380,380,380,380,380,380,380,380,380,381,381,381,381,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382,382]},{"n":"Too much P","g":"kP 50","s":"Still swinging 36° wide after 3 s","d":[-300,-283,-239,-177,-102,-18,73,167,264,364,466,562,636,668,657,613,545,461,370,292,243,235,261,311,377,456,535,596,624,613,568,500,418,337,276,250,261,300,360,433,511,576,613,612,577,515,436,355,289,255,258,293,349,420,497,565,607,614,584,527,450,367,298,258,255,285,339,408,485,555,602,615,591,537,463,380,308,262,254,281,331,398,475,547,598,616,596,546,473,391,316,267,254,277,325,390,467,540,595,616,600,552,481,399,323,270,254,273,318,382,458,533,591,617,605,559,491,409,331,275,253,268,310,372,447,524,585,616,609,567,501,420,341,280,253,263,302,361,435,512,576,612,611,575,513,434,353,288,255,260,294]},{"n":"P + D","g":"kP 30, kD 1.2","s":"Overshoot gone, 1.7° short","d":[-300,-283,-239,-177,-102,-18,73,167,262,346,409,445,455,449,435,422,415,415,420,427,434,438,439,438,436,433,431,431,431,432,433,434,434,434,434,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433,433]},{"n":"Add feedforward","g":"kP 30, kD 1.2, kG 1.21","s":"On target, 2.7° overshoot, 12 V peak","d":[-300,-283,-239,-177,-102,-18,73,167,263,353,422,463,477,472,456,441,431,429,434,442,450,455,457,456,453,450,448,447,447,448,450,451,451,451,451,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450]},{"n":"Add a profile","g":"kP 30, kD 1.2, kG 1.21, kV 1.19","s":"On target, 1.2° overshoot, 4.8 V peak","d":[-300,-300,-298,-294,-288,-280,-269,-256,-243,-228,-212,-195,-177,-157,-136,-114,-89,-64,-37,-8,21,52,84,116,147,177,206,234,260,285,308,328,347,363,379,393,406,418,428,437,445,451,456,459,461,462,461,459,456,453,450,449,448,449,450,450,451,451,451,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450]}],M=$('p'),A=$('a'),T=Date.now(),I=-1;
+function $(i){return document.getElementById(i)}
+function x(i){return 720+i/150*910}
+function y(d){return 580-(d/10-(-40))/120*450}
+function f(){
+var e=(Date.now()-T)/1000,i=Math.floor(e/5)%S.length,c=S[i],u=e%5,k=Math.min(150,Math.floor(u*50)),p=[],a,j;
+if(i!=I){I=i;$('c').textContent=(i+1)+' of '+S.length;$('n').textContent=c.n;$('g').textContent=c.g;$('s').textContent=c.s}
+for(j=0;j<=k;j++)p.push(x(j).toFixed(0)+','+y(c.d[j]).toFixed(0));
+M.setAttribute('points',p.join(' '));
+a=c.d[k]/10*Math.PI/180;
+A.setAttribute('x2',(300+230*Math.cos(a)).toFixed(1));
+A.setAttribute('y2',(400-230*Math.sin(a)).toFixed(1));
+$('d').textContent=(c.d[k]/10).toFixed(0)+'°'
+}
+setInterval(f,40);f()
+</script></body></html></x-embed><p style="position:absolute;left:128px;bottom:56px;width:420px;font-size:24px;color:#45545F">Deck 6 · Arm PID</p><p style="position:absolute;right:128px;bottom:56px;width:100px;text-align:right;font-size:24px;color:#45545F">17</p>
+<aside>This slide runs by itself, about 5 seconds per set, and it replays the same simulation as the plots. Nobody needs to click. If you are looking at a PDF, you see one frame, so here is the whole cycle. P only, kP 8: Stops 6.8° short. Too much P, kP 50: Still swinging 36° wide after 3 s. P plus D, kP 30 and kD 1.2: Overshoot gone, 1.7° short. Add kG 1.21: On target, 2.7° overshoot, 12 V peak. Add a profile and kV 1.19: On target, 1.2° overshoot, 4.8 V peak. Ask students to call out what will happen before each set starts.</aside>
+</section>

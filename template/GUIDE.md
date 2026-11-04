@@ -38,7 +38,7 @@ Young FRC students, many in their first season, ages roughly 12 to 16. Mentors a
 
 ## Hard limits on your tools
 
-- **Do not download or execute anything**: no JDK, Gradle, `npm install`, `pip install`, or running fetched scripts. An automatic safety check blocked this, and it stays blocked. Reading source with `gh api`, WebFetch and `curl` of pages is fine; just don't run what you fetch. You cannot compile, so check every API call against source instead: exact class, method, argument types, and package for each import.
+- Compile with `cd examples && ./gradlew compileJava` (needs JDK 17). Run the code in simulation when a slide states a number or a behavior: several real problems in these decks only appeared that way.
 - Only write inside your own `decks/NN-name/` and `examples/src/main/java/frc/robot/deckN/`. Never edit `template/`, `PLAN.md`, or another deck. If a layout blocks you, work around it and say so in your report.
 - Do not commit, push, or publish. The lead does that.
 

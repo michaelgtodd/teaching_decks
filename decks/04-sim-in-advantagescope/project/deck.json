@@ -1,0 +1,53 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:43:16Z"
+  },
+  "lists": "css",
+  "title": "Driving the KitBot in the WPILib simulator",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "why",
+    "pipeline",
+    "sim-model",
+    "capture",
+    "sim-periodic",
+    "run",
+    "driver",
+    "advantagescope",
+    "gotcha-still",
+    "gotcha-wrong-way",
+    "gotcha-empty",
+    "practice",
+    "plant",
+    "full-throttle",
+    "exercise",
+    "change",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Hook up the WPILib simulator and drive the KitBot around a 2D field in AdvantageScope with no robot.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

@@ -33,26 +33,25 @@ public class CANDriveSubsystem extends SubsystemBase {
   public CANDriveSubsystem() {
     // #region config
     SparkMaxConfig common = new SparkMaxConfig();
-    common.voltageCompensation(NOMINAL_VOLTS).smartCurrentLimit(CURRENT_LIMIT_AMPS);
+    common.smartCurrentLimit(CURRENT_LIMIT_AMPS);
     common.idleMode(IdleMode.kBrake);
 
-    SparkMaxConfig leftConfig = new SparkMaxConfig();
-    leftConfig.apply(common);
-
-    // The two sides face opposite ways, so one must be inverted.
+    // Leaders only: 26.x firmware compensates followers twice.
     SparkMaxConfig rightConfig = new SparkMaxConfig();
-    rightConfig.apply(common).inverted(true);
+    rightConfig.apply(common).voltageCompensation(NOMINAL_VOLTS);
+    // One side must be inverted. On the KitBot, it's the left.
+    SparkMaxConfig leftConfig = new SparkMaxConfig();
+    leftConfig.apply(rightConfig).inverted(true);
 
     SparkMaxConfig leftFollowerConfig = new SparkMaxConfig();
     leftFollowerConfig.apply(common).follow(leftLeader);
-
     SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
     rightFollowerConfig.apply(common).follow(rightLeader);
     // #endregion
 
     // #region apply
-    // Reset first so a swapped-in SPARK starts from a known state.
-    // Persist so settings survive a brownout or breaker trip.
+    // Reset: a swapped-in SPARK starts from a known state.
+    // Persist: settings survive a brownout or breaker trip.
     ResetMode reset = ResetMode.kResetSafeParameters;
     PersistMode persist = PersistMode.kPersistParameters;
     leftLeader.configure(leftConfig, reset, persist);
@@ -67,6 +66,14 @@ public class CANDriveSubsystem extends SubsystemBase {
   public Command driveArcade(DoubleSupplier forward, DoubleSupplier rotation) {
     return run(() -> drive.arcadeDrive(forward.getAsDouble(), rotation.getAsDouble()))
         .withName("Arcade Drive");
+  }
+  // #endregion
+
+  // #region raw
+  /** For your own stick curve: turns off the squaring built into arcadeDrive. */
+  public Command driveArcadeRaw(DoubleSupplier forward, DoubleSupplier rotation) {
+    return run(() -> drive.arcadeDrive(forward.getAsDouble(), rotation.getAsDouble(), false))
+        .withName("Arcade Drive Raw");
   }
   // #endregion
 }

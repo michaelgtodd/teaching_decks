@@ -1,0 +1,52 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:42:14Z"
+  },
+  "lists": "css",
+  "title": "Install WPILib and set up your robot",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "map",
+    "already-installed",
+    "install-wpilib",
+    "install-stick",
+    "install-game-tools",
+    "connections",
+    "image-rio1",
+    "image-rio2",
+    "radio",
+    "radio-firmware",
+    "rev-firmware-can",
+    "first-deploy",
+    "control-loop",
+    "first-enable",
+    "wont-connect",
+    "change-2027",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Install WPILib and the FRC tools, prepare the roboRIO, radio and motor controllers, then deploy and enable for the first time.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

@@ -1,0 +1,59 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:45:27Z"
+  },
+  "lists": "css",
+  "title": "KitBot drive: command-based Java and a joystick",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "model",
+    "layout",
+    "project",
+    "motors",
+    "config",
+    "apply",
+    "factory",
+    "bindings",
+    "first-test",
+    "gotcha-brushed",
+    "gotcha-can-id",
+    "symptoms",
+    "no-blocking",
+    "habits",
+    "open-loop",
+    "voltage-comp",
+    "current-limit",
+    "shaping",
+    "slew",
+    "feel-code",
+    "exercise",
+    "change",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Getting started with command-based Java and driving the 2026 KitBot from a gamepad.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

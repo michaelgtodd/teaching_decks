@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arm PID playground</title>
+<style>
+  :root { --ink:#12202E; --paper:#F7F5EF; --card:#FFFDF8; --line:#D9D3C4; --text:#1A2733; --soft:#45545F; --orange:#B8430A; --blue:#0B5CAD; --green:#2F8F5B; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; padding: 16px; background: var(--paper); color: var(--text); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  h1 { margin: 0; font-size: 28px; color: var(--ink); }
+  header p { margin: 4px 0 12px; color: var(--soft); }
+  h2 { margin: 0 0 8px; font-size: 16px; color: var(--ink); }
+  .layout { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 940px) { .layout { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: start; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+  .status { min-height: 52px; padding: 12px 14px; border-radius: 8px; background: var(--ink); color: #FFFBF5; font-weight: 600; margin-bottom: 12px; }
+  .status.ok { background: var(--green); color: #fff; }
+  .views { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 560px) { .views { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+  svg { display: block; width: 100%; height: auto; }
+  svg text { font: 16px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; fill: var(--soft); }
+  #arm { touch-action: none; cursor: grab; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0 0; }
+  .stats div { background: var(--paper); border-radius: 6px; padding: 6px 8px; }
+  .stats dt { font-size: 13px; color: var(--soft); }
+  .stats dd { margin: 0; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  button { font: inherit; font-weight: 600; min-height: 44px; padding: 8px 14px; border-radius: 6px; border: 2px solid var(--ink); background: var(--card); color: var(--ink); cursor: pointer; touch-action: manipulation; }
+  button.on { background: var(--ink); color: #FFFBF5; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .slider { margin-bottom: 6px; }
+  .slider label { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; }
+  .slider output { color: var(--orange); font-variant-numeric: tabular-nums; }
+  .slider small { display: block; color: var(--soft); font-weight: 400; }
+  input[type=range] { width: 100%; height: 44px; margin: 0; accent-color: var(--orange); touch-action: pan-y; }
+  .toggle { display: flex; align-items: center; gap: 10px; min-height: 40px; font-weight: 600; }
+  .toggle input { width: 22px; height: 22px; accent-color: var(--orange); }
+  pre { margin: 0 0 8px; padding: 12px; background: var(--ink); color: #E6EDF3; border-radius: 6px; overflow-x: auto; font: 14px/1.5 ui-monospace, "Roboto Mono", Menlo, Consolas, monospace; }
+  .note { color: var(--soft); font-size: 14px; margin: 8px 0 0; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Arm PID playground</h1>
+    <p>A simulated 0.8 m, 4 kg arm on one NEO through 60:1. Nothing here can break, so try anything.</p>
+  </header>
+  <div class="layout">
+    <section aria-label="Arm simulation">
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <div class="views">
+        <div class="card">
+          <svg id="arm" viewBox="0 0 400 400" role="img" aria-label="Side view of the arm. Drag to move the setpoint."></svg>
+        </div>
+        <div class="card">
+          <svg id="plot" viewBox="0 0 640 440" role="img" aria-label="Arm angle and motor volts over time"></svg>
+        </div>
+      </div>
+      <dl class="stats">
+        <div><dt>Ends at</dt><dd id="sEnd"></dd></div>
+        <div><dt>Off by</dt><dd id="sOff"></dd></div>
+        <div><dt>Overshoot</dt><dd id="sOver"></dd></div>
+        <div><dt>Within 2° by</dt><dd id="sSettle"></dd></div>
+        <div><dt>Peak volts</dt><dd id="sVolts"></dd></div>
+        <div><dt>Peak amps</dt><dd id="sAmps"></dd></div>
+      </dl>
+    </section>
+    <section class="card" aria-label="Controls">
+      <h2>Presets</h2>
+      <div class="presets" id="presets"></div>
+      <div class="slider"><label for="kP">kP <output id="kPv"></output></label><small>Volts per radian of error</small><input id="kP" type="range" min="0" max="80" step="0.5"></div>
+      <div class="slider"><label for="kD">kD <output id="kDv"></output></label><small>Volts per rad/s of error change</small><input id="kD" type="range" min="0" max="3" step="0.05"></div>
+      <div class="slider"><label for="kG">kG <output id="kGv"></output></label><small>Volts to hold the arm flat. Negative is backwards.</small><input id="kG" type="range" min="-2" max="3" step="0.01"></div>
+      <div class="slider"><label for="goal">Setpoint <output id="goalv"></output></label><small>Or drag on the arm drawing</small><input id="goal" type="range" min="-25" max="100" step="1"></div>
+      <label class="toggle"><input id="profile" type="checkbox"> Motion profile, with kV</label>
+      <label class="toggle"><input id="noise" type="checkbox"> Encoder noise, ±0.2°</label>
+      <div class="row" style="margin:8px 0 12px"><button id="again" type="button">Run again</button></div>
+      <h2>Your gains as Java</h2>
+      <pre id="java" tabindex="0"></pre>
+      <div class="row"><button id="copy" type="button">Copy</button><span id="copied" class="note" style="margin:0"></span></div>
+      <p class="note">Model: a DC motor with WPILib's NEO numbers, 60:1 gearing, a uniform bar and gravity, with new volts every 20 ms and an encoder reading one loop old. It has no friction and no current limit. A real arm needs its own gains.</p>
+    </section>
+  </div>
+</div>
+<script>
+(function () {
+'use strict';
+// The block between these markers is copied unchanged into playground/index.html.
+// NEO constants from WPILib DCMotor.getNEO() at v2026.2.1.
+const NEO = { volts: 12, stallTorque: 2.6, stallAmps: 105, freeAmps: 1.8, freeRpm: 5676 };
+const OHMS = NEO.volts / NEO.stallAmps;
+const FREE_RAD_S = (NEO.freeRpm * Math.PI) / 30;
+const MOTOR_KV = FREE_RAD_S / (NEO.volts - OHMS * NEO.freeAmps); // rad/s per volt
+const MOTOR_KT = NEO.stallTorque / NEO.stallAmps; // newton metres per amp
+
+// The example arm: a uniform bar, the same shape SingleJointedArmSim assumes.
+const ARM = { gearing: 60, lengthM: 0.8, massKg: 4, gravity: 9.8, minDeg: -30, maxDeg: 110 };
+const MOI = (ARM.massKg * ARM.lengthM * ARM.lengthM) / 3; // SingleJointedArmSim.estimateMOI
+const GRAVITY_TORQUE = ARM.massKg * ARM.gravity * (ARM.lengthM / 2); // newton metres when flat
+
+const rad = (d) => (d * Math.PI) / 180;
+const deg = (r) => (r * 180) / Math.PI;
+const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+
+// Angular acceleration of the arm: motor torque through the gearbox, minus gravity, over inertia.
+function armAccel(theta, omega, volts) {
+  const amps = (volts - (ARM.gearing * omega) / MOTOR_KV) / OHMS;
+  return (amps * MOTOR_KT * ARM.gearing - GRAVITY_TORQUE * Math.cos(theta)) / MOI;
+}
+
+// Port of WPILib TrapezoidProfile.calculate(t, current, goal).
+function trapezoid(t, current, goal, maxV, maxA) {
+  const flip = current.pos > goal.pos ? -1 : 1;
+  const cur = { pos: current.pos * flip, vel: current.vel * flip };
+  const end = { pos: goal.pos * flip, vel: goal.vel * flip };
+  if (Math.abs(cur.vel) > maxV) cur.vel = Math.sign(cur.vel) * maxV;
+  const cutBegin = cur.vel / maxA;
+  const cutEnd = end.vel / maxA;
+  const fullDist = (cutBegin * cutBegin * maxA) / 2 + (end.pos - cur.pos) + (cutEnd * cutEnd * maxA) / 2;
+  let accelTime = maxV / maxA;
+  let cruiseDist = fullDist - accelTime * accelTime * maxA;
+  if (cruiseDist < 0) {
+    accelTime = Math.sqrt(fullDist / maxA);
+    cruiseDist = 0;
+  }
+  const endAccel = accelTime - cutBegin;
+  const endCruise = endAccel + cruiseDist / maxV;
+  const endDecel = endCruise + accelTime - cutEnd;
+  let out = { pos: cur.pos, vel: cur.vel };
+  if (t < endAccel) {
+    out.vel += t * maxA;
+    out.pos += (cur.vel + (t * maxA) / 2) * t;
+  } else if (t < endCruise) {
+    out.vel = maxV;
+    out.pos += (cur.vel + (endAccel * maxA) / 2) * endAccel + maxV * (t - endAccel);
+  } else if (t <= endDecel) {
+    const left = endDecel - t;
+    out.vel = end.vel + left * maxA;
+    out.pos = end.pos - (end.vel + (left * maxA) / 2) * left;
+  } else {
+    out = { pos: end.pos, vel: end.vel };
+  }
+  return { pos: out.pos * flip, vel: out.vel * flip };
+}
+
+// One run of the arm. The controller is WPILib's: PIDController.calculate plus ArmFeedforward.
+// The motor gets one voltage per loop, and the encoder reading is sensorLoops loops old.
+function simulate({
+  kP = 0, kI = 0, kD = 0, kG = 0, kV = 0,
+  startDeg = ARM.minDeg, goalDeg = 45, seconds = 3,
+  profile = null, noiseDeg = null, integratorCap = 1, blockedUntil = 0,
+  loopSeconds = 0.02, sensorLoops = 1,
+}) {
+  const stepsPerLoop = Math.max(1, Math.round(loopSeconds / 0.001));
+  const h = loopSeconds / stepsPerLoop;
+  const loops = Math.round(seconds / loopSeconds);
+  const goal = rad(goalDeg);
+  let theta = rad(startDeg);
+  let omega = 0;
+  let error = 0;
+  let total = 0;
+  let setpoint = { pos: theta, vel: 0 };
+  const seen = [];
+  const out = [];
+  for (let k = 0; k <= loops; k++) {
+    seen.push(theta);
+    const noise = noiseDeg ? rad(noiseDeg[k % noiseDeg.length]) : 0;
+    const measured = seen[Math.max(0, seen.length - 1 - sensorLoops)] + noise;
+    if (profile) setpoint = trapezoid(loopSeconds, setpoint, { pos: goal, vel: 0 }, profile.maxV, profile.maxA);
+    else setpoint = { pos: goal, vel: 0 };
+    const prevError = error;
+    error = setpoint.pos - measured;
+    const rate = (error - prevError) / loopSeconds;
+    if (kI !== 0) total = clamp(total + error * loopSeconds, -integratorCap / kI, integratorCap / kI);
+    const pidVolts = kP * error + kI * total + kD * rate;
+    const ffVolts = kG * Math.cos(measured) + kV * setpoint.vel;
+    const volts = clamp(ffVolts + pidVolts, -NEO.volts, NEO.volts);
+    const t = k * loopSeconds;
+    out.push({
+      t, deg: deg(theta), radS: omega, volts, ffVolts, pidVolts,
+      amps: (volts - (ARM.gearing * omega) / MOTOR_KV) / OHMS,
+    });
+    for (let i = 0; i < stepsPerLoop; i++) {
+      const a1 = armAccel(theta, omega, volts);
+      const a2 = armAccel(theta + (h / 2) * omega, omega + (h / 2) * a1, volts);
+      const a3 = armAccel(theta + (h / 2) * (omega + (h / 2) * a1), omega + (h / 2) * a2, volts);
+      const a4 = armAccel(theta + h * (omega + (h / 2) * a2), omega + h * a3, volts);
+      theta += (h / 6) * (omega + 2 * (omega + (h / 2) * a1) + 2 * (omega + (h / 2) * a2) + (omega + h * a3));
+      omega += (h / 6) * (a1 + 2 * a2 + 2 * a3 + a4);
+      if (t < blockedUntil) { theta = rad(startDeg); omega = 0; }
+      if (theta <= rad(ARM.minDeg)) { theta = rad(ARM.minDeg); omega = 0; }
+      if (theta >= rad(ARM.maxDeg)) { theta = rad(ARM.maxDeg); omega = 0; }
+    }
+  }
+  return out;
+}
+
+var SECONDS = 4;
+var PROFILE = { maxV: 2.5, maxA: 6 };
+var KV = 1.19;
+var START = ARM.minDeg;
+var NOISE = (function () {
+  var s = 12345, out = [];
+  for (var i = 0; i < 251; i++) { s = (s * 1664525 + 1013904223) % 4294967296; out.push((s / 4294967296 - 0.5) * 0.4); }
+  return out;
+})();
+var PRESETS = [
+  { name: 'P only', kP: 8, kD: 0, kG: 0, profile: false },
+  { name: 'Too much P', kP: 50, kD: 0, kG: 0, profile: false },
+  { name: 'P + D', kP: 30, kD: 1.2, kG: 0, profile: false },
+  { name: 'Add kG', kP: 30, kD: 1.2, kG: 1.21, profile: false },
+  { name: 'Tuned', kP: 30, kD: 1.2, kG: 1.21, profile: true },
+];
+
+var $ = function (id) { return document.getElementById(id); };
+var SVGNS = 'http://www.w3.org/2000/svg';
+function el(parent, name, attrs, text) {
+  var n = document.createElementNS(SVGNS, name);
+  Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+  if (text !== undefined) n.textContent = text;
+  parent.appendChild(n);
+  return n;
+}
+
+// Arm drawing.
+var PX = 200, PY = 215, LEN = 150;
+var armSvg = $('arm');
+el(armSvg, 'line', { x1: PX, y1: PY, x2: PX, y2: 392, stroke: '#12202E', 'stroke-width': 16 });
+el(armSvg, 'line', { x1: 14, y1: PY, x2: 386, y2: PY, stroke: '#D9D3C4', 'stroke-width': 2 });
+el(armSvg, 'text', { x: 386, y: PY - 8, 'text-anchor': 'end' }, '0° flat');
+function tip(angle, len) { var a = rad(angle); return { x: PX + len * Math.cos(a), y: PY - len * Math.sin(a) }; }
+[ARM.minDeg, ARM.maxDeg].forEach(function (d) {
+  var a = tip(d, LEN + 8), b = tip(d, LEN + 28);
+  el(armSvg, 'line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: '#45545F', 'stroke-width': 6, 'stroke-linecap': 'round' });
+});
+var ghost = el(armSvg, 'line', { x1: PX, y1: PY, stroke: '#0B5CAD', 'stroke-width': 3, 'stroke-dasharray': '10 7' });
+var bar = el(armSvg, 'line', { x1: PX, y1: PY, stroke: '#B8430A', 'stroke-width': 16, 'stroke-linecap': 'round' });
+el(armSvg, 'circle', { cx: PX, cy: PY, r: 13, fill: '#12202E' });
+var armLabel = el(armSvg, 'text', { x: 16, y: 30, style: 'font-size:24px;font-weight:700;fill:#12202E' }, '');
+
+// Response plot: angle above, volts below.
+var plot = $('plot');
+var L = 58, R = 628, T1 = 14, B1 = 276, T2 = 312, B2 = 402;
+var D0 = -40, D1 = 120;
+function sx(t) { return L + (t / SECONDS) * (R - L); }
+function sy(d) { return B1 - ((clamp(d, D0, D1) - D0) / (D1 - D0)) * (B1 - T1); }
+function sv(v) { return B2 - ((clamp(v, -12, 12) + 12) / 24) * (B2 - T2); }
+[-30, 0, 45, 90].forEach(function (d) {
+  el(plot, 'line', { x1: L, x2: R, y1: sy(d), y2: sy(d), stroke: '#D9D3C4' });
+  el(plot, 'text', { x: L - 8, y: sy(d) + 6, 'text-anchor': 'end' }, d + '°');
+});
+[-12, 0, 12].forEach(function (v) {
+  el(plot, 'line', { x1: L, x2: R, y1: sv(v), y2: sv(v), stroke: '#D9D3C4' });
+  el(plot, 'text', { x: L - 8, y: sv(v) + 6, 'text-anchor': 'end' }, v + ' V');
+});
+[0, 1, 2, 3, 4].forEach(function (t) { el(plot, 'text', { x: sx(t), y: 428, 'text-anchor': 'middle' }, t + ' s'); });
+var goalLine = el(plot, 'line', { x1: L, x2: R, stroke: '#0B5CAD', 'stroke-width': 2, 'stroke-dasharray': '10 7' });
+var angleFull = el(plot, 'polyline', { fill: 'none', stroke: '#B8430A', 'stroke-opacity': '0.25', 'stroke-width': 3 });
+var voltsFull = el(plot, 'polyline', { fill: 'none', stroke: '#0B5CAD', 'stroke-opacity': '0.25', 'stroke-width': 2 });
+var anglePath = el(plot, 'polyline', { fill: 'none', stroke: '#B8430A', 'stroke-width': 4, 'stroke-linejoin': 'round' });
+var voltsPath = el(plot, 'polyline', { fill: 'none', stroke: '#0B5CAD', 'stroke-width': 2.5, 'stroke-linejoin': 'round' });
+var cursor = el(plot, 'line', { y1: T1, y2: B2, stroke: '#12202E', 'stroke-opacity': '0.4' });
+
+// State.
+var state = { kP: 8, kD: 0, kG: 0, goal: 45, profile: false, noise: false };
+var run = [];
+var raf = null;
+
+function points(list, fy) { return list.map(function (s) { return sx(s.t).toFixed(1) + ',' + fy(s).toFixed(1); }).join(' '); }
+
+function grade(r, goal) {
+  var tail = r.filter(function (s) { return s.t >= SECONDS - 0.5; });
+  var angles = tail.map(function (s) { return s.deg; });
+  var end = angles.reduce(function (a, b) { return a + b; }, 0) / angles.length;
+  var swing = Math.max.apply(null, angles) - Math.min.apply(null, angles);
+  var all = r.map(function (s) { return s.deg; });
+  var top = Math.max.apply(null, all);
+  var settle = 0;
+  for (var i = r.length - 1; i >= 0; i--) {
+    if (Math.abs(r[i].deg - goal) > 2) { settle = i === r.length - 1 ? Infinity : r[i + 1].t; break; }
+  }
+  return {
+    end: end, swing: swing, off: end - goal, over: Math.max(0, top - goal), settle: settle,
+    hitStop: top >= ARM.maxDeg - 0.01,
+    volts: Math.max.apply(null, r.map(function (s) { return Math.abs(s.volts); })),
+    amps: Math.max.apply(null, r.map(function (s) { return Math.abs(s.amps); })),
+  };
+}
+
+function verdict(g) {
+  if (g.hitStop) return { ok: false, text: 'Hit the top stop. Lower kP, or check kG.' };
+  if (g.swing > 2) return { ok: false, text: 'Shaking: still swinging ' + g.swing.toFixed(0) + '° wide. Lower kP or raise kD.' };
+  if (g.off < -1 && state.kG < 0) return { ok: false, text: 'Backwards kG: it is helping gravity, so the arm stops ' + (-g.off).toFixed(1) + '° short. Make kG positive.' };
+  if (g.off < -1) return { ok: false, text: 'Sagging: stops ' + (-g.off).toFixed(1) + '° short. Gravity is winning, so try kG.' };
+  if (g.off > 1) return { ok: false, text: 'Too high: stops ' + g.off.toFixed(1) + '° past the setpoint. Check kG.' };
+  if (g.over > 2) return { ok: false, text: 'Overshoot: ' + g.over.toFixed(1) + '° past before it settles. Raise kD or turn on the profile.' };
+  return { ok: true, text: 'Settled: within ' + Math.abs(g.off).toFixed(1) + '° of the setpoint by ' + g.settle.toFixed(2) + ' s, with ' + g.over.toFixed(1) + '° overshoot.' };
+}
+
+function javaNumber(x) { return Number.isInteger(x) ? x.toFixed(1) : String(Number(x.toFixed(2))); }
+
+function showJava() {
+  $('java').textContent = [
+    '// Goes in Constants.ArmConstants. Tuned on the simulated arm, not yours.',
+    'public static final double KP = ' + javaNumber(state.kP) + ';',
+    'public static final double KD = ' + javaNumber(state.kD) + ';',
+    'public static final double KG = ' + javaNumber(state.kG) + ';',
+    'public static final double KV = ' + javaNumber(state.profile ? KV : 0) + ';',
+  ].join('\n');
+}
+
+function showControls() {
+  $('kP').value = state.kP; $('kPv').textContent = state.kP.toFixed(1);
+  $('kD').value = state.kD; $('kDv').textContent = state.kD.toFixed(2);
+  $('kG').value = state.kG; $('kGv').textContent = state.kG.toFixed(2);
+  $('goal').value = state.goal; $('goalv').textContent = state.goal + '°';
+  $('profile').checked = state.profile; $('noise').checked = state.noise;
+  var buttons = $('presets').querySelectorAll('button');
+  PRESETS.forEach(function (p, i) {
+    var match = p.kP === state.kP && p.kD === state.kD && p.kG === state.kG && p.profile === state.profile;
+    buttons[i].className = match ? 'on' : '';
+    buttons[i].setAttribute('aria-pressed', match ? 'true' : 'false');
+  });
+}
+
+function drawAt(k) {
+  var s = run[k];
+  var t = tip(s.deg, LEN);
+  bar.setAttribute('x2', t.x); bar.setAttribute('y2', t.y);
+  armLabel.textContent = s.deg.toFixed(1) + '°';
+  var soFar = run.slice(0, k + 1);
+  anglePath.setAttribute('points', points(soFar, function (x) { return sy(x.deg); }));
+  voltsPath.setAttribute('points', points(soFar, function (x) { return sv(x.volts); }));
+  cursor.setAttribute('x1', sx(s.t)); cursor.setAttribute('x2', sx(s.t));
+}
+
+function compute() {
+  run = simulate({
+    kP: state.kP, kD: state.kD, kG: state.kG, kV: state.profile ? KV : 0, startDeg: START,
+    goalDeg: state.goal, seconds: SECONDS, profile: state.profile ? PROFILE : null, noiseDeg: state.noise ? NOISE : null,
+  });
+  var g = grade(run, state.goal);
+  var v = verdict(g);
+  var box = $('status');
+  box.textContent = v.text;
+  box.className = v.ok ? 'status ok' : 'status';
+  $('sEnd').textContent = g.end.toFixed(1) + '°';
+  $('sOff').textContent = Math.abs(g.off).toFixed(1) + '°';
+  $('sOver').textContent = g.over.toFixed(1) + '°';
+  $('sSettle').textContent = isFinite(g.settle) ? g.settle.toFixed(2) + ' s' : 'never';
+  $('sVolts').textContent = g.volts.toFixed(1) + ' V';
+  $('sAmps').textContent = g.amps.toFixed(0) + ' A';
+  angleFull.setAttribute('points', points(run, function (x) { return sy(x.deg); }));
+  voltsFull.setAttribute('points', points(run, function (x) { return sv(x.volts); }));
+  goalLine.setAttribute('y1', sy(state.goal)); goalLine.setAttribute('y2', sy(state.goal));
+  var gt = tip(state.goal, LEN + 40);
+  ghost.setAttribute('x2', gt.x); ghost.setAttribute('y2', gt.y);
+  showControls();
+  showJava();
+}
+
+function stop() { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } }
+function showEnd() { stop(); drawAt(run.length - 1); }
+
+function play() {
+  stop();
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { showEnd(); return; }
+  var begin = null;
+  function frame(now) {
+    if (begin === null) begin = now;
+    var k = Math.floor((now - begin) / 1000 / 0.02);
+    if (k >= run.length - 1) { showEnd(); return; }
+    drawAt(k);
+    raf = requestAnimationFrame(frame);
+  }
+  raf = requestAnimationFrame(frame);
+}
+
+function applyPreset(p) {
+  state.kP = p.kP; state.kD = p.kD; state.kG = p.kG; state.profile = p.profile;
+  compute(); play();
+}
+
+PRESETS.forEach(function (p) {
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = p.name;
+  b.addEventListener('click', function () { applyPreset(p); });
+  $('presets').appendChild(b);
+});
+
+['kP', 'kD', 'kG', 'goal'].forEach(function (id) {
+  // While dragging, show the answer at once. On release, replay the move.
+  $(id).addEventListener('input', function () { state[id] = Number($(id).value); compute(); showEnd(); });
+  $(id).addEventListener('change', play);
+});
+['profile', 'noise'].forEach(function (id) {
+  $(id).addEventListener('change', function () { state[id] = $(id).checked; compute(); play(); });
+});
+$('again').addEventListener('click', play);
+
+// Mouse, pen and touch all arrive as pointer events.
+function goalFromPointer(e) {
+  var box = armSvg.getBoundingClientRect();
+  if (!box.width) return;
+  var x = ((e.clientX - box.left) / box.width) * 400 - PX;
+  var y = PY - ((e.clientY - box.top) / box.height) * 400;
+  var angle = Math.round(deg(Math.atan2(y, x)));
+  if (angle < -135) angle += 360;
+  state.goal = clamp(angle, -25, 100);
+  compute(); showEnd();
+}
+var dragging = false;
+armSvg.addEventListener('pointerdown', function (e) {
+  dragging = true;
+  if (armSvg.setPointerCapture) armSvg.setPointerCapture(e.pointerId);
+  e.preventDefault();
+  goalFromPointer(e);
+});
+armSvg.addEventListener('pointermove', function (e) { if (dragging) goalFromPointer(e); });
+function endDrag() { if (dragging) { dragging = false; play(); } }
+armSvg.addEventListener('pointerup', endDrag);
+armSvg.addEventListener('pointercancel', endDrag);
+
+// file:// pages may have no clipboard API, so fall back to selecting the text.
+$('copy').addEventListener('click', function () {
+  var text = $('java').textContent, said = $('copied');
+  function selectIt() {
+    var range = document.createRange();
+    range.selectNodeContents($('java'));
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var worked = false;
+    try { worked = document.execCommand('copy'); } catch (err) { worked = false; }
+    said.textContent = worked ? 'Copied.' : 'Text selected. Copy it by hand.';
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () { said.textContent = 'Copied.'; }, selectIt);
+  } else {
+    selectIt();
+  }
+});
+
+applyPreset(PRESETS[0]);
+})();
+</script>
+</body>
+</html>

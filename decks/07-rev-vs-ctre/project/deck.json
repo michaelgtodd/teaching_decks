@@ -1,0 +1,52 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:46:26Z"
+  },
+  "lists": "css",
+  "title": "REV vs CTRE motors and controllers",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "ecosystems",
+    "pairing",
+    "theory",
+    "closed-loop",
+    "profiles",
+    "limits",
+    "practice",
+    "cost",
+    "tools",
+    "arm-setup",
+    "arm-move",
+    "gotcha",
+    "choose",
+    "exercise",
+    "change2027",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "What REV and CTRE motors, controllers and tools do on their own in 2026, and how a young team can choose.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

@@ -14,7 +14,14 @@ const stripSvg = (h) => h.replace(/<svg[\s\S]*?<\/svg>/g, '<svg></svg>').replace
 async function buildDeck(name) {
   const dir = join('decks', name);
   const file = resolve(dir, 'deck.mjs');
-  const { default: d } = await import(pathToFileURL(file).href);
+  let d;
+  try {
+    ({ default: d } = await import(pathToFileURL(file).href));
+  } catch (e) {
+    // Layouts validate when called, which happens as the deck file loads.
+    if (e instanceof SlideError) return { name, problems: [e.message], warnings: [] };
+    throw e;
+  }
   const problems = [], warnings = [];
   for (const k of ['no', 'title', 'short', 'slides']) if (d[k] === undefined) problems.push(`deck is missing "${k}"`);
   const ids = new Set();
