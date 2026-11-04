@@ -34,7 +34,7 @@ const TOP = TOP_SPEED.toFixed(1);
 const FIRST_KICK_G = ((2 / (60 * KG_PER_LB)) * C2 * NOMINAL / 9.80665).toFixed(0);
 
 export default {
-  no: 4, of: 7, short: 'Sim in AdvantageScope', title: 'Driving the KitBot in the WPILib simulator', minutes: 35,
+  no: 4, short: 'Sim in AdvantageScope', title: 'Driving the KitBot in the WPILib simulator', minutes: 35,
   description: 'Hook up the WPILib simulator and drive the KitBot around a 2D field in AdvantageScope with no robot.',
   slides: [
     L.cover({ title: 'Drive the KitBot with no robot', subtitle: 'The WPILib simulator, a little physics, and AdvantageScope', minutes: 35,

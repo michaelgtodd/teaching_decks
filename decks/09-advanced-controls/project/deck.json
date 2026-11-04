@@ -1,0 +1,69 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T13:07:34Z"
+  },
+  "lists": "css",
+  "title": "Advanced controls: driver feel, feedforward and where loops run",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "deadband",
+    "shaping",
+    "slew",
+    "feel-code",
+    "exercise",
+    "ff-terms",
+    "ff-plot",
+    "sysid",
+    "speed-loop",
+    "gotcha-encoder",
+    "sim-exercise",
+    "onboard-faster",
+    "spark-config",
+    "where-loop",
+    "scurve",
+    "next",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Input shaping, drivetrain feedforward and closed-loop speed, SysId, loops on the controller, and S-curve motion.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Driver feel: deadband, stick curves, slew-rate limits and their order",
+      "start": "deadband"
+    },
+    "s2": {
+      "description": "Drivetrain feedforward and closed-loop speed",
+      "start": "ff-terms"
+    },
+    "s3": {
+      "description": "Where the loop runs",
+      "start": "onboard-faster"
+    },
+    "s4": {
+      "description": "Smoother motion and what comes next",
+      "start": "scurve"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

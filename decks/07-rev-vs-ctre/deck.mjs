@@ -62,14 +62,14 @@ const deg = (x) => x.toFixed(0);
 const secs = (x) => x.toFixed(2);
 
 export default {
-  no: 7, of: 7, short: 'REV vs CTRE', title: 'REV vs CTRE motors and controllers', minutes: 30,
+  no: 7, short: 'REV vs CTRE', title: 'REV vs CTRE motors and controllers', minutes: 30,
   description: 'What REV and CTRE motors, controllers and tools do on their own in 2026, and how a young team can choose.',
   slides: [
     L.cover({
       title: 'REV vs CTRE motors and controllers',
       subtitle: 'What each one does on its own in 2026, and how to choose',
       minutes: 30,
-      notes: 'Welcome to the last deck. You have used a SPARK MAX on the KitBot and written PID for an arm. Today we look at what the motor controller can do by itself, from both big vendors. This is not a sales pitch, and I will not tell you which one to buy. By the end you should be able to weigh it up for your own team. Facts here were checked on November 4, 2026, so look again before you buy. Timing: 30 minutes.',
+      notes: 'Welcome to the last deck of the core course. You have used a SPARK MAX on the KitBot and written PID for an arm. Today we look at what the motor controller can do by itself, from both big vendors. This is not a sales pitch, and I will not tell you which one to buy. By the end you should be able to weigh it up for your own team. Facts here were checked on November 4, 2026, so look again before you buy. Timing: 30 minutes.',
     }),
 
     L.lead({
@@ -293,8 +293,8 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         'Say what needs Phoenix Pro or a CANivore, and what does not.',
         'Choose for your team from budget, parts and mentors.',
       ],
-      next: 'That was the last deck. Go build your first mechanism.',
-      notes: 'That is the whole course. You installed the tools, drove a KitBot, read logs, ran the simulator, built dashboards, tuned an arm, and now you know what the hardware does for you. If you only remember one thing from today, make it this: let the controller run the fast loop, and put a current limit on every motor. Thank you for working so hard. Timing: 30 seconds.',
+      next: 'That ends the core course. Decks 8 to 10 go deeper.',
+      notes: 'That is the core course. You installed the tools, drove a KitBot, read logs, ran the simulator, built dashboards, tuned an arm, and now you know what the hardware does for you. If you only remember one thing from today, make it this: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 go deeper for teams that want more: motors, advanced controls and autonomous path planning. Thank you for working so hard. Timing: 30 seconds.',
     }),
 
     L.links({

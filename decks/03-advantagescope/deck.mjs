@@ -5,13 +5,13 @@ import * as L from '../../template/layouts.mjs';
 const J = 'examples/src/main/java/frc/robot/deck3';
 
 // Simulation 1: a KitBot-style launch on a good and a tired battery ------------------------------
-// CIM numbers are WPILib's DCMotor.getCIM. Gearing and wheel are KitbotGearing.k10p71 and
+// CIM numbers are WPILib's DCMotor.getCIM. Gearing and wheel are KitbotGearing.k8p45 and
 // KitbotWheelSize.kSixInch. Mass and both batteries are assumptions, stated in the slide notes.
 const CIM = { volts: 12, stallNm: 2.42, stallA: 133, freeA: 2.7, freeRadS: (5310 * 2 * Math.PI) / 60 };
 const MOTOR_OHMS = CIM.volts / CIM.stallA;
 const KT = CIM.stallNm / CIM.stallA;
 const KV = CIM.freeRadS / (CIM.volts - MOTOR_OHMS * CIM.freeA);
-const MOTORS = 4, MASS_KG = 50, GEARING = 10.71, WHEEL_M = 0.0762, LIMIT_A = 60;
+const MOTORS = 4, MASS_KG = 50, GEARING = 8.45, WHEEL_M = 0.0762, LIMIT_A = 60;
 const BROWNOUT_V = 6.3, RECOVER_V = 7.5; // roboRIO 1 stage 2 trigger, and the recovery voltage
 const TIRED = { volts: 12.3, ohms: 0.035 }, FRESH = { volts: 12.9, ohms: 0.022 };
 
@@ -180,7 +180,7 @@ export default {
         { title: 'Current', text: `Jumps to about ${Math.round(tiredPeakA / 10) * 10} A at the same moment.` },
         { title: 'The fix', text: `A fresh battery stays above ${Math.floor(freshLow * 10) / 10} V here.` },
       ],
-      notes: `This story is made up. Imagine a team raises DRIVE_SCALE to 1 and the robot stutters late in practice. Below ${BROWNOUT_V} V a roboRIO 1 cuts the motors, then they return above ${RECOVER_V} V. A roboRIO 2 defaults to 6.75. Simulated: 4 CIMs, 60 A limit, 50 kg, 10.71 to 1, 6 inch wheels, checked every 20 ms, motors coast when cut. Assumed batteries, including wiring: ${TIRED.volts} V with ${TIRED.ohms} ohms, ${FRESH.volts} V with ${FRESH.ohms}. In AdvantageScope, put voltage on Left Axis, current on Right Axis, and BrownedOut on Discrete Fields. The Driver Station log has voltage too, with no code. (2.5 minutes)`,
+      notes: `This story is made up. Imagine a team raises DRIVE_SCALE to 1 and the robot stutters late in practice. Below ${BROWNOUT_V} V a roboRIO 1 cuts the motors, then they return above ${RECOVER_V} V. A roboRIO 2 defaults to 6.75. Simulated: 4 CIMs, 60 A limit, 50 kg, ${GEARING} to 1, 6 inch wheels, checked every 20 ms, motors coast when cut. Assumed batteries, including wiring: ${TIRED.volts} V with ${TIRED.ohms} ohms, ${FRESH.volts} V with ${FRESH.ohms}. In AdvantageScope, put voltage on Left Axis, current on Right Axis, and BrownedOut on Discrete Fields. The Driver Station log has voltage too, with no code. (2.5 minutes)`,
     }),
     L.practice({
       id: 'practice', title: 'What to log and how to name it',

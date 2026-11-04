@@ -1,0 +1,53 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T13:05:19Z"
+  },
+  "lists": "css",
+  "title": "Understanding motors: how to read a motor curve",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "model",
+    "curve",
+    "power",
+    "voltage-curves",
+    "real-numbers",
+    "gearing",
+    "heat",
+    "battery",
+    "two-currents",
+    "current-limit",
+    "choose-limit",
+    "voltage-comp",
+    "gotcha-readings",
+    "every-motor",
+    "check-code",
+    "exercise",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Reading motor curves, gearing, heat, battery sag, current limits and voltage compensation, using the KitBot.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

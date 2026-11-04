@@ -5,10 +5,10 @@ const curve = (f) => Array.from({ length: 61 }, (_, i) => [i / 20, f(i / 20)]);
 const J = 'examples/src/main/java/frc/robot/deck2';
 
 export default {
-  no: 0, of: 7, short: 'Template gallery', title: 'Template gallery: every slide layout', minutes: 5,
+  no: 0, short: 'Template gallery', title: 'Template gallery: every slide layout', minutes: 5,
   description: 'Every layout in the shared deck template, shown once.',
   slides: [
-    L.cover({ title: 'Template gallery', subtitle: 'Every slide layout the seven decks are built from', minutes: 5 }),
+    L.cover({ title: 'Template gallery', subtitle: 'Every slide layout the decks are built from', minutes: 5 }),
     L.sectionSlide({ id: 'section', no: 1, title: 'A section divider', sub: 'Opens a part of the deck', section: 'Text layouts', notes: 'Section slides split a deck into parts.' }),
     L.statement({ id: 'statement', text: 'One idea, in **big letters**, once or twice a deck.', sub: 'The accent slide. Use it for the sentence you want them to remember.', notes: 'Statement slide.' }),
     L.lead({ id: 'lead', eyebrow: 'Layout: lead', title: 'A short paragraph with supporting points', text: 'A lead slide holds one idea in a sentence or two, for when a list would chop the reasoning up.', points: ['A supporting point sits underneath it.', 'Inline `code` turns blue, and **bold** works too.'], notes: 'Lead slide.' }),

@@ -82,7 +82,7 @@ Source is `wpilibsuite/allwpilib` at tag `v2026.2.1`. Docs are `docs.wpilib.org/
 Both are computed in `deck.mjs`. The numbers on the slides are read from the results.
 
 - **Control theory plot.** Second-order model `x'' = wn^2 (setpoint - x) - 2 zeta wn x' - load`, with `wn` 6 rad/s, `zeta` 0.4, and a constant load chosen to stop 8 degrees short of a 90 degree setpoint. Sampled every 20 ms. It is not a model of a real arm. Rise time is 10% to 90% of the final value and settling is a 2% band, the usual conventions: https://www.mathworks.com/help/control/ref/dynamicsystem.stepinfo.html
-- **Brownout plot.** Four CIMs (`DCMotor.getCIM`), 10.71:1 and 6 inch wheels (`DifferentialDrivetrainSim`), a 60 A limit, and voltage compensation, on a battery modelled as a voltage behind a resistance. **Assumed, not measured:** 50 kg, and the batteries including wiring (12.3 V at 0.035 ohms, 12.9 V at 0.022 ohms). Brownout is checked every 20 ms, and motors coast when cut, although the code uses brake mode. The sawtooth rhythm comes from that 20 ms check and is not a measurement. The story itself is invented and the slide says so.
+- **Brownout plot.** Four CIMs (`DCMotor.getCIM`), 8.45:1 and 6 inch wheels (`DifferentialDrivetrainSim`), a 60 A limit, and voltage compensation, on a battery modelled as a voltage behind a resistance. **Assumed, not measured:** 50 kg, and the batteries including wiring (12.3 V at 0.035 ohms, 12.9 V at 0.022 ohms). Brownout is checked every 20 ms, and motors coast when cut, although the code uses brake mode. The sawtooth rhythm comes from that 20 ms check and is not a measurement. The story itself is invented and the slide says so.
 
 ## Could not confirm
 

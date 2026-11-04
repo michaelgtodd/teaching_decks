@@ -8,7 +8,7 @@ import { FACES } from './theme.mjs';
 import { SlideError } from './layouts.mjs';
 
 export const deck = (d) => d; // Identity helper so deck files read declaratively.
-const TOTAL_DECKS = 7;
+const TOTAL_DECKS = 10;
 const stripSvg = (h) => h.replace(/<svg[\s\S]*?<\/svg>/g, '<svg></svg>').replace(/<x-embed[\s\S]*?<\/x-embed>/g, '<x-embed></x-embed>');
 
 async function buildDeck(name) {

@@ -1,0 +1,51 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T13:34:26Z"
+  },
+  "lists": "css",
+  "title": "Autonomous path planning libraries",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "evidence",
+    "theory",
+    "wpilib",
+    "feedback",
+    "needs",
+    "timed",
+    "draw-vs-solve",
+    "pathplanner",
+    "choreo",
+    "bline",
+    "side-by-side",
+    "choose",
+    "gotcha-start",
+    "exercise",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "What a path follower does, what it needs from your robot, how PathPlanner, Choreo, BLine and WPILib compare in 2026, and how a young team can choose.",
+      "start": "cover"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}
