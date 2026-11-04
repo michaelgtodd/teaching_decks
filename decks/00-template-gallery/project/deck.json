@@ -1,0 +1,67 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T10:18:28Z"
+  },
+  "lists": "css",
+  "title": "Template gallery: every slide layout",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "section",
+    "statement",
+    "lead",
+    "points",
+    "cards",
+    "steps",
+    "section2",
+    "code",
+    "codeNotes",
+    "compare",
+    "table",
+    "section3",
+    "gotcha",
+    "practice",
+    "exercise",
+    "demo",
+    "plot",
+    "diagram",
+    "change",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Every layout in the shared deck template, shown once.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Text layouts",
+      "start": "section"
+    },
+    "s2": {
+      "description": "Code layouts",
+      "start": "section2"
+    },
+    "s3": {
+      "description": "Recurring teaching slides",
+      "start": "section3"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

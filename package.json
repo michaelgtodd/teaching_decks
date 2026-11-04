@@ -1,0 +1,11 @@
+{
+  "name": "frc-java-crash-course-decks",
+  "private": true,
+  "type": "module",
+  "description": "Mini slide decks for a WPILib 2026 Java command-based crash course",
+  "scripts": {
+    "build": "node template/build.mjs",
+    "verify-qr": "node template/verify-qr.mjs",
+    "check-links": "node template/check-links.mjs"
+  }
+}
