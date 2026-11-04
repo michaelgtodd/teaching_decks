@@ -72,7 +72,7 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - Telemetry and Tunables APIs replace `SmartDashboard`, `SendableChooser` and `Sendable`; the chooser is `Selectable`.
 - Commands v3 is new for Java (v2 remains). OpMode framework added. `robotInit()` removed, use the `Robot()` constructor.
 - `set()` is renamed `setThrottle()` on motor controllers. `MotorControllerGroup` removed. `DriverStation` split up.
-- Windows 11 is required for the 2027 alphas. The official dashboards note: Phoenix constructors with `int` and `String` go away.
+- Windows 11 is required for the 2027 alphas. Phoenix 6 removes the `int` and `String` device constructors.
 
 ## Build and verification
 
