@@ -22,7 +22,7 @@ Abbreviation: `Z2R` = `https://docs.wpilib.org/en/stable/docs/zero-to-robot`.
 - [RHC2 Recovery Mode](https://docs.revrobotics.com/rev-hardware-client-2/rhc2/recovery): the version menu "will automatically select the most up-to-date firmware", and other versions can be selected.
 - Last 2026 versions: [SPARK MAX 26.1.5](https://github.com/REVrobotics/REV-Software-Binaries/releases/tag/sm-26.1.5), [SPARK Flex 26.1.6](https://github.com/REVrobotics/REV-Software-Binaries/releases/tag/sf-26.1.6), [PDH 26.1.3](https://docs.revrobotics.com/ion-control/pdh/power-distribution-hub-firmware-changelog).
 
-The deck therefore tells students to pick 26.1.5. **This advice is inferred.** See "Could not confirm".
+The deck therefore tells students to pick the newest 26.x. REVLib 2026.0.5 treats firmware year 27 as too new. `c_Spark_Create_Inplace` in `libREVLibDriver.so` returns `kFirmwareTooNew` for any year above 26 and sends the error text to the Driver Station. `SparkLowLevel.java` then carries on without throwing ("Don't throw for 2026 season"). Read from the library on 2026-11-04, not run against real firmware.
 
 ## Claims by slide
 

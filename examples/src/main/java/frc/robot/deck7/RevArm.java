@@ -22,7 +22,7 @@ public class RevArm extends SubsystemBase {
   // Output is duty cycle per rotation of error.
   private static final double KP = 2.0;
   // kV is volts per arm RPM: 12 V over the free speed of a NEO 2.0 at 60:1. kCos is volts.
-  // There is no kS: SPARK firmware 27.0.0 changes how kS acts at a zero velocity setpoint.
+  // There is no kS here, to keep the example short.
   private static final double KV = 12.0 / (5676.0 / GEAR_RATIO);
   private static final double KG = 0.35;
   // RPM and RPM per second: the same motion as CtreArm's 0.5 rot/s and 1 rot/s^2.

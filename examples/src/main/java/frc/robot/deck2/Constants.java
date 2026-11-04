@@ -25,9 +25,6 @@ public final class Constants {
     public static final double DRIVE_SCALE = 0.7;
     public static final double TURN_SCALE = 0.8;
 
-    // Drive feel, for the tuning exercise in FeelRobotContainer.
-    public static final double STICK_EXPONENT = 3.0;
-    public static final double FORWARD_SLEW_PER_SEC = 3.0;
   }
   // #endregion
 }

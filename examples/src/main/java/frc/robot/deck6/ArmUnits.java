@@ -9,7 +9,7 @@ import edu.wpi.first.math.util.Units;
  * The hardware boundary. The SPARK speaks rotations and RPM, and everything else speaks arm
  * radians. This is the only class that converts.
  *
- * <p>We use no SPARK conversion factors: SPARK firmware 27 removes them, and 1.0 is the default.
+ * <p>We set no SPARK conversion factors, so the SPARK reports plain rotations and RPM.
  */
 public final class ArmUnits {
   private ArmUnits() {}

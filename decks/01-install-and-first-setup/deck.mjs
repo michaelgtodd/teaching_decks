@@ -173,13 +173,13 @@ REVLib-offline-v2026.0.5.zip                // needed in deck 2`,
       items: [
         { title: 'Install **REV Hardware Client 2**', text: 'A new app. The old REV Hardware Client is end of life.' },
         { title: 'Robot off, USB into one SPARK', text: 'Only that SPARK gets power, so you cannot change the wrong one.' },
-        { title: 'Update firmware: pick 26.1.5, not 27.0.0', text: 'REVLib 2026 expects 2026 firmware. "Outdated" device? Use Recovery Mode.' },
+        { title: 'Update firmware: choose 2026 (26.x)', text: 'Pick the newest 26.x. "Outdated" device? Use Recovery Mode.' },
         { title: 'Set a unique CAN ID, 1 to 63', text: 'Match `Constants.java`. Leave the PDH ID at its default.' },
         { title: 'Set the motor type', text: 'Brushed for CIM, REV NEO Brushless for NEO. Brushed mode ruins a NEO.' },
         { title: 'Click **Persist Parameters**, then label the SPARK', text: 'Repeat for every SPARK on the robot.' },
       ],
       qr: { url: REV, label: 'REV Hardware Client 2', short: 'docs.revrobotics.com: REV Hardware Client 2' },
-      notes: 'Two minutes. Slow down at step three. REV released 27.0.0 firmware on October 29, and it removes settings that REVLib 2026 still uses. This course uses REVLib 2026, so choose 26.1.5 from the version list. A SPARK Flex uses 26.1.6, and the PDH uses 26.1.3. Recovery Mode erases a device\'s settings, so do it before you set the ID. When all are done, power on with USB in any device and check they all appear under CAN Bus. CTRE teams do this in Phoenix Tuner X instead, which lists Windows 11 only.',
+      notes: 'Two minutes. Slow down at step three. This course uses REVLib 2026, which needs 2026 firmware, so choose the newest 26.x from the version list, even if a newer one is offered. Recovery Mode erases a device\'s settings, so do it before you set the ID. When all are done, power on with USB in any device and check they all appear under CAN Bus. CTRE teams do this in Phoenix Tuner X instead, which lists Windows 11 only.',
     }),
 
     L.steps({

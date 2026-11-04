@@ -2,6 +2,8 @@
 
 Checked 2026-11-04. Code on slides compiles with `check-deck.sh 2` against WPILib 2026.2.1 and REVLib 2026.0.5, with no deprecation or removal warnings.
 
+On 2026-11-04 the `current-limit` and `voltage-comp` slides moved to Deck 8, and `shaping`, `slew`, `feel-code` and the tuning exercise moved to Deck 9. Notes below about those topics remain as the record of what was checked.
+
 ## KitBot hardware and official code
 
 - Four drivetrain motors, six total, one follower per side: [KitBot Java guide](https://firstfrc.blob.core.windows.net/frc2026/KitBot/2026-kitbot-java-guide.pdf), section 5.1.

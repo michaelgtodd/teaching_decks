@@ -5,8 +5,7 @@ package frc.robot.deck7;
  *
  * <p>Both arms use an absolute encoder on the arm shaft, so one encoder rotation is one arm
  * rotation. Rotation 0 means the arm is level, pointing forward. Everything is in the sensor's own
- * units, rotations, and commands convert from degrees in Java. No conversion factors are set, so
- * the REV arm behaves the same on SPARK firmware 26.x and 27.x, which has none.
+ * units, rotations, and commands convert from degrees in Java. No conversion factors are set.
  *
  * <p>Gains live in each arm class because the vendors use different units. All gains are starting
  * guesses, not tuned values.

@@ -4,69 +4,19 @@ import * as L from '../../template/layouts.mjs';
 const J = 'examples/src/main/java/frc/robot/deck2';
 const DRIVE = `${J}/CANDriveSubsystem.java`;
 
-// First-order drivetrain model. Every curve and every number quoted on a plot slide comes from here.
-// CIM data is WPILib DCMotor.getCIM(); R, Kt and Kv use the same formulas as the DCMotor constructor.
-// Gearing, wheels and motor count are the KitBot's. The 50 kg mass is an assumption.
-const CIM = { volts: 12, stallNm: 2.42, stallA: 133, freeA: 2.7, freeRpm: 5310 };
-const R = CIM.volts / CIM.stallA;
-const Kt = CIM.stallNm / CIM.stallA;
-const Kv = (CIM.freeRpm * 2 * Math.PI / 60) / (CIM.volts - R * CIM.freeA);
-const BOT = { motors: 4, gear: 8.45, wheelM: 0.0762, massKg: 50 };
-const DT = 0.001;
-
-function simulate({ volts, limitA = Infinity, seconds = 2 }) {
-  let speed = 0, dist = 0;
-  const out = [];
-  for (let i = 0; i <= Math.round(seconds / DT); i++) {
-    const t = i * DT;
-    const motorRadS = speed * BOT.gear / BOT.wheelM;
-    const amps = Math.max(-limitA, Math.min(limitA, (volts(t) - motorRadS / Kv) / R));
-    if (i % 10 === 0) out.push({ t, speed, amps, dist });
-    speed += (BOT.motors * BOT.gear * Kt * amps) / (BOT.wheelM * BOT.massKg) * DT;
-    dist += speed * DT;
-  }
-  return out;
-}
-// The limiter updates once per 20 ms loop, like the real SlewRateLimiter inside a command.
-const slewed = (rate) => (t) => 12 * Math.min(1, (Math.floor(t / 0.02) + 1) * 0.02 * rate);
-const speedPts = (run) => run.map((p) => [p.t, p.speed]);
-const ampPts = (run) => run.map((p) => [p.t, p.amps]);
-const peak = (run) => Math.round(Math.max(...run.map((p) => p.amps)));
-const timeTo = (run, speed) => run.find((p) => p.speed >= speed).t.toFixed(2);
-
-// Voltage compensation: half stick on two batteries, with and without it.
-const fresh = simulate({ volts: () => 0.5 * 12.8 });
-const tired = simulate({ volts: () => 0.5 * 11.2 });
-const compensated = simulate({ volts: () => 0.5 * 12 });
-const spreadCm = Math.round((fresh.at(-1).dist - tired.at(-1).dist) * 100);
-
-// Current limit: full stick from a stop.
-const noLimit = simulate({ volts: () => 12, seconds: 1 });
-const limited = simulate({ volts: () => 12, limitA: 60, seconds: 1 });
-
-// Slew-rate limit: full stick from a stop.
-const step = simulate({ volts: () => 12, seconds: 1.2 });
-const slew3 = simulate({ volts: slewed(3), seconds: 1.2 });
-const slew15 = simulate({ volts: slewed(1.5), seconds: 1.2 });
-
-// Stick curves use the same formula as MathUtil.copyDirectionPow on inputs from 0 to 1.
-const curve = (exp) => Array.from({ length: 101 }, (_, i) => [i / 100, (i / 100) ** exp]);
-
-const MODEL = 'four CIMs using the numbers in WPILib DCMotor.getCIM, 8.45:1 gearing, 6 inch wheels and an assumed 50 kg robot, with no friction, wheel slip or battery sag';
-
 export default {
-  no: 2, short: 'KitBot drive', title: 'KitBot drive: command-based Java and a joystick', minutes: 45,
+  no: 2, short: 'KitBot drive', title: 'KitBot drive: command-based Java and a joystick', minutes: 35,
   description: 'Getting started with command-based Java and driving the 2026 KitBot from a gamepad.',
   slides: [
-    L.cover({ title: 'KitBot drive: your first command-based robot', subtitle: 'From an empty project to a 2026 KitBot you drive with a gamepad', minutes: 45,
-      notes: '(30 s) Today we start with an empty project and finish with a KitBot you can drive from a gamepad. You will learn how command-based code is organised, and why the robot behaves the way it does. Control theory gets as much time as the code, because once you understand the motor you can stop guessing. Everything here is for the 2026 season and the roboRIO.' }),
+    L.cover({ title: 'KitBot drive: your first command-based robot', subtitle: 'From an empty project to a 2026 KitBot you drive with a gamepad', minutes: 35,
+      notes: '(30 s) Today we start with an empty project and finish with a KitBot you can drive from a gamepad. You will learn how command-based code is organised, and meet one big idea from control theory: open loop. Everything here is for the 2026 season and the roboRIO.' }),
 
     L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do', items: [
       'Explain a **subsystem**, a **command**, a **trigger**, a **default command** and the **scheduler**.',
       'Build `CANDriveSubsystem` for the four CIM motors on the KitBot.',
       'Bind a gamepad, and run a safe first test with the wheels off the ground.',
       'Recognise five common bring-up mistakes from their symptoms.',
-      'Explain open loop, voltage compensation, current limits and drive feel.',
+      'Explain open loop, and why a human driver can get away with it.',
     ], notes: '(30 s) Read these quickly. Point out that the last two are not extras. A team that can read symptoms fixes its robot in minutes, and a team that understands open loop knows why the robot drives differently on a tired battery. If you are short on time later, keep the first test and the gotchas, and shorten the code walk-through.' }),
 
     L.diagram({ id: 'model', eyebrow: 'Command-based', title: 'The five parts of a command-based robot', flag2027: 'Commands v3 is new for Java. The v2 you learn here remains.',
@@ -100,9 +50,9 @@ export default {
       { title: 'Set the folder, name and team number', text: 'Keep it out of OneDrive, then click **Generate Project**.' },
       { title: 'Install REVLib', text: '`Manage Vendor Libraries`, then `Install new libraries (online)`, then paste `https://software-metadata.revrobotics.com/REVLib-2026.json`' },
       { title: 'Build once', text: 'Run `WPILib: Build Robot Code` to prove the library is in.' },
-      { title: 'Set up each SPARK in REV Hardware Client 2', text: 'Firmware 26.1.5: the newest version listed may not be right. Then set the CAN ID and motor type.' },
+      { title: 'Set up each SPARK in REV Hardware Client 2', text: 'Use 2026 firmware (26.x), then set the CAN ID and motor type.' },
     ], qr: { url: 'https://docs.revrobotics.com/revlib/install', label: 'REVLib install', short: 'docs.revrobotics.com: Installation' },
-    notes: '(2 min) Drive this live if you can. OneDrive matters: its caching interferes with the build. We need REVLib because the SPARK MAX is a REV product and WPILib does not include its code. The online install is fine in this room, and the FIRST KitBot guide recommends the offline installer for the robot laptop. Firmware is the trap, and Deck 1 has the details. Pick 26.1.5, even if a newer version is listed. REV released 27.0.0 in October, and it removes settings REVLib 2026 still uses. REV does not say how the two behave together, so we stay on 26.1.5.' }),
+    notes: '(2 min) Drive this live if you can. OneDrive matters: its caching interferes with the build. We need REVLib because the SPARK MAX is a REV product and WPILib does not include its code. The online install is fine in this room, and the FIRST KitBot guide recommends the offline installer for the robot laptop. Deck 1 has the firmware steps: pick the newest 26.x, even if a newer version is listed.' }),
 
     L.codeNotes({ id: 'motors', eyebrow: 'CANDriveSubsystem', title: 'Step 1: create the motors', file: 'CANDriveSubsystem.java', src: { file: DRIVE, region: 'hardware' }, callouts: [
       { line: [3, 5, 7, 9], title: 'Brushed', text: 'CIMs have brushes. Tell the SPARK, because it can\'t detect that.' },
@@ -115,7 +65,7 @@ export default {
       { line: 7, title: 'Leaders only', text: 'Voltage compensation. A follower mirrors the result, so it needs none.' },
       { line: 10, title: 'One side inverted', text: 'The sides face opposite ways, and nothing flips one for you.' },
       { line: [13, 15], title: 'Followers', text: 'Each one mirrors its leader. Set nothing else on direction.' },
-    ], notes: '(2 min) A config is a list of settings, and apply copies one into another. All four SPARKs share the current limit and brake mode. Voltage compensation goes on the leaders only. A follower mirrors its leader\'s output, so it gets the compensated voltage anyway. On the 26.x firmware we use, turning it on for both compensates twice. The two sides are mirror images, so one must be inverted. FIRST inverts the left, but your gearboxes decide: if forward goes backward, invert the other side. Followers pick up the inversion from their leader, and calling inverted on a follower has no effect.' }),
+    ], notes: '(2 min) A config is a list of settings, and apply copies one into another. All four SPARKs share the current limit and brake mode. Voltage compensation goes on the leaders only. A follower mirrors its leader\'s output, so it gets the compensated voltage anyway. Deck 8 explains what voltage compensation and the current limit do. The two sides are mirror images, so one must be inverted. FIRST inverts the left, but your gearboxes decide: if forward goes backward, invert the other side. Followers pick up the inversion from their leader, and calling inverted on a follower has no effect.' }),
 
     L.codeNotes({ id: 'apply', eyebrow: 'CANDriveSubsystem', title: 'Step 3: apply the config', file: 'CANDriveSubsystem.java', src: { file: DRIVE, region: 'apply' }, callouts: [
       { line: 3, title: 'Reset', text: 'Starts from a known state, so a swapped-in spare behaves.' },
@@ -190,81 +140,15 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
         { from: 'wheels', to: 'sensor', fromSide: 'b', toSide: 't', dashed: true },
         { from: 'sensor', to: 'code', fromSide: 'l', toSide: 'b', route: 'hv', dashed: true, label: 'measured speed', lx: 820, ly: 626, lw: 400 },
       ],
-      notes: '(1.5 min) Control theory is the study of making things do what you asked. This robot is open loop: we pick a voltage and never measure what happened. It is like setting the shower tap to the same spot every morning and hoping the water is right. Closed loop is feeling the water and adjusting. Battery level, carpet, weight and friction all change the real speed, and open-loop code cannot notice. That is fine for a human driver, because the driver is the feedback. It is why autonomous drive by time is rough. The next few slides are what we can do without a sensor.' }),
+      notes: '(1.5 min) Control theory is the study of making things do what you asked. This robot is open loop: we pick a voltage and never measure what happened. It is like setting the shower tap to the same spot every morning and hoping the water is right. Closed loop is feeling the water and adjusting. Battery level, carpet, weight and friction all change the real speed, and open-loop code cannot notice. That is fine for a human driver, because the driver is the feedback. It is why autonomous drive by time is rough. Deck 8 shows how motors behave, and Deck 9 shows how to make open-loop driving feel better.' }),
 
-    L.plot({ id: 'voltage-comp', eyebrow: 'Control theory', title: 'Voltage compensation makes output repeatable', xLabel: 'Time (s)', yLabel: 'Robot speed (m/s), half stick', xDomain: [0, 2], yDomain: [0, 3], xTicks: [0, 0.5, 1, 1.5, 2], yTicks: [0, 1, 2, 3],
-      alt: 'Simulated speed at half stick for two batteries. The compensated curve sits between them and does not depend on the battery.',
-      series: [
-        { name: '12.8 V, no comp', color: 'orange', points: speedPts(fresh), tag: { x: 1.1, y: 2.98 } },
-        { name: '11.2 V, no comp', color: 'blue', points: speedPts(tired), tag: { x: 1.1, y: 2.28 } },
-        { name: 'Compensated to 12 V', color: 'green', dash: true, points: speedPts(compensated), tag: { x: 0.62, y: 1.7, w: 300 } },
-      ],
-      callouts: [
-        { title: 'Without it', text: '`set(0.5)` means half of whatever the battery has right now.' },
-        { title: `${spreadCm} cm apart`, text: 'That is the gap after 2 s between these two batteries.' },
-        { title: 'With it', text: 'The SPARK scales output to 12 V, so both batteries match.' },
-        { title: 'The cost', text: 'A little top speed on a full battery. It can\'t add volts.' },
-      ],
-      notes: `(1.5 min) Simulated, not measured. The model is ${MODEL}. The two battery voltages are examples we picked. Open-loop output follows the battery: half stick on 12.8 volts is 6.4 volts, and on 11.2 volts it is 5.6. Voltage compensation makes half mean 6 volts on either. It does not close the loop: the code still has no idea how fast the robot is going. But the same command now does nearly the same thing, which matters most in autonomous. FIRST's KitBot code turns it on for this reason.` }),
-
-    L.plot({ id: 'current-limit', eyebrow: 'Control theory', title: 'What a current limit protects', xLabel: 'Time after full stick (s)', yLabel: 'Current per CIM (A)', xDomain: [0, 1], yDomain: [0, 140], xTicks: [0, 0.25, 0.5, 0.75, 1], yTicks: [0, 35, 70, 105, 140], refs: [{ y: 60, label: 'Limit: 60 A' }],
-      alt: 'Simulated current in one CIM after a full-stick start. Without a limit it peaks at 133 amps. With a limit it holds at 60 amps, then falls.',
-      series: [
-        { name: 'No limit', color: 'orange', points: ampPts(noLimit), tag: { x: 0.1, y: 122 } },
-        { name: 'With limit', color: 'blue', dash: true, points: ampPts(limited), tag: { x: 0.42, y: 46 } },
-      ],
-      callouts: [
-        { title: 'The spike', text: `A stopped motor pushes nothing back, so the model starts at ${peak(noLimit)} A.` },
-        { title: 'What it protects', text: 'Breakers, battery voltage and CIM heat.' },
-        { title: 'The cost', text: `3 m/s takes ${timeTo(limited, 3)} s, not ${timeTo(noLimit, 3)} s.` },
-        { title: 'Measure it', text: 'REV\'s Javadoc says this limit is for brushless. Log `getOutputCurrent()`.' },
-      ],
-      notes: `(1.5 min) Simulated, not measured: the same model as the last chart, with the limit as an ideal clamp. A spinning motor also acts as a generator pushing back against the battery. A stopped one does not, so current peaks at the start. Real wheels slip and real batteries sag, so real peaks are lower. FIRST uses 60 A to reduce breaker trips and CIM damage. Mentors: REV's Javadoc calls smartCurrentLimit "used for brushless only", yet FIRST sets it on brushed CIMs, and we could not confirm it acts in brushed mode. Log getOutputCurrent during a short, hard push before relying on it.` }),
-
-    L.plot({ id: 'shaping', eyebrow: 'Control theory', title: 'Input shaping gives the stick fine control', xLabel: 'Stick position', yLabel: 'Output', xDomain: [0, 1], yDomain: [0, 1], xTicks: [0, 0.25, 0.5, 0.75, 1], yTicks: [0, 0.25, 0.5, 0.75, 1],
-      alt: 'Three stick curves. Linear, squared and cubed all reach full output at full stick, and curves with higher exponents stay lower through the middle of the travel.',
-      series: [
-        { name: 'Linear', color: 'orange', points: curve(1), tag: { x: 0.42, y: 0.62 } },
-        { name: 'Squared', color: 'blue', dash: true, points: curve(2), tag: { x: 0.5, y: 0.43 } },
-        { name: 'Cubed', color: 'green', points: curve(3), tag: { x: 0.78, y: 0.3 } },
-      ],
-      callouts: [
-        { title: 'Half stick', text: 'Linear gives 50%, squared 25% and cubed 12.5%.' },
-        { title: 'Full stick', text: 'All three still reach 100%, so you keep your top speed.' },
-        { title: 'Already squared', text: '`arcadeDrive` squares its inputs unless you pass `false`.' },
-        { title: 'Scale goes first', text: 'Ours is squared too: 0.7 becomes 0.49 at full stick.' },
-      ],
-      notes: '(1.5 min) These curves are exact math, the same formula as MathUtil.copyDirectionPow. Input shaping means changing the stick\'s meaning without changing its range. Most driving happens at small movements, and that is where a curve spreads your fingers over more of the stick. It is like a car\'s accelerator: the first bit of travel is gentle. Here is a surprise: because our scale happens before arcadeDrive squares the value, 0.7 turns into 0.49 at full stick. FIRST\'s KitBot code does the same thing, and it is fine for a first drive. But now you know where your top speed went.' }),
-
-    L.plot({ id: 'slew', eyebrow: 'Control theory', title: 'A slew-rate limit trades snap for smoothness', xLabel: 'Time after full stick (s)', yLabel: 'Robot speed (m/s)', xDomain: [0, 1.2], yDomain: [0, 6], xTicks: [0, 0.3, 0.6, 0.9, 1.2], yTicks: [0, 2, 4, 6],
-      alt: 'Simulated robot speed after a full-stick start, with no limit and with slew-rate limits of 3 and 1.5 per second. Stronger limits reach top speed later.',
-      series: [
-        { name: 'No limiter', color: 'orange', points: speedPts(step), tag: { x: 0.08, y: 5.1 } },
-        { name: 'Limit 3/s', color: 'blue', dash: true, points: speedPts(slew3), tag: { x: 0.4, y: 3.05 } },
-        { name: 'Limit 1.5/s', color: 'green', points: speedPts(slew15), tag: { x: 0.72, y: 2.6 } },
-      ],
-      callouts: [
-        { title: 'What it does', text: '`SlewRateLimiter(3)` lets the value change 3 per second: 0 to full in 1/3 s.' },
-        { title: 'Peak current', text: `${peak(step)} A, then ${peak(slew3)} A, then ${peak(slew15)} A per CIM.` },
-        { title: 'Why it feels better', text: 'A gentler shove means less wheel slip and less tipping.' },
-        { title: 'The cost', text: 'The robot responds later, and that includes stopping.' },
-      ],
-      notes: `(1.5 min) Simulated, not measured: the same model again, with the limiter updating every 20 ms. A slew-rate limiter is a speed limit on how fast a number may change. Think of pressing a car's pedal smoothly instead of stamping on it. You are not losing top speed, only taking longer to get there. Warn them about stopping: if the limiter sits on forward, the robot keeps going for a moment after the stick is released. The three-argument constructor sets a different rate for each direction, to help with that. If a kid asks: the SPARK has openLoopRampRate too, but it can't tell forward from turning.` }),
-
-    L.codeNotes({ id: 'feel-code', eyebrow: 'Control theory', title: 'Shaping the stick in code', file: 'FeelRobotContainer.java', src: { file: `${J}/FeelRobotContainer.java`, region: 'feel' }, callouts: [
-      { line: [3, 10], title: 'Deadband first', text: 'Throw away drift before anything else sees it.' },
-      { line: [4, 11], title: 'Then the curve', text: '`copyDirectionPow` keeps the sign, so reverse works.' },
-      { line: [5, 12], title: 'Scale after the curve', text: 'Now 0.7 stays 0.7 at full stick.' },
-    ], notes: '(1 min) Order matters, so read it top to bottom. Flip the sign, drop the deadband, apply the curve, scale, and limit last so the limiter sees the final value. copyDirectionPow is new in 2026. A plain power would lose the sign, because a negative number squared is positive, and the robot could not reverse. The limiter is a field, not a local variable, because it has to remember its last value. Call it once per loop, which a supplier does for you. Turning gets a curve but no limiter, like the example in the WPILib docs.' }),
-
-    L.exercise({ id: 'exercise', title: 'Tune the drive feel', minutes: 10, tasks: [
-      'Add the shaping from the last slide, using `MathUtil.copyDirectionPow`.',
-      'Stop it being squared twice: call `drive.arcadeDrive(x, z, false)`.',
-      'Try exponents 1, 2 and 3. Creep along a tape line with each one.',
-      'Add `new SlewRateLimiter(3)` on forward, then try 1.5. Watch the stop.',
-      'Put your best numbers in `Constants`, then commit.',
-    ], done: 'a new driver creeps 2 m down the tape and stops within a hand\'s width of the mark.',
-    notes: '(10 min) Work in pairs with a mentor by the robot, in clear floor space, with someone ready on Enter. Keep DRIVE_SCALE low until people are comfortable. One driver should try every setting, so you compare the settings and not the people. Have them say out loud what changed. The answer is in FeelRobotContainer, and CANDriveSubsystem has driveArcadeRaw for task 2. If a group finishes early, ask them to give turning a different exponent from forward. No robot free? Do tasks 1 and 2 now, and test when a robot opens up.' }),
+    L.exercise({ id: 'exercise', title: 'Make the robot yours', minutes: 5, tasks: [
+      'Set `DRIVE_SCALE` to 0.4 in `Constants`, deploy, and drive a slow lap.',
+      'Set it back to 0.7, deploy, and drive the same lap.',
+      'Take turns, so everyone on the team drives.',
+      'Commit your working code, with a message that says what it does.',
+    ], done: 'everyone has driven the robot, and your working code is committed.',
+    notes: '(5 min) Work in pairs with a mentor by the robot, in clear floor space, with someone ready on Enter. Keep the scale low until people are comfortable. Ask what changed between 0.4 and 0.7, and what stayed the same. Decks 8 and 9 go deeper for teams that want to know why the robot feels the way it does.' }),
 
     L.change2027({ id: 'change', items: [
       { now: 'roboRIO', next: 'Systemcore: 2026 projects must be imported' },
@@ -273,14 +157,14 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       { now: 'Java 17', next: 'Java 25' },
       { now: 'Commands v2', next: 'v2 remains, and v3 is new for Java' },
     ], note: 'Alpha software, so this may change. Everything in this deck is correct for the 2026 roboRIO.',
-    notes: '(30 s) This is a heads-up, not homework. You do not need to learn any of it today. Next year\'s software is still in alpha and could change. The ideas you learned today all carry over: subsystems, commands, one inverted side, open loop, shaping the stick. Mostly the names change. Keep building for 2026.' }),
+    notes: '(30 s) This is a heads-up, not homework. You do not need to learn any of it today. Next year\'s software is still in alpha and could change. The ideas you learned today all carry over: subsystems, commands, one inverted side, open loop. Mostly the names change. Keep building for 2026.' }),
 
     L.recap({ id: 'recap', items: [
       'Say what a subsystem, command, trigger, default command and the scheduler each do.',
       'Build `CANDriveSubsystem`: brushed motors, followers, one inverted side, `configure()`.',
       'Bind a gamepad with flipped signs, a deadband and a scale, then test with wheels up.',
       'Read the symptoms: SPARK light colours, CAN ID errors, a spinning robot.',
-      'Explain open loop, voltage compensation, current limits, stick curves and slew limits.',
+      'Explain open loop, and why a human driver can get away with it.',
     ], next: 'Deck 3, where AdvantageScope shows you what your robot is thinking.',
     notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can explain open loop, go back to the shower tap. Before people leave, make sure every team has committed working code. Next time we stop guessing about what the robot is doing, because we will be able to see it.' }),
 

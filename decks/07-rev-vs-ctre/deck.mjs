@@ -94,7 +94,7 @@ export default {
         ['Encoders', 'Through Bore Encoder V2, MAXSpline Encoder (wired or CAN)', 'CANcoder (CAN)'],
         ['Other sensors', 'Color Sensor V3, 2m Distance Sensor', 'Pigeon 2 (IMU), CANrange (distance), CANdi (inputs on CAN)'],
         ['Setup app', 'REV Hardware Client 2', 'Phoenix Tuner X'],
-        ['2026 software', 'REVLib 2026.0.5, firmware 26.1.5 (MAX), 26.1.6 (Flex)', 'Phoenix 6 26.3.0, with 2026 firmware'],
+        ['2026 software', 'REVLib 2026.0.5, with 2026 firmware', 'Phoenix 6 26.3.0, with 2026 firmware'],
       ],
       caption: 'Checked 2026-11-04. NEO V1.1 is discontinued and Falcon 500 is out of stock, but both are still legal if you own them.',
       notes: 'Read across each row. The big split is built in versus separate. A Kraken is a motor with its controller inside, so there are fewer wires, and only two power leads and CAN. A NEO needs a SPARK next to it. An absolute encoder remembers its position after power off, which is what an arm wants. Note the app: the old REV Hardware Client reached end of life, so use Hardware Client 2. The last row is the matched set for 2026 robots. Krakens are designed by WestCoast Products with CTRE control technology, and run the CTRE software. Timing: 2 minutes.',
@@ -220,9 +220,9 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         ['SysId', 'WPILib SysId', 'WPILib SysId, fed by Signal Logger'],
         ['Setup app', 'Hardware Client 2: firmware, CAN IDs, run and plot motors, zero encoders', 'Tuner X: firmware, configs, plots, self test, log tools'],
         ['Generates', 'No code generator. Templates for MAXSwerve and EasySwerve', 'Swerve project, Elevator subsystem, CANdle subsystem'],
-        ['Simulation', 'SparkMaxSim and SparkFlexSim run closed loop and MAXMotion. kCos reads wrong in 2026.0.5 sim', 'SimState classes for every Phoenix 6 device'],
+        ['Simulation', 'SparkMaxSim and SparkFlexSim run closed loop and MAXMotion', 'SimState classes for every Phoenix 6 device'],
       ],
-      notes: 'Logging is the flight recorder from Deck 3, and both vendors now do it for you. REV StatusLogger is new for 2026 and needs no code. CTRE logs every status signal with CAN timestamps, and free users can export key signals like position, velocity and current. Tuner X is ahead on generating code: it can build a full swerve project. That swerve API needs all Phoenix devices. REV gives you template projects instead. Hardware Client 2 is a separate install from the old client. Simulation connects to Deck 4, and both plug into WPILib physics. We ran the REV simulator for Deck 6 and found kCos reads wrong there, but we did not run the CTRE simulator, so this is not a head-to-head test. Timing: 90 seconds.',
+      notes: 'Logging is the flight recorder from Deck 3, and both vendors now do it for you. REV StatusLogger is new for 2026 and needs no code. CTRE logs every status signal with CAN timestamps, and free users can export key signals like position, velocity and current. Tuner X is ahead on generating code: it can build a full swerve project. That swerve API needs all Phoenix devices. REV gives you template projects instead. Hardware Client 2 is a separate install from the old client. Simulation connects to Deck 4, and both plug into WPILib physics. We ran the REV simulator for Deck 6 but not the CTRE one, so this is not a head-to-head test. Timing: 90 seconds.',
     }),
 
     L.compare({
@@ -241,10 +241,10 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
 
     L.gotcha({
       id: 'gotcha', title: 'Newest firmware is not always the right firmware',
-      symptom: 'A SPARK shows "Outdated REV Device", REVLib warns it is not on 2026 firmware, or Phoenix reports a firmware version error.',
-      cause: 'On both vendors, firmware and library are a matched pair for each season. REV has already shipped SPARK firmware 27.0.0, and has not said how REVLib 2026 behaves on it.',
-      fix: 'For 2026, pick SPARK MAX 26.1.5 or SPARK Flex 26.1.6 in Hardware Client 2, and the 2026 firmware year in Tuner X.',
-      notes: 'Both vendors work this way. Hardware Client 2 needs 26.x or newer, so a SPARK on 2025 firmware goes through Recovery Mode once. There, the version menu automatically picks the most up-to-date firmware, so stop and choose yours. On CTRE, the status code says firmware and API major versions must match, and Tuner X has a year selector. Its changelog already lists 26.70 firmware, for a 2027 alpha API that does not support the roboRIO. New Talon FX built after April 2026 need 26.3.0.0 or newer. Any trouble from REVLib 2026 on firmware 27 is our inference, since REV has not said. Timing: 1 minute.',
+      symptom: 'A SPARK shows "Outdated REV Device", REVLib says the firmware is too old or too new, or Phoenix reports a firmware version error.',
+      cause: 'On both vendors, firmware and library are a matched pair for each season. The newest firmware listed can be for next season.',
+      fix: 'For 2026, pick the newest 26.x in Hardware Client 2, and the 2026 firmware year in Tuner X.',
+      notes: 'Both vendors work this way. Hardware Client 2 needs 26.x or newer, so a SPARK on 2025 firmware goes through Recovery Mode once. There, the version menu automatically picks the most up-to-date firmware, so stop and choose yours. On CTRE, the status code says firmware and API major versions must match, and Tuner X has a year selector. Its changelog already lists 26.70 firmware, for a 2027 alpha API that does not support the roboRIO. New Talon FX built after April 2026 need 26.3.0.0 or newer. Timing: 1 minute.',
     }),
 
     L.cards({

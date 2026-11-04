@@ -11,7 +11,7 @@ not that site, for 2026 signatures.
 ## The simulation
 
 All curves come from `simulate()` in `deck.mjs`. Callout numbers are read from its results, and `must()` fails the build
-if the story stops being true. `playground/index.html` contains the same block, byte for byte.
+if the story stops being true. `docs/arm-playground/index.html` contains the same block, byte for byte.
 
 - NEO constants 12 V, 2.6 N·m, 105 A, 1.8 A, 5676 RPM, and the derivations of R, Kv and Kt:
   [DCMotor.java](https://github.com/wpilibsuite/allwpilib/blob/v2026.2.1/wpimath/src/main/java/edu/wpi/first/math/system/plant/DCMotor.java)
@@ -62,6 +62,8 @@ Tuned result, for checking: kP 30, kD 1.2, kG 1.21, kV 1.19, profile 2.5 rad/s a
 | Mechanism2d and `putData` | [WPILib: Mechanism2d](https://docs.wpilib.org/en/stable/docs/software/dashboards/glass/mech2d-widget.html), `armsimulation` example |
 
 ## SPARK firmware 27 and why this deck uses native units
+
+On 2026-11-04 the onboard SPARK arm moved to Deck 9, and the slides stopped mentioning firmware versions. The notes below remain as the record of what was checked. REVLib 2026.0.5 treats firmware year 27 as too new. `c_Spark_Create_Inplace` in `libREVLibDriver.so` returns `kFirmwareTooNew` for any year above 26 and sends the error text to the Driver Station. `SparkLowLevel.java` then carries on without throwing ("Don't throw for 2026 season"). Read from the library on 2026-11-04, not run against real firmware.
 
 Primary source: [SPARK MAX firmware 27.0.0](https://github.com/REVrobotics/REV-Software-Binaries/releases/tag/sm-27.0.0), a normal release
 from 2026-10-29. SPARK Flex has a matching `sf-27.0.0`. Latest 2026 firmware is `sm-26.1.5` and `sf-26.1.6`. The notes say it removes

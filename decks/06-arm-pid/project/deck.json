@@ -36,9 +36,6 @@
     "safety",
     "sim-setup",
     "sim-exercise",
-    "onboard-faster",
-    "spark-config",
-    "gotcha-sim-kcos",
     "gotcha-runaway",
     "gotcha-table",
     "change-2027",
@@ -47,7 +44,7 @@
   ],
   "sections": {
     "s0": {
-      "description": "Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO and on the SPARK MAX.",
+      "description": "Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO.",
       "start": "cover"
     },
     "s1": {

@@ -51,7 +51,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     common.smartCurrentLimit(CURRENT_LIMIT_AMPS);
     common.idleMode(IdleMode.kBrake);
 
-    // Leaders only: 26.x firmware compensates followers twice.
+    // Leaders only: followers copy their leader's output.
     SparkMaxConfig rightConfig = new SparkMaxConfig();
     rightConfig.apply(common).voltageCompensation(NOMINAL_VOLTS);
     // One side must be inverted. On the KitBot, it's the left.

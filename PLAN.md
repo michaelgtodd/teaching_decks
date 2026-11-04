@@ -74,6 +74,14 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - `set()` is renamed `setThrottle()` on motor controllers. `MotorControllerGroup` removed. `DriverStation` split up.
 - Windows 11 is required for the 2027 alphas. Phoenix 6 removes the `int` and `String` device constructors.
 
+## Decisions made after the first build (2026-11-04)
+
+- **Depth:** Decks 1 to 7 stay at getting-started level. Vendor bugs, firmware version talk and tool edge cases stay off the slides, and deeper topics go in Decks 8 and 9.
+- **REV stack:** stay on REVLib 2026 and 2026 firmware on the roboRIO. REVLib 2027 has no roboRIO build, and REVLib 2026 reports SPARK firmware 27 as too new. Code stays in the new style: no conversion factors, rotations and RPM.
+- **Moved:** current limits and voltage compensation from Deck 2 to Deck 8. Input shaping from Deck 2, and the onboard SPARK arm from Deck 6, to Deck 9.
+- **Added:** Deck 8 (understanding motors), Deck 9 (advanced controls), Deck 10 (auto path planning).
+- **Playground:** served from `docs/arm-playground/` on GitHub Pages so students need no login.
+
 ## Build and verification
 
 - `node template/build.mjs [deck]` builds and enforces fit limits.

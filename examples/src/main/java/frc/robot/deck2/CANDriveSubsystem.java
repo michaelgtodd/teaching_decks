@@ -36,7 +36,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     common.smartCurrentLimit(CURRENT_LIMIT_AMPS);
     common.idleMode(IdleMode.kBrake);
 
-    // Leaders only: 26.x firmware compensates followers twice.
+    // Leaders only: followers copy their leader's output.
     SparkMaxConfig rightConfig = new SparkMaxConfig();
     rightConfig.apply(common).voltageCompensation(NOMINAL_VOLTS);
     // One side must be inverted. On the KitBot, it's the left.
@@ -66,14 +66,6 @@ public class CANDriveSubsystem extends SubsystemBase {
   public Command driveArcade(DoubleSupplier forward, DoubleSupplier rotation) {
     return run(() -> drive.arcadeDrive(forward.getAsDouble(), rotation.getAsDouble()))
         .withName("Arcade Drive");
-  }
-  // #endregion
-
-  // #region raw
-  /** For your own stick curve: turns off the squaring built into arcadeDrive. */
-  public Command driveArcadeRaw(DoubleSupplier forward, DoubleSupplier rotation) {
-    return run(() -> drive.arcadeDrive(forward.getAsDouble(), rotation.getAsDouble(), false))
-        .withName("Arcade Drive Raw");
   }
   // #endregion
 }

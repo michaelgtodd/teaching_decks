@@ -111,7 +111,7 @@ Computed in `deck.mjs` with a 0.1 ms step. A point-mass arm (2 kg, 0.5 m, so J =
 
 ## Inference, and things not confirmed
 
-- **How REVLib 2026 behaves on firmware 27.0.0.** REV does not say. Anything about that pairing is our inference, and the deck labels it so. This includes the `Presets.REV_ThroughBoreEncoderV2` preset on 27.x: the release notes do not list it as affected, but we cannot see what it sets.
+- **How REVLib 2026 behaves on firmware 27.0.0.** Partly answered: REVLib 2026.0.5 treats firmware year 27 as too new. `c_Spark_Create_Inplace` in `libREVLibDriver.so` returns `kFirmwareTooNew` for any year above 26 and sends the error text to the Driver Station. `SparkLowLevel.java` then carries on without throwing ("Don't throw for 2026 season"). Read from the library on 2026-11-04, not run against real firmware. REV does not say more. Anything about that pairing is our inference, and the deck labels it so. This includes the `Presets.REV_ThroughBoreEncoderV2` preset on 27.x: the release notes do not list it as affected, but we cannot see what it sets.
 - **The wrong-sensor reboot bug on 26.1.5.** The 27.0.0 SPARK MAX notes list the fix for "closed loop sensor is not the main encoder and idle mode is brake", which matches `RevArm`. The 26.x notes do not mention it. That 26.1.5 has it is inferred, and no workaround is documented. The notes tell mentors to test a reboot.
 - **Whether Hardware Client 2 offers 27.0.0 today.** The docs describe the most up-to-date default but do not name a version. We could not run the client.
 - **Exact wording of the REVLib firmware warning.** Not published, so the deck paraphrases the changelog and does not quote it.

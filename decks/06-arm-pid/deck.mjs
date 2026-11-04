@@ -4,13 +4,13 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import * as L from '../../template/layouts.mjs';
 
-const PLAYGROUND_URL = 'https://claude.ai/artifact/GpGsATVF1vZ9P3kZYbxoiH';
+const PLAYGROUND_URL = 'https://michaelgtodd.github.io/teaching_decks/arm-playground/';
 
 const J = 'examples/src/main/java/frc/robot/deck6';
-const PLAYGROUND_FILE = 'decks/06-arm-pid/playground/index.html';
+const PLAYGROUND_FILE = 'docs/arm-playground/index.html';
 
 // #region sim
-// The block between these markers is copied unchanged into playground/index.html.
+// The block between these markers is copied unchanged into docs/arm-playground/index.html.
 // NEO constants from WPILib DCMotor.getNEO() at v2026.2.1.
 const NEO = { volts: 12, stallTorque: 2.6, stallAmps: 105, freeAmps: 1.8, freeRpm: 5676 };
 const OHMS = NEO.volts / NEO.stallAmps;
@@ -174,7 +174,6 @@ const runs = {
   noisy: simulate({ kP: 30, kD: 1.2, kG: TUNED.kG, startDeg: GOAL, seconds: 2, noiseDeg: NOISE }),
   capped: simulate({ kP: 30, kI: 8, kD: 1.2, kG: TUNED.kG, seconds: 6, blockedUntil: 1.5 }),
   uncapped: simulate({ kP: 30, kI: 8, kD: 1.2, kG: TUNED.kG, seconds: 6, blockedUntil: 1.5, integratorCap: 12 }),
-  fast: simulate({ kP: 50, loopSeconds: 0.001 }),
 };
 
 const sag = { p4: GOAL - finalDeg(runs.p4), p8: GOAL - finalDeg(runs.p8), pd: GOAL - finalDeg(runs.pd), back: GOAL - finalDeg(runs.pdgBack) };
@@ -196,16 +195,13 @@ must(Math.abs(GOAL - finalDeg(runs.p8g)) < 0.1, 'kG should remove the sag');
 must(peak(runs.tuned, 'volts') < 6, 'the profiled move should stay under the 6 V output clamp');
 must(ffShare > 0.8, 'feedforward should do most of the work');
 must(peakDeg(runs.uncapped) > peakDeg(runs.capped) + 10, 'the uncapped integrator should swing far past');
-must(swingDeg(runs.fast) < 1, 'the 1 ms loop should settle at the gain that shakes at 20 ms');
 
-const SPARK_P_EQUIVALENT = (TUNED.kP / NEO.volts) * ((2 * Math.PI) / ARM.gearing);
 
 const n = {
   amps: GRAVITY_TORQUE / ARM.gearing / MOTOR_KT,
   motorTorque: GRAVITY_TORQUE / ARM.gearing,
   tunedSettle: settle(runs.tuned, GOAL),
   stepSettle: settle(runs.pdg, GOAL),
-  fastSettle: settle(runs.fast, GOAL),
   stuck: finalDeg(runs.uncapped),
 };
 
@@ -290,10 +286,10 @@ const CT = 'Control theory';
 const CODE = 'Programming';
 
 export default {
-  no: 6, short: 'Arm PID', title: 'Arm PID: control theory and a PID + feedforward arm', minutes: 50,
-  description: 'Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO and on the SPARK MAX.',
+  no: 6, short: 'Arm PID', title: 'Arm PID: control theory and a PID + feedforward arm', minutes: 45,
+  description: 'Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO.',
   slides: [
-    L.cover({ title: 'Arm PID: move it, hold it', subtitle: 'Control theory and Java for a single-jointed arm on a NEO', minutes: 50,
+    L.cover({ title: 'Arm PID: move it, hold it', subtitle: 'Control theory and Java for a single-jointed arm on a NEO', minutes: 45,
       notes: 'This is the big one. Half of today is control theory and half is Java, and you need no math past algebra. We build the feeling first, with pictures, then the formula. Every curve you see today comes from a real simulation of one arm, so what you see is what the physics does. Timing: 50 minutes, two hands-on breaks. The slide count is high because most slides are one quick plot. Keep moving.' }),
 
     L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What you can do after this deck', items: [
@@ -432,12 +428,12 @@ export default {
       'Press **Too much P**, then slide kP down until the shaking stops.',
       'Find your own gains. Turn on the profile if you want it.',
     ], done: 'the status line reads **Settled** and you can read your gains as Java constants.',
-      notes: 'This page is a simulation of our same arm, with the same physics, running on your own laptop or phone. It needs no internet and no install, and it opens straight from the file. You cannot hurt anything, so try silly numbers. Set kG negative. Set kP to 80. The status line tells you what happened, and Settled means within 1 degree, under 2 degrees of overshoot, and not shaking. Timing: 5 minutes, ending around minute 30. Ask one pair to read out their gains.' }),
+      notes: 'This page is a simulation of our same arm, with the same physics, running on your own laptop or phone, with nothing to install. You cannot hurt anything, so try silly numbers. Set kG negative. Set kP to 80. The status line tells you what happened, and Settled means within 1 degree, under 2 degrees of overshoot, and not shaking. Timing: 5 minutes, ending around minute 30. Ask one pair to read out their gains.' }),
 
-    L.sectionSlide({ id: 'code-section', title: 'Now the Java', sub: 'The same arm, written three ways', section: 'Programming the arm', notes: 'That was the theory. Now we write it. We will build the arm three ways. First, PID and feedforward on the roboRIO, because you can see and log every number. Second, the same thing with a motion profile. Third, the loop moved onto the SPARK MAX, where it runs faster. All three share the same config, and all the code is in the deck 6 package of the examples project, which compiles against WPILib 2026.2.1 and REVLib 2026.0.5.' }),
+    L.sectionSlide({ id: 'code-section', title: 'Now the Java', sub: 'The same arm, written two ways', section: 'Programming the arm', notes: 'That was the theory. Now we write it. We will build the arm two ways. First, PID and feedforward on the roboRIO, because you can see and log every number. Second, the same thing with a motion profile. Both share the same config, and all the code is in the deck 6 package of the examples project, which compiles against WPILib 2026.2.1 and REVLib 2026.0.5.' }),
 
     L.practice({ id: 'units-boundary', title: 'One unit in Java, convert at the boundary', rule: 'Pick one unit for all your Java: radians. Convert once, where the code meets the hardware.', why: 'The SPARK speaks rotations, so `ArmUnits` is the only class that converts. Hold the arm flat and save the raw reading as `ENCODER_FLAT_ROTATIONS`.', code: region('ArmUnits.java', 'boundary'), flag2027: 'REVLib alphas drop conversion factors too. Native units carry over.',
-      notes: 'Units are where arms get hurt, so here is the rule: one unit in Java, converted in one place. The through-bore reports rotations from 0 to 1. Subtract the flat reading, turn it into radians, and angleModulus makes below flat negative. The gear ratio lives here too: the NEO turns 60 times per arm turn. We set no conversion factors on the SPARK, because SPARK firmware 27 removes them. Wire the through-bore to the data port with the Absolute Encoder Adapter. If you own a V2 through-bore, also apply REV\'s V2 preset.' }),
+      notes: 'Units are where arms get hurt, so here is the rule: one unit in Java, converted in one place. The through-bore reports rotations from 0 to 1. Subtract the flat reading, turn it into radians, and angleModulus makes below flat negative. The gear ratio lives here too: the NEO turns 60 times per arm turn. We set no conversion factors on the SPARK, so it reports plain rotations. Wire the through-bore to the data port with the Absolute Encoder Adapter. If you own a V2 through-bore, also apply REV\'s V2 preset.' }),
 
     L.code({ id: 'rio-loop', eyebrow: CODE, title: 'The loop on the roboRIO', file: 'ArmSubsystem.java', src: { file: `${J}/ArmSubsystem.java`, region: 'loop' }, highlight: [2, 10, 11, 13],
       notes: 'Four parts: motor, encoder, PID, feedforward. Note kBrushless. The KitBot CIMs were brushed, but a NEO is brushless, and REV warns that brushed mode will permanently damage it. The heart is driveToTarget. Feedforward gives the volts for gravity, PID gives the volts for the error, and we add them and clamp. The clamp is a safety net. We use setVoltage because our gains are in volts, so a tired battery does not change them. We hand the measured angle to feedforward because gravity acts on where the arm is, not where you wish it was.' }),
@@ -471,37 +467,17 @@ export default {
     ], done: 'Y moves the arm to 45° and it holds within 2°, with no shaking.',
       notes: 'Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck6.RobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants. Stop the simulator, edit, run again. The goal is to feel the recipe with real code. The Y button runs the move, using the profiled subsystem. If a pair finishes early, swap the subsystem for ArmSubsystem in RobotContainer and watch the setpoint jump. Timing: 5 minutes, ending around minute 44.' }),
 
-    L.plot({ id: 'onboard-faster', eyebrow: CODE, title: 'Why onboard is faster: a fresher, quicker loop', alt: `Arm angle over 3 seconds at kP 50. The 20 millisecond loop keeps swinging. The 1 millisecond loop settles in ${fix(n.fastSettle, 2)} seconds.`,
-      xLabel: 'Time (s)', yLabel: 'Arm angle at kP 50. Dashed: the setpoint', xDomain: [0, 3], yDomain: [-40, 80], xTicks: [0, 1, 2, 3], yTicks: [-30, 0, 45], refs: [{ y: GOAL }],
-      series: [{ name: '20 ms loop on the roboRIO', color: 'orange', points: degrees(runs.p50) }, { name: '1 ms loop on the SPARK', color: 'blue', dash: true, points: every(runs.fast, 20).map((x) => [x.t, x.deg]) }],
-      callouts: [
-        { title: 'roboRIO', text: 'Decides every 20 ms, using a reading that came over CAN.' },
-        { title: 'SPARK', text: 'REV updates the loop every 1 ms, with the encoder wired right to it.' },
-        { title: 'Same gains', text: `At kP 50 the 20 ms loop shakes. The 1 ms loop settles in ${fix(n.fastSettle, 2)} s.` },
-      ], notes: `Now the pay-off for theory. Why did too much P shake? Partly because every decision was late. Here is the exact same kP 50 and the same arm, with the loop running every millisecond instead of every 20. It still overshoots, but it settles in ${fix(n.fastSettle, 2)} seconds. REV's docs say the onboard loop updates every 1 ms. The encoder plugs straight into the SPARK, so nothing waits on CAN, and your code only sends a new goal. This plot is our model with no sensor filtering, so treat it as the idea, not a promise for your robot.` }),
-
-    L.codeNotes({ id: 'spark-config', eyebrow: CODE, title: 'Move the loop onto the SPARK MAX', file: 'SparkArmSubsystem.java', src: { file: `${J}/SparkArmSubsystem.java`, region: 'device' }, callouts: [
-      { line: 4, title: 'Native units', text: `\`p\` is duty cycle per NEO rotation. kP 30 is ${fix(SPARK_P_EQUIVALENT, 2)}. Start low.` },
-      { line: 7, title: 'kCos, not kG', text: 'WPILib\'s `kG` is REV\'s `kCos`. REV\'s `kG` is for elevators.' },
-      { line: 8, title: 'kCosRatio', text: 'NEO rotations to arm rotations: `1 / 60`. The sensor must read 0 at flat.' },
-      { line: [14, 15], title: 'Send it once', text: 'Goals are in NEO rotations. MAXMotion uses `kMAXMotionPositionControl`.' },
-    ], notes: `REV multiplies kCos by the cosine of the arm position, and position times kCosRatio must give arm rotations. Flat must read zero, and a through-bore without zero centering wraps just below flat. So this loop uses the NEO's encoder, with the through-bore's angle copied in. That matches REV's advice to home from an absolute encoder. Watch the names: WPILib kG means REV kCos. kCos applies in position modes. Gains change units: error is in NEO rotations and output is duty cycle, so 30 volts per radian becomes 30 over 12, times 2 pi over 60. D units differ too, so retune it from low.` }),
-
-    L.gotcha({ id: 'gotcha-sim-kcos', title: 'The onboard arm sits high in the simulator', symptom: 'In sim, `SparkArmSubsystem` stops about 4° high at 45° and 12° high at 80°, so `moveTo` never finishes.', cause: 'REVLib\'s simulator reads the kCos angle as degrees, so gravity help barely fades as the arm rises. REV\'s docs say rotations, and that is what goes on the robot.', fix: 'Keep `1 / 60`. Use the roboRIO versions to practice in the sim, and check kCos on the real arm.',
-      notes: 'We measured this by running the code in WPILib simulation with REVLib 2026.0.5: a 45 degree goal settled at 48.8, and an 80 degree goal at 91.9. The tempting fix is to change the ratio until the sim looks right. Setting it to 6 does make the sim land on target, and it would be wrong on the robot. So do not tune kCosRatio in the simulator. ArmSubsystem and ProfiledArmSubsystem do their gravity math in Java, and both land on target in the sim. On the real arm, check kCos before you trust it: clear of people, with P set to 0, the arm should barely drift near flat and near 45 degrees. A public report of this simulator issue is linked in SOURCES.md.' }),
-
     L.gotcha({ id: 'gotcha-runaway', title: 'The arm runs away at full speed', symptom: 'You enable, and the arm slams to a stop as fast as it can go.', cause: 'Motor and encoder disagree on direction. Moving "toward" the goal makes the error bigger, so P pushes harder.', fix: 'Robot disabled: lift the arm by hand. The angle must go up. Then at about 1 V: the arm must rise. Flip `ENCODER_INVERTED` or `MOTOR_INVERTED`.',
       notes: 'This is the scary one, and everyone does it once. Feedback only works if pushing up makes the reading go up. If they disagree, the correction makes the error worse, and it keeps getting worse until the arm hits something. Check both directions before you enable a closed loop. Hands on the arm, robot disabled, for the encoder. Then a very low voltage, with the arm clear, for the motor. In REVLib both are config settings: inverted on the motor config and inverted on absoluteEncoder.' }),
 
-    L.table({ id: 'gotcha-table', eyebrow: 'Common mistakes', title: 'Six more gotchas, by symptom', fontSize: 24, columns: ['What you see', 'Why it happens', 'The fix'], widths: [36, 34, 30], rows: [
+    L.table({ id: 'gotcha-table', eyebrow: 'Common mistakes', title: 'Five more gotchas, by symptom', fontSize: 24, columns: ['What you see', 'Why it happens', 'The fix'], widths: [36, 34, 30], rows: [
       ['Ask for 45 and the arm drives to its top limit', 'Wrong units: 45 radians is about 7 turns', 'Use Units.degreesToRadians'],
       ['Arm leans on a stop and the motor gets hot', 'Setpoint out of range, so error never reaches 0', 'Clamp goals to the soft limits'],
       ['Always off by the same ratio', 'Gear ratio wrong in ArmUnits', 'Turn the arm 90° by hand and check'],
-      ['Arm moves far more or less than commanded', 'SPARK firmware 27 removes conversion factors', 'Check the version: stay on 26.1.5 (MAX), 26.1.6 (Flex)'],
       ['Right on Monday, off on Tuesday', 'Relative encoder, no homing: it reads 0 at power-on', 'Use the absolute encoder, or home on a stop'],
       [`Arm sags more with kG, ${fix(sag.back)}° not ${fix(sag.pd)}°`, 'kG sign backwards: up is negative in your code', 'Make up positive and keep kG positive'],
     ], caption: 'And I windup: if the arm overshoots after being stuck, cap I with `setIntegratorRange` or leave it out.',
-      notes: `Read these by symptom, because that is how you will meet them. Units: 45 means 45 radians, and our clamp sends the arm to the soft limit. Range: the goal is past a stop, so the motor pushes forever. Ratio: the NEO's encoder and soft limits depend on it. Firmware: SPARK firmware 27 reports native units, so code using conversion factors can be off by about 6.28. REV does not say how REVLib 2026 behaves on 27, so check the version. Homing: a relative encoder reads zero wherever it wakes up. Sign: our arm with kG backwards sagged ${fix(sag.back)} degrees, twice the ${fix(sag.pd)} from no kG.` }),
+      notes: `Read these by symptom, because that is how you will meet them. Units: 45 means 45 radians, and our clamp sends the arm to the soft limit. Range: the goal is past a stop, so the motor pushes forever. Ratio: the NEO's encoder and soft limits depend on it. Homing: a relative encoder reads zero wherever it wakes up. Sign: our arm with kG backwards sagged ${fix(sag.back)} degrees, twice the ${fix(sag.pd)} from no kG.` }),
 
     L.change2027({ id: 'change-2027', items: [
       { now: 'roboRIO runs the 20 ms loop', next: 'Systemcore replaces the roboRIO' },
@@ -510,23 +486,23 @@ export default {
       { now: 'SmartDashboard.putData for Mechanism2d', next: 'Telemetry and Tunables replace it' },
       { now: 'REVLib 2026 still has conversion factors', next: 'REVLib alphas drop them: use native units' },
     ], note: 'The theory does not change. Gravity still follows a cosine. All 2027 details are alpha and may change.',
-      notes: 'This is a heads-up, not homework. Everything we taught today is for 2026 on the roboRIO. For 2027 the control hardware and some names change, and the REV note comes from their current API docs and firmware 27 notes. We already avoid conversion factors, so that part carries forward. The control theory does not change at all. P, D, feedforward and profiles work on any controller, and that is why we spent half the time there. Do not chase these changes yet: WPILib 2027 is still in alpha.' }),
+      notes: 'This is a heads-up, not homework. Everything we taught today is for 2026 on the roboRIO. For 2027 the control hardware and some names change, and the REV note comes from their current API docs. We already avoid conversion factors, so that part carries forward. The control theory does not change at all. P, D, feedforward and profiles work on any controller, and that is why we spent half the time there. Do not chase these changes yet: WPILib 2027 is still in alpha.' }),
 
     L.recap({ id: 'recap', title: 'You can now', items: [
       'Explain why P alone sags, and why too much P shakes.',
       'Use D as a brake, and know that it multiplies noise.',
       'Feed forward what you can predict: `kG × cos(angle)`, with 0° at flat.',
       'Tune in order with small, safe moves: kG, kS, kP, kD.',
-      'Write an arm subsystem, profile it, and move the loop onto the SPARK.',
+      'Write an arm subsystem and profile it.',
     ], next: 'Deck 7 compares REV and CTRE motors and what they can do on board.',
-      notes: 'Quick recap. Ask a student to say each one in their own words, and get the first answer from someone new. If you only keep one sentence, keep this: feedforward does the work and PID cleans up. Next deck looks at REV and CTRE side by side, and you will now understand what those onboard closed loops are really doing. Timing: you should be about 49 minutes in. Take questions at the arm if you have one nearby.' }),
+      notes: 'Quick recap. Ask a student to say each one in their own words, and get the first answer from someone new. If you only keep one sentence, keep this: feedforward does the work and PID cleans up. Next deck looks at REV and CTRE side by side, and you will now understand what those onboard closed loops are really doing. Timing: you should be about 44 minutes in. Take questions at the arm if you have one nearby.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Tuning a vertical arm', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html', short: 'docs.wpilib.org' },
       { label: 'Trapezoidal profiles', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/trapezoidal-profiles.html', short: 'docs.wpilib.org' },
       { label: 'SPARK feedforward', url: 'https://docs.revrobotics.com/revlib/spark/closed-loop/feed-forward-control', short: 'docs.revrobotics.com' },
       ...(PLAYGROUND_URL ? [{ label: 'Arm playground', url: PLAYGROUND_URL, short: 'Break it safely' }] : []),
-    ], notes: 'Three good next stops. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page is the reference for kCos and kCosRatio, and it covers how to measure kG on a real arm. Take a photo of this slide. Thanks for sticking with the hardest deck of the course.' }),
+    ], notes: 'Three good next stops. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page covers how to measure kG on a real arm. Take a photo of this slide. Thanks for sticking with the hardest deck of the course.' }),
   ],
 };
 

@@ -111,9 +111,9 @@ export default {
     L.gotcha({ id: 'live-tuning', title: 'Live tuning: Enter disables an enabled robot',
       symptom: 'You type a new value into a box, press Enter, and the enabled robot stops.',
       cause: 'Enter is the Driver Station shortcut for Disable, even while you are typing.',
-      fix: 'Robot enabled? Click the box\'s submit button: **Show Submit Button** in **Edit Properties**. Tab does not send it.',
+      fix: 'Robot enabled? Click the box\'s submit button: **Show Submit Button** in **Edit Properties**.',
       code: region(`${J}/RobotContainer.java`, 'tuning'), flag2027: 'The Tunables API replaces `SmartDashboard` for typed-in values.',
-      notes: 'This is the safety slide. The code makes a box you can type in. The 2026 KitBot guide warns that using Enter will disable the robot if it is enabled. That guide also says Tab sends the value. In the Elastic 2026.1.1 source, a text box sends only on Enter or its submit button, so Tab leaves it unsent with a red underline. Try this once before class with the robot disabled. With the robot disabled, Enter is fine. Timing: 45 seconds. If a kid asks: Auto Show Text Submit Button, under Settings, Appearance, adds the button to new widgets.' }),
+      notes: 'This is the safety slide. The code makes a box you can type in. With the robot disabled, Enter is fine. With it enabled, use the submit button. Timing: 45 seconds.' }),
 
     L.plot({ id: 'tune-gain', eyebrow: 'Control theory', title: 'Tuning a gain live: you close the loop', xLabel: 'Time (s)', yLabel: 'Arm angle (degrees)', xDomain: [0, 4], yDomain: [0, 120], xTicks: [0, 1, 2, 3, 4], yTicks: [0, 30, 60, 90, 120], refs: [{ y: SETPOINT, label: 'Setpoint' }],
       series: [
