@@ -30,7 +30,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 8 | `08-understanding-motors` | Motor curves, gearing, heat, battery sag, current limits | 30 | ~20 |
 | 9 | `09-advanced-controls` | Input shaping, drivetrain feedforward, onboard loops, S-curves | 35 | ~20 |
 | 10 | `10-auto-path-planning` | PathPlanner, Choreo, BLine and WPILib compared | 30 | ~18 |
-| Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | 2.5 to 4 hours | ~17 |
+| Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | | 14 |
 
 Every deck follows the same rhythm: cover, outcomes, content, at least one `gotcha`, one `practice`,
 one `exercise`, one slide with eyebrow exactly `Control theory`, `change2027`, `recap`, `links` (QR codes).
@@ -86,6 +86,7 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - **Moved:** current limits and voltage compensation from Deck 2 to Deck 8. Input shaping from Deck 2, and the onboard SPARK arm from Deck 6, to Deck 9.
 - **Added:** Deck 8 (understanding motors), Deck 9 (advanced controls), Deck 10 (auto path planning).
 - **Deck 1:** rebuilt after a newcomer review as a first-day lesson in two sittings. Installing and robot setup became the Setup lab, and mentor material became `MENTOR-PREP.md`.
+- **Setup lab:** a task list, then the steps for each task. No time estimates, no reassurance and no advice on how to run it on the slides. That advice and the troubleshooting table are in `MENTOR-PREP.md`.
 - **Playground:** served from `docs/arm-playground/` on GitHub Pages so students need no login.
 
 ## Build and verification

@@ -15,7 +15,7 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 | 35 |
 | 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 | 30 |
 | | **Total** | **206** | **390** |
-| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F), one job at a time | 17 | 2.5 to 4 hours |
+| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F) | 14 | |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://claude.ai/artifact/WzcPfnPBQ1gA6uvLpfdEji) (every slide layout).
 

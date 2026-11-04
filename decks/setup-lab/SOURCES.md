@@ -2,6 +2,8 @@
 
 On 2026-11-04 this material moved out of Deck 1 into the Setup lab after a newcomer review. Slide ids below are from that deck, so some have since been split or renamed. Items now in `MENTOR-PREP.md`, such as the radio firmware warning and the 2027 notes, are kept here as the record of what was checked. Getting Started has no `Constants.java`, so the CAN ID step now says to write the IDs down instead.
 
+Later on 2026-11-04 the deck was cut to a task list and steps. `wont-connect` moved to `MENTOR-PREP.md`, `write-it-down` became steps on `radio-modes` and `spark-settings`, and `recap` was removed. Install, imaging and radio durations were removed from the slides, along with the job time table.
+
 Checked 2026-11-04. Pages under `docs.wpilib.org/en/stable` are the 2026 docs until `stable` flips to 2027 at kickoff.
 Abbreviation: `Z2R` = `https://docs.wpilib.org/en/stable/docs/zero-to-robot`.
 

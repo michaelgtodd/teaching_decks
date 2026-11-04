@@ -46,12 +46,29 @@ Deck 1 needs one finished robot, because setup takes hours. Use the Setup lab sl
 - Print the links slide. Students with no phone can't scan a QR code, and installs happen on the laptop anyway.
 - Run Deck 1 in two sittings. "Build Successful" is the natural stop, and part 2 needs groups of 3 or 4.
 
+## Running the Setup lab
+
+The slides only list the jobs and their steps. How to run them is here.
+
+- Run it as a lab, not a talk. Each group takes one job with a mentor beside it and uses only that job's slides.
+- Jobs 1 and 2 are for laptops and come before Deck 1. Jobs 3 to 5 make more sense after Deck 2, when a CAN ID means something.
+- A mentor handles the NI login, confirms which roboRIO it is, checks the radio firmware file, runs SPARK Recovery Mode if needed, and confirms motor types.
+
 ## Fixes kept off the student slides
+
+Work from the wire outward: USB first, then Ethernet, then Wi-Fi.
+
+| What you see | Likely cause | Try this first |
+|---|---|---|
+| Communications stays red | Team number mismatch, or Wi-Fi in the way | Match the Driver Station Setup tab. Turn off other network adapters. |
+| Deploy can't find the roboRIO | Firewall, or roboRIO team number not set | Turn off the firewall. Set the team number over USB. |
+| Robot Code stays red | Nothing deployed, or the code crashed | Deploy again and read RioLog. Reboot the roboRIO. |
+| Invalid RoboRIO Image Version | The image is too old for WPILib 2026 | Re-image with 2026 Game Tools. |
+| Radio SYS light blinks slowly | Radio can't reach the access point | Power the access point. Match team number and key. |
 
 - Over USB the roboRIO is at `172.22.11.2`.
 - Ping `roboRIO-TEAM-FRC.local`, with no leading zeros in the team number, then `10.TE.AM.2`. If the address works and the name doesn't, the laptop can't resolve the name.
 - Turn off other network adapters. Windows Firewall off is fine on the robot network, but turn it back on before going online.
-- A red **Communications** light with a good cable is usually a team number mismatch.
 
 ## Test before you teach
 

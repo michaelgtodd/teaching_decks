@@ -21,14 +21,11 @@
     "radio-modes",
     "spark-update",
     "spark-settings",
-    "write-it-down",
-    "wont-connect",
-    "recap",
     "links"
   ],
   "sections": {
     "s0": {
-      "description": "A hands-on lab: install WPILib and the Game Tools, then image the roboRIO, program the radios and set up the motor controllers.",
+      "description": "Install WPILib and the Game Tools, then image the roboRIO, program the radios and set up the motor controllers.",
       "start": "cover"
     }
   },
