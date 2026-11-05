@@ -54,7 +54,7 @@ export default {
         ['WPILib\'s own tools', 'No vendordep to count', 'Not counted'],
       ],
       caption: 'Our count, Nov 2026, and rough: public Java repos with "rebuilt" or "frc" in the name, made Nov 2025 to Apr 2026. It shows what is in a repo, not what ran at events.',
-      notes: '(1.5 min) "Popular" should mean something, so we counted. We read the file list of 1,257 public Java robot projects from the 2026 season. PathPlanner is four to five times as common as Choreo. BLine is new, and small so far. A quarter have none of the three, so if that is you, you are not behind. Two numbers overlap: 54 repos have both PathPlanner and Choreo paths. This is rough. Some repos are prototypes, private repos are missing, and we skipped default file names like New Path. WPILib\'s own tools need no vendordep, so this method can\'t see them. We found no 2026 poll with results.',
+      notes: '(1.5 min) "Popular" should mean something, so we counted. We read the file list of 1,257 public Java robot projects from the 2026 season. PathPlanner is four to five times as common as Choreo. BLine is new, and small so far. A quarter have none of the three. Two numbers overlap: 54 repos have both PathPlanner and Choreo paths. This is rough. Some repos are prototypes, private repos are missing, and we skipped default file names like New Path. WPILib\'s own tools need no vendordep, so this method can\'t see them. We found no 2026 poll with results.',
     }),
 
     L.diagram({
@@ -121,11 +121,11 @@ export default {
         ['Tuned drivetrain', 'Drives at the speed you ask for', 'Not yet: stick to volts, nothing measured'],
       ],
       caption: 'You can add them. The KitBot gearboxes have holes for optional encoders. Measure kV and kS with WPILib\'s SysId tool.',
-      notes: '(1.5 min) Here is the honest part. Every library today needs a pose, and a pose comes from sensors. Encoders measure wheel travel. A gyro measures heading. Odometry combines them into a position on the field. The KitBot uses brushed CIMs, which have no encoder inside, and FIRST\'s KitBot guide and code use no encoder or gyro. Tuned means the robot really drives at the speed you ask for. So on a stock KitBot, no path library can work yet. That is a to-do list, not a failure. If a kid asks about NEOs: brushless motors report their own rotation, so you would still need the gyro.',
+      notes: '(1.5 min) Here is the honest part. Every library today needs a pose, and a pose comes from sensors. Encoders measure wheel travel. A gyro measures heading. Odometry combines them into a position on the field. The KitBot uses brushed CIMs, which have no encoder inside, and FIRST\'s KitBot guide and code use no encoder or gyro. Tuned means the robot really drives at the speed you ask for. So on a stock KitBot, no path library can work yet. If a kid asks about NEOs: brushless motors report their own rotation, so you would still need the gyro.',
     }),
 
     L.practice({
-      id: 'timed', title: 'A timed auto is a real auto',
+      id: 'timed', title: 'Start with a timed auto',
       rule: 'Get a timed auto working first. It needs no sensors and no library.',
       why: 'FIRST\'s KitBot code works this way. This one moved 2.5 m in our simulator, but carpet and battery change that, so measure on a real floor.',
       code: region('TimedAuto.java', 'timed'),
@@ -222,7 +222,7 @@ export default {
       symptom: 'The curve looks right and the logs say the robot hit its target, but the real robot misses.',
       cause: 'Resetting odometry tells the robot where it is, and it believes you. It can\'t tell you placed it wrong.',
       fix: 'Measure your starting pose, and line up the same way every match. In sim, 10° crooked ended 55 cm off.',
-      notes: '(1 min) This one catches everybody, so do not feel bad when it happens. We tried it in the simulator. Starting the robot 10 degrees crooked, it ended 55 cm from the goal, while odometry reported it was within about 1 cm. Starting 50 cm too far forward, it ended 50 cm off in the same way. The robot followed the path perfectly, in its own mind. Odometry only measures change from where you said it started. So your starting spot is part of your code. Choose something on the field you can line up against, and practice it.',
+      notes: '(1 min) We tried it in the simulator. Starting the robot 10 degrees crooked, it ended 55 cm from the goal, while odometry reported it was within about 1 cm. Starting 50 cm too far forward, it ended 50 cm off in the same way. The robot followed the path perfectly, in its own mind. Odometry only measures change from where you said it started. So your starting spot is part of your code. Choose something on the field you can line up against, and practice it.',
     }),
 
     L.exercise({
@@ -241,11 +241,11 @@ export default {
       id: 'recap',
       items: [
         'A follower is Deck 6 with a moving setpoint: feedforward from a plan, feedback on pose error.',
-        'No encoders and gyro means no path following. A timed auto is a real auto.',
+        'No encoders and gyro means no path following, so start with a timed auto.',
         'PathPlanner draws paths, Choreo solves them, BLine chases targets, and WPILib gives you the parts.',
         'For most young teams: timed auto, then PathPlanner, then Choreo when speed is your limit.',
       ],
-      notes: '(30 sec) Read these back, and ask for a hand if anyone is unsure about one. The first one is the important one: these libraries are not magic, they are the control loop you already know, running on a moving setpoint. Your job this season is not to pick the fanciest tool. It is to take the next step your robot is ready for. If that step is a timed auto that works every match, that is a good season of autonomous.',
+      notes: '(30 sec) Read these back, and ask for a hand if anyone is unsure about one. The first one is the important one: these libraries are not magic, they are the control loop you already know, running on a moving setpoint. Take the next step your robot is ready for.',
     }),
 
     L.links({

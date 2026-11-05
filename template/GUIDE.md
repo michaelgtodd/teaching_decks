@@ -19,7 +19,8 @@ Errors name the slide and the fix. Cut words or split the slide: never hack arou
 
 Young FRC students, many in their first season, ages roughly 12 to 16. Mentors are in the room.
 - Plain words and short sentences. Define every term the first time. Analogies from things they know (driving a car, a thermostat, a shower's hot tap).
-- Talk to "you". Never condescend, and never joke at the expense of a mistake. Everyone makes these mistakes.
+- Talk to "you". Never condescend, and never joke at the expense of a mistake.
+- No praise, reassurance or pep talk, on slides or in notes: no "well done", "don't worry", "that's normal" or "everyone hits this". Say what happens and what to do.
 - Slide text is short; the explanation goes in speaker notes. **One idea per slide.**
 - Speaker notes on every slide: what to say, in the mentor's voice, 40 to 120 words. Add the timing cue and any "if a kid asks X" where useful.
 - Titles describe the topic, in the same grammar across the deck. No drama ("It's not X, it's Y"). No hype words.

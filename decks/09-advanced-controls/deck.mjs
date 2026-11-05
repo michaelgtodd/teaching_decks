@@ -495,7 +495,7 @@ export default {
       points: [
         '**The picture:** sport and eco modes in a car. You choose the trade-off, not the pedal position.',
         '**You have met it:** SysId uses LQR for the P and D gains it suggests.',
-        '**No rush:** WPILib says to pick the easiest strategy that works on the field.',
+        '**WPILib\'s advice:** pick the easiest strategy that works on the field.',
       ],
       notes: '(1 min) This is a pointer, not a lesson. LQR stands for Linear-Quadratic Regulator, and it uses matrices, so explore it with a mentor. With PID you turn dials until it feels right. With LQR you say how far off you can tolerate and how many volts you want to spend, and the math picks the gains. If you use SysId, you are already using it. WPILib\'s own advice is to pick the easiest strategy that works, so finish feedforward and PID first. The state-space link on the last slide starts from PID and builds up.' }),
 

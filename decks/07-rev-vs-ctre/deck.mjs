@@ -208,7 +208,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { id: 'both', x: 1391, y: 384, w: 401, h: 440, tone: 'accent', label: 'Pro and CANivore', sub: 'Timesync, device timestamps, Dynamic Motion Magic, full differential control.' },
       ],
       caption: 'Without Pro, a request with EnableFOC falls back to normal drive, but TorqueCurrentFOC will not run. A Season Pass covers 100 devices for one team number. Pro features are free in simulation.',
-      notes: 'Let\'s be exact, because people argue about this. FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. The free tier runs a very good robot, so don\'t feel you must buy Pro. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one. Timing: 2 minutes.',
+      notes: 'Let\'s be exact, because people argue about this. FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. The free tier runs a very good robot, so Pro is optional. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one. Timing: 2 minutes.',
     }),
 
     L.table({
@@ -294,7 +294,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         'Choose for your team from budget, parts and mentors.',
       ],
       next: 'That ends the core course. Decks 8 to 10 go deeper.',
-      notes: 'That is the core course. You installed the tools, drove a KitBot, read logs, ran the simulator, built dashboards, tuned an arm, and now you know what the hardware does for you. If you only remember one thing from today, make it this: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 go deeper for teams that want more: motors, advanced controls and autonomous path planning. Thank you for working so hard. Timing: 30 seconds.',
+      notes: 'That is the core course. If you only remember one thing from today, make it this: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 go deeper for teams that want more: motors, advanced controls and autonomous path planning. Timing: 30 seconds.',
     }),
 
     L.links({

@@ -197,7 +197,7 @@ export default {
         ['Searching, or an empty sidebar', 'Wrong mode: Connect to Simulator, or the AdvantageKit, Phoenix or RLOG source.', 'File > Connect to Robot > Default: NetworkTables 4.'],
         ['Connected, but your field is missing', 'The code never published it, or was never deployed.', 'Add the put to periodic() and deploy again.'],
       ],
-      notes: 'Everyone hits these, usually at the worst moment. Work top to bottom. The AdvantageKit source only listens to AdvantageKit data, so a plain WPILib robot looks empty. If a field exists but its history is missing, that is Live Mode. The default, Low Bandwidth, only fetches a field after you pick it. Logging keeps everything, which is handy on the bench but should not be used when bandwidth is limited, like on a field. (90 seconds)',
+      notes: 'Work top to bottom. The AdvantageKit source only listens to AdvantageKit data, so a plain WPILib robot looks empty. If a field exists but its history is missing, that is Live Mode. The default, Low Bandwidth, only fetches a field after you pick it. Logging keeps everything, which is handy on the bench but should not be used when bandwidth is limited, like on a field. (90 seconds)',
     }),
     L.gotcha({
       id: 'gotcha-log', title: 'The log is empty or missing',
@@ -240,7 +240,7 @@ export default {
         { now: 'Packages under edu.wpi.first', next: 'Packages under org.wpilib, including Epilogue' },
         { now: 'AdvantageScope for debugging', next: 'AdvantageScope and Elastic are the recommended dashboards' },
       ], note: 'WPILib 2027 is in alpha, so any of this may change. Everything in this deck is right for 2026.',
-      notes: 'This is a heads-up, not homework. Do not try any of it on your 2026 robot. The good news is that the skills carry over. AdvantageScope stays, and reading a graph does not change at all. Epilogue and DataLogManager both still exist in the alpha code, in new packages. Everything you learned today is what you should use on a roboRIO. (30 seconds)',
+      notes: 'This is a heads-up, not homework. Do not try any of it on your 2026 robot. The skills carry over. AdvantageScope stays, and reading a graph does not change at all. Epilogue and DataLogManager both still exist in the alpha code, in new packages. Everything you learned today is what you should use on a roboRIO. (30 seconds)',
     }),
     L.recap({
       id: 'recap', items: [

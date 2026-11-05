@@ -373,7 +373,7 @@ ${next ? `<p style="font-size:28px;font-weight:600;line-height:1.3;color:${C.onD
 }
 
 export function links(spec) {
-  const { eyebrow = 'Keep going', title = 'Official docs', intro, items } = spec;
+  const { eyebrow = 'Reference', title = 'Official docs', intro, items } = spec;
   need(items?.length >= 1 && items.length <= 4, spec.id, 'links takes 1 to 4 QR items');
   const size = { 1: 500, 2: 460, 3: 420, 4: 360 }[items.length];
   const w = (G.contentW - (items.length - 1) * 24) / items.length;

@@ -142,7 +142,7 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       ],
       notes: '(1.5 min) Control theory is the study of making things do what you asked. This robot is open loop: we pick a voltage and never measure what happened. It is like setting the shower tap to the same spot every morning and hoping the water is right. Closed loop is feeling the water and adjusting. Battery level, carpet, weight and friction all change the real speed, and open-loop code cannot notice. That is fine for a human driver, because the driver is the feedback. It is why autonomous drive by time is rough. Deck 8 shows how motors behave, and Deck 9 shows how to make open-loop driving feel better.' }),
 
-    L.exercise({ id: 'exercise', title: 'Make the robot yours', minutes: 5, tasks: [
+    L.exercise({ id: 'exercise', title: 'Change the drive scale', minutes: 5, tasks: [
       'Set `DRIVE_SCALE` to 0.4 in `Constants`, deploy, and drive a slow lap.',
       'Set it back to 0.7, deploy, and drive the same lap.',
       'Take turns, so everyone on the team drives.',

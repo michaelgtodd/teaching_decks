@@ -15,7 +15,7 @@ export default {
       title: 'Your first robot program',
       subtitle: 'Today your code reaches a real robot.',
       minutes: 95,
-      notes: 'Welcome, everyone. You do not need any experience for today. We have one goal: by the end, code you made is running on a real robot. There are two parts, with a break between them. In part one you meet the robot and get your laptop ready. In part two your group sends code to the robot and turns it on safely. Mentors: part one takes about 45 minutes and part two about 50, so do not run them back to back. Timing: 1 minute.',
+      notes: 'Welcome, everyone. We have one goal: by the end, code you made is running on a real robot. There are two parts, with a break between them. In part one you meet the robot and get your laptop ready. In part two your group sends code to the robot and turns it on safely. Mentors: part one takes about 45 minutes and part two about 50, so do not run them back to back. Timing: 1 minute.',
     }),
 
     L.demo({
@@ -25,7 +25,7 @@ export default {
         'Every move comes from code that a person wrote.',
         'Today your code gets onto a robot. Next session, it drives.',
       ],
-      notes: 'Start with the fun part. Drive the robot around for a minute, and let the students get close enough to hear it. Then stop and ask what they think is happening between the controller and the wheels. Take a few guesses. Nobody needs the right answer yet. The point is that a person wrote the code doing this, and they can too. Mentors: this needs the prepared robot from the prep list. Timing: 3 minutes.',
+      notes: 'Drive the robot around for a minute, and let the students get close enough to hear it. Then stop and ask what they think is happening between the controller and the wheels. Take a few guesses. The point is that a person wrote the code doing this. Mentors: this needs the prepared robot from the prep list. Timing: 3 minutes.',
     }),
 
     L.cards({
@@ -38,7 +38,7 @@ export default {
         { title: 'Motor controller', text: 'Feeds a motor the right amount of power.' },
         { title: 'Motor', text: 'Spins to turn the wheels.' },
       ],
-      notes: 'Get everyone around the robot with the power off. Read one card at a time, and have someone point to that part before you move on. Touching is fine while it is off. Our motor controllers are called SPARK MAX, and you will hear that name a lot. Do not explain wiring here, because the electrical workshop covers it. If a kid asks what a word means, that is a great question, so stop and answer it. Timing: 6 minutes.',
+      notes: 'Get everyone around the robot with the power off. Read one card at a time, and have someone point to that part before you move on. Touching is fine while it is off. Our motor controllers are called SPARK MAX, and you will hear that name a lot. Do not explain wiring here, because the electrical workshop covers it. If a kid asks what a word means, stop and answer it. Timing: 6 minutes.',
     }),
 
     L.diagram({
@@ -82,7 +82,7 @@ export default {
       items: [
         { title: 'Open **2026 WPILib VS Code**', text: 'Look for the desktop icon with 2026 in its name.' },
         { title: 'Open **FRC Driver Station**', text: 'Its icon is on the desktop too.' },
-        { title: 'Cannot find one? Raise your hand', text: 'A mentor will sort it out. You did nothing wrong.' },
+        { title: 'Cannot find one? Raise your hand', text: 'A mentor will sort it out.' },
       ],
       qr: { url: `${Z2R}/step-2/`, label: 'Installing the software', short: 'docs.wpilib.org: Step 2, Installing Software' },
       notes: 'Hands on, and mentors walk the room. Everyone should have both apps open before we move on. If a laptop is missing something, send it to the help table and let that student share a neighbor\'s screen, so nobody falls behind. Do not start an install during this session, because it takes far too long. Driver Station needs Windows, so anyone on a Mac pairs up. Timing: 8 minutes.',
@@ -93,7 +93,7 @@ export default {
       symptom: 'You press `Ctrl+Shift+P`, type `WPILib`, and nothing shows up.',
       cause: 'You opened your everyday VS Code. WPILib comes with its own separate copy.',
       fix: 'Close it and open the one with 2026 in its name.',
-      notes: 'This one catches a lot of people, so it is not your fault. If you already had VS Code on your laptop, you now have two copies. They look almost the same. Only the 2026 copy has the WPILib tools. Ctrl+Shift+P opens a search box for commands, and we will use it all day. Timing: 1 minute.',
+      notes: 'If you already had VS Code on your laptop, you now have two copies. They look almost the same. Only the 2026 copy has the WPILib tools. Ctrl+Shift+P opens a search box for commands, and we will use it all day. Timing: 1 minute.',
     }),
 
     L.steps({
@@ -113,16 +113,16 @@ export default {
       id: 'build-it', eyebrow: P1, title: 'Build your project',
       items: [
         { title: 'Press `Ctrl+Shift+P`, then type `WPILib`', text: 'Choose **Build Robot Code**.' },
-        { title: 'Wait', text: 'The first build takes a while. That is normal.' },
+        { title: 'Wait', text: 'The first build takes a while.' },
         { title: 'Look for **Build Successful**', text: 'It appears in the panel at the bottom of VS Code.' },
       ],
-      notes: 'Remember the three words: this is build. Your laptop checks the code and gets it ready. No robot is needed for this step. Lots of text will scroll past, and you do not need to read it. You only need the words Build Successful at the end. If you see red text instead, raise your hand. Mentors, give each laptop time to finish before moving on, because every student can win this one. Timing: 6 minutes.',
+      notes: 'Remember the three words: this is build. Your laptop checks the code and gets it ready. No robot is needed for this step. Lots of text will scroll past, and you do not need to read it. You only need the words Build Successful at the end. If you see red text instead, raise your hand. Mentors, give each laptop time to finish before moving on. Timing: 6 minutes.',
     }),
 
     L.statement({
       id: 'laptop-ready', text: 'Your laptop is ready.',
       sub: 'You made a project and built it. That is the end of part one. Take a break.',
-      notes: 'Make this a real win. Every laptop in the room should have reached Build Successful. Say well done and stop here. Part two needs a robot and small groups, and it works best in a fresh sitting. Timing: 1 minute.',
+      notes: 'Every laptop in the room should have reached Build Successful. Stop here. Part two needs a robot and small groups, and it works best in a fresh sitting. Timing: 1 minute.',
     }),
 
     L.steps({
@@ -132,7 +132,7 @@ export default {
         { title: 'Plug the USB cable into the robot', text: 'A mentor will show you the port.' },
         { title: 'Plug in your game controller', text: 'It goes in your laptop.' },
       ],
-      notes: 'Welcome back. Split into groups of 3 or 4, with one laptop per group and a mentor nearby. Each group gets a turn at the robot. We start on a cable because it takes the radio out of the picture: if something goes wrong, there is less to check. Once it works on a cable, Wi-Fi is the easy part. Robot on means the rules change, so keep hands off the wheels. Timing: 3 minutes.',
+      notes: 'Welcome back. Split into groups of 3 or 4, with one laptop per group and a mentor nearby. Each group gets a turn at the robot. We start on a cable because it takes the radio out of the picture: if something goes wrong, there is less to check. Robot on means the rules change, so keep hands off the wheels. Timing: 3 minutes.',
     }),
 
     L.steps({
@@ -142,7 +142,7 @@ export default {
         { title: 'Wait for **Build Successful**', text: 'Your laptop builds, then sends the code.' },
         { title: 'Leave the robot on until it finishes', text: 'Then your code is on the robot.' },
       ],
-      notes: 'This is the second word: deploy. Your laptop builds the code again and sends it down the cable to the roboRIO. This is the moment your code reaches a real robot, so point that out. Nobody turns the robot off during a deploy, because that can damage the software on the roboRIO. If it fails, raise your hand and a mentor will help. Timing: 4 minutes.',
+      notes: 'This is the second word: deploy. Your laptop builds the code again and sends it down the cable to the roboRIO. This is when your code reaches the robot. Nobody turns the robot off during a deploy, because that can damage the software on the roboRIO. If it fails, raise your hand and a mentor will help. Timing: 4 minutes.',
     }),
 
     L.cards({
@@ -153,7 +153,7 @@ export default {
         { title: 'Robot Code', text: 'Your program is running on the robot.' },
         { title: 'Joysticks', text: 'Your game controller is plugged in.' },
       ],
-      notes: 'Driver Station needs your team number too, so it knows which robot to look for. Then look at the three lights in the middle of the window. Each one answers a question. Can the laptop reach the robot? Is the program running? Is a controller plugged in? Green means yes. Show the room where the lights are on a real screen. A red light does not mean you broke anything. The next slide says what to do. Timing: 4 minutes.',
+      notes: 'Driver Station needs your team number too, so it knows which robot to look for. Then look at the three lights in the middle of the window. Each one answers a question. Can the laptop reach the robot? Is the program running? Is a controller plugged in? Green means yes. Show the room where the lights are on a real screen. The next slide says what to do if a light is red. Timing: 4 minutes.',
     }),
 
     L.steps({
@@ -164,14 +164,14 @@ export default {
         { title: '**Joysticks** is red', text: 'Plug in the controller and press `F1`.' },
       ],
       qr: { url: `${WPI}/hardware/hardware-basics/status-lights-ref.html`, label: 'Status lights', short: 'docs.wpilib.org: Status Light Reference' },
-      notes: 'Everyone gets a red light sooner or later. Asking a mentor counts as a step, and it is a good one. Fix the top one first, because the robot code light cannot go green if the laptop cannot reach the robot. F1 tells Driver Station to look for controllers again. Mentors, the deeper network fixes are on your prep list. Timing: 2 minutes.',
+      notes: 'Fix the top one first, because the robot code light cannot go green if the laptop cannot reach the robot. F1 tells Driver Station to look for controllers again. Mentors, the deeper network fixes are on your prep list. Timing: 2 minutes.',
     }),
 
     L.practice({
       id: 'stop-keys', title: 'Learn the stop keys first',
       rule: 'Find the stop keys before you ever enable a robot.',
       why: '`Enter` disables the robot. `Space` is the emergency stop. Put a finger on `Enter` and press it three times, so your hand knows where it is.',
-      notes: 'We do this before anyone enables, and with the robot still disabled. Enter stops the robot and lets you start it again. Space is the emergency stop. It works even if you clicked on another window. After an emergency stop, the roboRIO has to reboot before the robot can run again, so use Enter unless it is an emergency. Good drivers build this habit on day one. Timing: 3 minutes.',
+      notes: 'We do this before anyone enables, and with the robot still disabled. Enter stops the robot and lets you start it again. Space is the emergency stop. It works even if you clicked on another window. After an emergency stop, the roboRIO has to reboot before the robot can run again, so use Enter unless it is an emergency. Timing: 3 minutes.',
     }),
 
     L.exercise({
@@ -184,7 +184,7 @@ export default {
         'Swap, so everyone gets a turn.',
       ],
       done: 'The light blinks when enabled and goes solid after `Enter`. Nothing spins today, and that is correct.',
-      notes: 'Before anyone enables, point to the robot signal light. Then say this: nothing will spin today, and that is correct. This practice code is not set up for our motors. The win is the blinking light, because it means your robot is listening to your laptop. Teleoperated means driver control. Saying enabling out loud warns everyone nearby. Use this checklist every time, even when nothing should move, because old code may still be on the robot. Timing: 15 minutes.',
+      notes: 'Before anyone enables, point to the robot signal light. Then say this: nothing will spin today, and that is correct. This practice code is not set up for our motors. Look for the blinking light, because it means your robot is listening to your laptop. Teleoperated means driver control. Saying enabling out loud warns everyone nearby. Use this checklist every time, even when nothing should move, because old code may still be on the robot. Timing: 15 minutes.',
     }),
 
     L.diagram({
@@ -215,7 +215,7 @@ export default {
         'You started and stopped a robot safely.',
       ],
       next: 'Next session, Deck 2 makes the robot drive.',
-      notes: 'Read these out, because they are all things the students really did. That is a lot for a first day, so tell them so. Next session we write code that makes the robot drive. Timing: 1 minute.',
+      notes: 'Read these out. Next session we write code that makes the robot drive. Timing: 1 minute.',
     }),
 
     L.links({

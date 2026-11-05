@@ -142,13 +142,13 @@ export default {
       symptom: 'You press keys or move the stick, and the robot sits still.',
       cause: 'Robot State isn\'t on **Teleoperated**, `Joystick[0]` is empty, or another window has keyboard focus.',
       fix: 'Click **Teleoperated**. Drag your device onto `Joystick[0]`. Click the Sim GUI window before you use the keys.',
-      notes: "Everyone hits this one, so work down the list. Is Robot State on Teleoperated? Is something on Joystick[0]? Using a keyboard? Check which window you clicked last. Keys go to the window with focus, and the Sim GUI reads them through its own window. Click AdvantageScope and your keys stop working until you click back. Your code is fine. Side-by-side windows help. If driving works and only turning is dead, go back and set up Axis 4." }),
+      notes: "Work down the list. Is Robot State on Teleoperated? Is something on Joystick[0]? Using a keyboard? Check which window you clicked last. Keys go to the window with focus, and the Sim GUI reads them through its own window. Click AdvantageScope and your keys stop working until you click back. Side-by-side windows help. If driving works and only turning is dead, go back and set up Axis 4." }),
 
     L.gotcha({ id: 'gotcha-wrong-way', title: 'The robot drives the wrong way',
       symptom: 'You push forward and the robot backs up, spins, or crosses the screen the wrong way.',
       cause: '**Backs up:** a stick isn\'t negated. **Spins:** one side has a flipped sign. **Wrong way on screen:** check the view first, because heading 0 faces the red wall.',
       fix: 'Negate both sticks in `RobotContainer`. Pass both saved outputs to `setInputs` with no minus signs.',
-      notes: "Three problems look like wrong way. Backing up means the stick sign is missing: pushing away reads negative, so Deck 2 negates it. Spinning means one side has the wrong sign. WPILib's docs say to negate an inverted right side, but we saved the output before the SPARK inverts it, so both go in unchanged. Last, check the view: AdvantageScope can rotate the field. Good news: a stick mistake you find here is one you won't meet on the real robot." }),
+      notes: "Three problems look like wrong way. Backing up means the stick sign is missing: pushing away reads negative, so Deck 2 negates it. Spinning means one side has the wrong sign. WPILib's docs say to negate an inverted right side, but we saved the output before the SPARK inverts it, so both go in unchanged. Last, check the view: AdvantageScope can rotate the field. A stick mistake you find here is one you won't meet on the real robot." }),
 
     L.gotcha({ id: 'gotcha-empty', title: 'AdvantageScope shows nothing',
       symptom: 'The simulator is running, but the field is empty or the title bar says "Searching".',
@@ -222,6 +222,6 @@ export default {
       { label: 'Drivetrain sim tutorial', url: 'https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/drivesim-tutorial/index.html', short: 'docs.wpilib.org' },
       { label: 'AdvantageScope live sources', url: 'https://docs.advantagescope.org/overview/live-sources', short: 'docs.advantagescope.org' },
       { label: 'REVLib simulation', url: 'https://docs.revrobotics.com/revlib/spark/sim/simulation-getting-started', short: 'docs.revrobotics.com' },
-    ], notes: "Point your phone at these. Left to right: WPILib's simulation intro, its step-by-step drivetrain simulation tutorial, AdvantageScope's guide to live connections, and REV's simulation docs for the SPARK features we skipped today. The WPILib tutorial goes further than we did, with simulated encoders and a gyro. That's a great next step once your robot has those sensors." }),
+    ], notes: "Point your phone at these. Left to right: WPILib's simulation intro, its step-by-step drivetrain simulation tutorial, AdvantageScope's guide to live connections, and REV's simulation docs for the SPARK features we skipped today. The WPILib tutorial goes further than we did, with simulated encoders and a gyro. Use it once your robot has those sensors." }),
   ],
 };

@@ -181,7 +181,7 @@ export default {
       'Tune with the submit button, never Enter on an enabled robot.',
       'Change one gain at a time and watch the graph.',
       'Keep your layout in the deploy folder, so it lives on the robot.',
-    ], next: 'Deck 6 tunes a real arm with PID and feedforward.', notes: 'Quick check before we move on. Ask someone what key disables the robot. Ask someone where a good tuned value should end up: Constants. Ask what a green check beside the chooser means. If you got those three, you are ready for deck 6, where we use this same dashboard and graph to tune a real arm. Timing: 20 seconds.' }),
+    ], next: 'Deck 6 tunes a real arm with PID and feedforward.', notes: 'Quick check before we move on. Ask someone what key disables the robot. Ask someone where a good tuned value should end up: Constants. Ask what a green check beside the chooser means. Deck 6 uses this same dashboard and graph to tune a real arm. Timing: 20 seconds.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Elastic docs', url: 'https://frc-elastic.gitbook.io/docs', short: 'frc-elastic.gitbook.io' },

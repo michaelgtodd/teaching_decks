@@ -290,7 +290,7 @@ export default {
   description: 'Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO.',
   slides: [
     L.cover({ title: 'Arm PID: move it, hold it', subtitle: 'Control theory and Java for a single-jointed arm on a NEO', minutes: 45,
-      notes: 'This is the big one. Half of today is control theory and half is Java, and you need no math past algebra. We build the feeling first, with pictures, then the formula. Every curve you see today comes from a real simulation of one arm, so what you see is what the physics does. Timing: 50 minutes, two hands-on breaks. The slide count is high because most slides are one quick plot. Keep moving.' }),
+      notes: 'Half of today is control theory and half is Java, and you need no math past algebra. We build the feeling first, with pictures, then the formula. Every curve you see today comes from a real simulation of one arm, so what you see is what the physics does. Timing: 50 minutes, two hands-on breaks. The slide count is high because most slides are one quick plot. Keep moving.' }),
 
     L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What you can do after this deck', items: [
       { icon: 'Lightbulb', title: 'Explain', text: 'Say what P, D, I and feedforward each do, using a picture of an arm.' },
@@ -446,7 +446,7 @@ export default {
     ], notes: 'Same inline style as deck 2: the subsystem makes its own commands. moveTo clamps the goal, gets ready, runs the loop, and ends when the arm arrives. Getting ready copies the true angle into the NEO\'s encoder, because the soft limits use it and it forgets at power-off. holdPosition keeps the last goal if the arm reached it, and otherwise holds where the arm is right now. Both commands require the arm, so they can never fight each other. If a student asks why moveTo ends: so the default command can take over, which is next.' }),
 
     L.code({ id: 'bindings', eyebrow: CODE, title: 'A default command that holds, and triggers', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'bindings' }, highlight: [4, 11], caption: 'The bumper fires only when the driver presses it **and** the arm has arrived.',
-      notes: 'The default command runs whenever nothing else needs the arm. If the arm is not at its last goal when you enable, it holds where it is, so it does not jump to an old goal. That is a safety feature, not a nice-to-have. Buttons start moves with onTrue, and each move ends by itself, so the default takes over. The last line is the fun one: a Trigger can watch the arm, and you can combine it with a button using and. Here it just prints, but on a robot that is your shooter or claw.' }),
+      notes: 'The default command runs whenever nothing else needs the arm. If the arm is not at its last goal when you enable, it holds where it is, so it does not jump to an old goal. That is a safety feature, not a nice-to-have. Buttons start moves with onTrue, and each move ends by itself, so the default takes over. The last line shows that a Trigger can watch the arm, and you can combine it with a button using and. Here it just prints, but on a robot that is your shooter or claw.' }),
 
     L.codeNotes({ id: 'profiled', eyebrow: CODE, title: 'Add a profile with ProfiledPIDController', file: 'ProfiledArmSubsystem.java', src: { file: `${J}/ProfiledArmSubsystem.java`, region: 'loop' }, callouts: [
       { line: [4, 5], title: 'The trapezoid', text: `Top speed ${PROFILE.maxV} rad/s, acceleration ${PROFILE.maxA} rad/s².` },
@@ -468,7 +468,7 @@ export default {
       notes: 'Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck6.RobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants. Stop the simulator, edit, run again. The goal is to feel the recipe with real code. The Y button runs the move, using the profiled subsystem. If a pair finishes early, swap the subsystem for ArmSubsystem in RobotContainer and watch the setpoint jump. Timing: 5 minutes, ending around minute 44.' }),
 
     L.gotcha({ id: 'gotcha-runaway', title: 'The arm runs away at full speed', symptom: 'You enable, and the arm slams to a stop as fast as it can go.', cause: 'Motor and encoder disagree on direction. Moving "toward" the goal makes the error bigger, so P pushes harder.', fix: 'Robot disabled: lift the arm by hand. The angle must go up. Then at about 1 V: the arm must rise. Flip `ENCODER_INVERTED` or `MOTOR_INVERTED`.',
-      notes: 'This is the scary one, and everyone does it once. Feedback only works if pushing up makes the reading go up. If they disagree, the correction makes the error worse, and it keeps getting worse until the arm hits something. Check both directions before you enable a closed loop. Hands on the arm, robot disabled, for the encoder. Then a very low voltage, with the arm clear, for the motor. In REVLib both are config settings: inverted on the motor config and inverted on absoluteEncoder.' }),
+      notes: 'This is the dangerous one. Feedback only works if pushing up makes the reading go up. If they disagree, the correction makes the error worse, and it keeps getting worse until the arm hits something. Check both directions before you enable a closed loop. Hands on the arm, robot disabled, for the encoder. Then a very low voltage, with the arm clear, for the motor. In REVLib both are config settings: inverted on the motor config and inverted on absoluteEncoder.' }),
 
     L.table({ id: 'gotcha-table', eyebrow: 'Common mistakes', title: 'Five more gotchas, by symptom', fontSize: 24, columns: ['What you see', 'Why it happens', 'The fix'], widths: [36, 34, 30], rows: [
       ['Ask for 45 and the arm drives to its top limit', 'Wrong units: 45 radians is about 7 turns', 'Use Units.degreesToRadians'],
@@ -502,7 +502,7 @@ export default {
       { label: 'Trapezoidal profiles', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/trapezoidal-profiles.html', short: 'docs.wpilib.org' },
       { label: 'SPARK feedforward', url: 'https://docs.revrobotics.com/revlib/spark/closed-loop/feed-forward-control', short: 'docs.revrobotics.com' },
       ...(PLAYGROUND_URL ? [{ label: 'Arm playground', url: PLAYGROUND_URL, short: 'Break it safely' }] : []),
-    ], notes: 'Three good next stops. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page covers how to measure kG on a real arm. Take a photo of this slide. Thanks for sticking with the hardest deck of the course.' }),
+    ], notes: 'Three good next stops. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page covers how to measure kG on a real arm. Take a photo of this slide.' }),
   ],
 };
 
