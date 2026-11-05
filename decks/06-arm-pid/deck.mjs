@@ -290,9 +290,9 @@ export default {
   description: 'Open and closed loop, P, D, I, feedforward and motion profiles, then an arm subsystem on the roboRIO.',
   slides: [
     L.cover({ title: 'Arm PID: move it, hold it', subtitle: 'Control theory and Java for a single-jointed arm on a NEO', minutes: 45,
-      notes: 'Half of today is control theory and half is Java, and you need no math past algebra. We build the feeling first, with pictures, then the formula. Every curve you see today comes from a real simulation of one arm, so what you see is what the physics does. Timing: 50 minutes, two hands-on breaks. The slide count is high because most slides are one quick plot. Keep moving.' }),
+      notes: 'Half of today is control theory and half is Java, and the math is algebra. Each idea comes as a picture, then a formula. Every curve you see today comes from a real simulation of one arm, so what you see is what the physics does. Timing: 50 minutes, two hands-on breaks. The slide count is high because most slides are one quick plot. Keep moving.' }),
 
-    L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What you can do after this deck', items: [
+    L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What this deck covers', items: [
       { icon: 'Lightbulb', title: 'Explain', text: 'Say what P, D, I and feedforward each do, using a picture of an arm.' },
       { icon: 'Wrench', title: 'Tune', text: 'Follow a safe order: kG, then kS if needed, then kP, then kD.' },
       { icon: 'Code', title: 'Build', text: 'Write an arm subsystem, then move its loop onto the SPARK MAX.' },
@@ -330,7 +330,7 @@ export default {
         { title: 'The rule', text: '`volts = kP × error`. Like a rubber band: more stretch, more pull.' },
         { title: 'The sag', text: `kP 8 stops at ${fix(finalDeg(runs.p8))}°, ${fix(sag.p8)}° short. kP 4 is ${fix(sag.p4)}° short.` },
         { title: 'Why it stays', text: `Holding there takes ${fix(hold8, 2)} V. P only makes volts from error, so some error has to stay.` },
-      ], notes: `P is the simplest idea in control: the farther away you are, the harder you push. Now watch what gravity does. The arm stops short and stays short. It is not broken. To hold still it needs ${fix(hold8, 2)} volts, and P can only make volts from error. So it settles where error times kP equals what gravity needs. Check it: ${fix(sag.p8, 1)} degrees is ${fix(rad(sag.p8), 3)} radians, times 8 is ${fix(hold8, 2)} volts. Ask the room what they would try next. Timing: about 6 minutes.` }),
+      ], notes: `P is the simplest idea in control: the farther away you are, the harder you push. Now watch what gravity does. The arm stops short and stays short. To hold still it needs ${fix(hold8, 2)} volts, and P can only make volts from error. So it settles where error times kP equals what gravity needs. Check it: ${fix(sag.p8, 1)} degrees is ${fix(rad(sag.p8), 3)} radians, times 8 is ${fix(hold8, 2)} volts. Ask the room what they would try next. Timing: about 6 minutes.` }),
 
     L.plot({ id: 'too-much-p', eyebrow: CT, title: 'Too much P: overshoot, then shaking', alt: `Arm angle over 3 seconds. kP 30 swings to ${fix(peakDeg(runs.p30))} degrees then settles. kP 50 keeps swinging.`,
       xLabel: 'Time (s)', yLabel: 'Arm angle (degrees). Dashed: the setpoint', xDomain: [0, 3], yDomain: [-40, 80], xTicks: [0, 1, 2, 3], yTicks: [-30, 0, 45], refs: [{ y: GOAL }],
@@ -339,7 +339,7 @@ export default {
         { title: 'Less sag', text: `kP 30 ends ${fix(GOAL - finalDeg(runs.p30))}° short, so that worked.` },
         { title: 'New problem', text: `It swings to ${fix(peakDeg(runs.p30))}°, ${fix(over.p30)}° past the setpoint.` },
         { title: 'Too far', text: `kP 50 never settles. It is still swinging ${fix(swingDeg(runs.p50), 0)}° wide after 3 s.` },
-      ], notes: 'So turn up P. The sag shrinks, and a new problem shows up. The arm is moving fast when it reaches the setpoint, and P only starts pushing back after it has gone past. Our reading is also a little late. At kP 50 each swing feeds the next one, and it never settles. On a real arm that is broken chain and scared mentors. This is the trade: more P means less sag and more shake. We need something that looks at speed.' }),
+      ], notes: 'So turn up P. The sag shrinks, and a new problem shows up. The arm is moving fast when it reaches the setpoint, and P only starts pushing back after it has gone past. Our reading is also a little late. At kP 50 each swing feeds the next one, and it never settles. On a real arm that can break a chain. This is the trade: more P means less sag and more shake. We need something that looks at speed.' }),
 
     L.plot({ id: 'p-plus-d', eyebrow: CT, title: 'D: the brake that stops overshoot', alt: `Arm angle over 3 seconds. kP 30 overshoots to ${fix(peakDeg(runs.p30))} degrees. With kD 1.2 the peak is ${fix(peakDeg(runs.pd))} degrees.`,
       xLabel: 'Time (s)', yLabel: 'Arm angle (degrees). Dashed: the setpoint', xDomain: [0, 3], yDomain: [-40, 80], xTicks: [0, 1, 2, 3], yTicks: [-30, 0, 45], refs: [{ y: GOAL }],
@@ -357,7 +357,7 @@ export default {
         { title: 'Why', text: 'D divides a tiny change by 0.02 s. That is the same as multiplying it by 50.' },
         { title: 'The test', text: `We added ±0.2° of fake noise to the reading. The arm itself moved ${fix(armSpread(runs.noisy), 2)}°.` },
         { title: 'The result', text: `Volts spread ${fix(voltSpread(runs.quiet), 2)} V with no D and ${fix(voltSpread(runs.noisy), 2)} V with it. Use as little D as does the job.` },
-      ], notes: `Nothing is free. D looks at the change between two readings and divides by the loop time, which is 0.02 seconds. Dividing by 0.02 is multiplying by 50, so a tiny flicker in the encoder becomes a jump in volts. Here the arm is holding still, and we added fake noise to the reading. The volts spread ${fix(voltSpread(runs.quiet), 2)} volts without D and ${fix(voltSpread(runs.noisy), 2)} with it. Too much D and the motor buzzes or heats up. If you are short on time, this slide can be one sentence.` }),
+      ], notes: `D looks at the change between two readings and divides by the loop time, which is 0.02 seconds. Dividing by 0.02 is multiplying by 50, so a tiny flicker in the encoder becomes a jump in volts. Here the arm is holding still, and we added fake noise to the reading. The volts spread ${fix(voltSpread(runs.quiet), 2)} volts without D and ${fix(voltSpread(runs.noisy), 2)} with it. Too much D and the motor buzzes or heats up. If you are short on time, this slide can be one sentence.` }),
 
     L.plot({ id: 'i-windup', eyebrow: CT, title: 'I: the slow fix that can wind up', alt: `Arm angle over 6 seconds, held at the stop for 1.5 seconds and then released. With the I term limited to 12 volts it swings to ${fix(peakDeg(runs.uncapped))} degrees. With the 1 volt limit it swings to ${fix(peakDeg(runs.capped))} degrees.`,
       xLabel: 'Time (s). The arm is held at the stop until 1.5 s', yLabel: 'Arm angle (degrees). Dashed: the setpoint', xDomain: [0, 6], yDomain: [-40, 80], xTicks: [0, 1.5, 3, 4.5, 6], yTicks: [-30, 0, 45], refs: [{ y: GOAL }],
@@ -366,7 +366,7 @@ export default {
         { title: 'The idea', text: 'I adds up error over time, like a running tab. kI 8 here.' },
         { title: 'Windup', text: `Stuck for 1.5 s, the tab grows. Let go and it swings to ${fix(peakDeg(runs.uncapped))}°.` },
         { title: 'Slow payback', text: `4.5 s after release it is still ${fix(n.stuck - GOAL)}° high. WPILib limits I to ±1 by default.` },
-      ], notes: `I adds up error over time. Sounds perfect for sag, right? On a gravity arm it is rarely the right first move. Gravity changes with angle, so I would have to relearn the answer at every angle, slowly. Worse is windup. Here something holds the arm at the stop for a second and a half while the tab keeps growing. When it lets go, the arm has to overshoot to pay the tab back. WPILib limits the I term to plus or minus 1 by default, the blue line. We widened it to 12 with setIntegratorRange for the orange one. There is a better fix for sag, coming next.` }),
+      ], notes: `I adds up error over time. On a gravity arm it is rarely the right first move. Gravity changes with angle, so I would have to relearn the answer at every angle, slowly. Worse is windup. Here something holds the arm at the stop for a second and a half while the tab keeps growing. When it lets go, the arm has to overshoot to pay the tab back. WPILib limits the I term to plus or minus 1 by default, the blue line. We widened it to 12 with setIntegratorRange for the orange one. There is a better fix for sag, coming next.` }),
 
     L.plot({ id: 'gravity-cos', eyebrow: CT, title: 'Gravity: volts to hold the arm at each angle', alt: 'Holding volts against arm angle from minus 90 to 90 degrees: a cosine curve peaking at 1.21 volts when flat.',
       xLabel: 'Arm angle (degrees from flat)', yLabel: 'Volts to hold the arm still', xDomain: [-90, 90], yDomain: [0, 1.4], xTicks: [-90, -45, 0, 45, 90], yTicks: [0, 0.4, 0.8, 1.2], refs: [{ y: KG_EXACT }],
@@ -382,7 +382,7 @@ export default {
       { title: `Torque at the NEO: ${fix(n.motorTorque, 3)} N·m`, text: `The gearbox divides it by ${ARM.gearing}.` },
       { title: `Current for that torque: ${fix(n.amps)} A`, text: `Divide by the NEO's ${fix(MOTOR_KT, 4)} N·m per amp.` },
       { title: `Volts to push that current: ${fix(KG_EXACT, 2)} V`, text: `Multiply by the NEO's ${fix(OHMS, 3)} ohms. The motor is not turning, so it makes no voltage of its own.` },
-    ], notes: `This is why we call it physics and not magic. Four steps, only multiply and divide. Gravity pulls with ${fix(GRAVITY_TORQUE)} newton metres when the arm is flat. The gearbox divides that by 60. The NEO's torque constant turns torque into amps, and its resistance turns amps into volts. The resistance and torque constant come straight from the stall numbers in WPILib: 12 volts over 105 amps, and 2.6 newton metres over 105 amps. So kG is ${fix(KG_EXACT, 2)} volts. On a real arm you measure it, but this tells you what size to expect.` }),
+    ], notes: `Four steps, only multiply and divide. Gravity pulls with ${fix(GRAVITY_TORQUE)} newton metres when the arm is flat. The gearbox divides that by 60. The NEO's torque constant turns torque into amps, and its resistance turns amps into volts. The resistance and torque constant come straight from the stall numbers in WPILib: 12 volts over 105 amps, and 2.6 newton metres over 105 amps. So kG is ${fix(KG_EXACT, 2)} volts. On a real arm you measure it, but this tells you what size to expect.` }),
 
     L.plot({ id: 'add-feedforward', eyebrow: CT, title: 'Feedforward: add the volts you already know', alt: `Arm angle over 3 seconds with kP 8. Without kG it stops at ${fix(finalDeg(runs.p8))} degrees. With kG it reaches ${fix(finalDeg(runs.p8g))} degrees.`,
       xLabel: 'Time (s)', yLabel: 'Arm angle (degrees). Dashed: the setpoint', xDomain: [0, 3], yDomain: [-40, 70], xTicks: [0, 1, 2, 3], yTicks: [-30, 0, 45], refs: [{ y: GOAL }],
@@ -391,10 +391,10 @@ export default {
         { title: 'The rule', text: '`volts = kG × cos(angle)`, added before PID runs.' },
         { title: 'Same gentle P', text: `kP 8 alone ends at ${fix(finalDeg(runs.p8))}°. With kG it ends at ${fix(finalDeg(runs.p8g))}°, after a ${fix(peakDeg(runs.p8g) - GOAL)}° overshoot.` },
         { title: 'Why it works', text: 'You do not wait to feel the wind. You lean into it first.' },
-      ], notes: `Feedback waits for an error. Feedforward uses what you already know. We know gravity, so we add the holding volts up front and PID never has to fight it. Look at the same gentle kP 8 from earlier: the sag is gone, ${fix(sag.p8)} degrees down to ${fix(Math.abs(GOAL - finalDeg(runs.p8g)), 2)}. We did not touch P for this. One known term did what no amount of P could. It does overshoot by ${fix(peakDeg(runs.p8g) - GOAL)} degrees, and that is a job for D and, soon, a profile. The real gift is that kP can stay low.` }),
+      ], notes: `Feedback waits for an error. Feedforward uses what you already know. We know gravity, so we add the holding volts up front and PID never has to fight it. Look at the same gentle kP 8 from earlier: the sag is gone, ${fix(sag.p8)} degrees down to ${fix(Math.abs(GOAL - finalDeg(runs.p8g)), 2)}. We did not touch P for this. One known term did what no amount of P could. It does overshoot by ${fix(peakDeg(runs.p8g) - GOAL)} degrees, and that is a job for D and, soon, a profile. It also lets kP stay low.` }),
 
     L.statement({ id: 'core-idea', text: 'Feedforward does the work. PID cleans up.', sub: 'Feedforward is the volts you can predict. PID handles only what you could not.',
-      notes: 'If you remember one sentence from today, make it this one. Say it together. New teams usually do the opposite: they try to make PID do everything and wonder why the arm shakes. Predict what you can with feedforward, and let PID fix the small error left over. REV\'s own tuning guide and the WPILib arm tutorial both land in this same place. Pause here for a moment and ask whether anyone has a question.' }),
+      notes: 'This is the main rule of the deck. Predict what you can with feedforward, and let PID fix the small error left over. Making PID do everything leads to a shaking arm. REV\'s own tuning guide and the WPILib arm tutorial both say the same. Ask whether anyone has a question.' }),
 
     L.cards({ id: 'ks-kv', eyebrow: CT, title: 'The rest of feedforward: kS and kV', intro: '`ArmFeedforward(kS, kG, kV)` adds all three. You already know the middle one.', items: [
       { icon: 'Lightning', title: 'kS: get it moving', text: 'A heavy box takes a shove before it slides. kS is that shove for friction.' },
@@ -420,15 +420,15 @@ export default {
       { title: 'kP until it is crisp', text: 'Start low and raise it in steps. Stop when it starts to overshoot.' },
       { title: 'kD to tame it', text: 'Add D until the overshoot goes. If the motor buzzes, back off.' },
       { title: 'Test with small, safe moves', text: 'Try 10° before 90°. Hand on the disable key, every time.' },
-    ], notes: 'Follow this order and you will not need luck. Feedforward first, because it is the part you can get right without any oscillation. To measure kG and kS on a real arm, REV\'s guide says: find V1, the most volts that do not lift it, and V2, the fewest that do not drop it. Then kS is V1 minus V2, over 2, and kG is V2 plus kS. Do not leave an arm hanging on motor power for long while you do this, because it heats up. Only then touch kP and kD.' }),
+    ], notes: 'Feedforward first, because it is the part you can get right without any oscillation. To measure kG and kS on a real arm, REV\'s guide says: find V1, the most volts that do not lift it, and V2, the fewest that do not drop it. Then kS is V1 minus V2, over 2, and kG is V2 plus kS. Do not leave an arm hanging on motor power for long while you do this, because it heats up. Only then touch kP and kD.' }),
 
-    L.exercise({ id: 'playground-exercise', title: 'Break the arm in the playground', minutes: 5, tasks: [
+    L.exercise({ id: 'playground-exercise', title: 'Test gains in the arm playground', minutes: 5, tasks: [
       PLAYGROUND_URL ? `Scan the Arm playground QR on the last slide, or open \`${PLAYGROUND_FILE}\` from the repo.` : `Open \`${PLAYGROUND_FILE}\` from the repo in any browser.`,
       'Press **P only**. Write down how far short the arm stops.',
       'Press **Too much P**, then slide kP down until the shaking stops.',
       'Find your own gains. Turn on the profile if you want it.',
     ], done: 'the status line reads **Settled** and you can read your gains as Java constants.',
-      notes: 'This page is a simulation of our same arm, with the same physics, running on your own laptop or phone, with nothing to install. You cannot hurt anything, so try silly numbers. Set kG negative. Set kP to 80. The status line tells you what happened, and Settled means within 1 degree, under 2 degrees of overshoot, and not shaking. Timing: 5 minutes, ending around minute 30. Ask one pair to read out their gains.' }),
+      notes: 'This page is a simulation of our same arm, with the same physics, running on your own laptop or phone, with nothing to install. Try extreme values too: set kG negative, or kP to 80. The status line tells you what happened, and Settled means within 1 degree, under 2 degrees of overshoot, and not shaking. Timing: 5 minutes, ending around minute 30. Ask one pair to read out their gains.' }),
 
     L.sectionSlide({ id: 'code-section', title: 'Now the Java', sub: 'The same arm, written two ways', section: 'Programming the arm', notes: 'That was the theory. Now we write it. We will build the arm two ways. First, PID and feedforward on the roboRIO, because you can see and log every number. Second, the same thing with a motion profile. Both share the same config, and all the code is in the deck 6 package of the examples project, which compiles against WPILib 2026.2.1 and REVLib 2026.0.5.' }),
 
@@ -446,7 +446,7 @@ export default {
     ], notes: 'Same inline style as deck 2: the subsystem makes its own commands. moveTo clamps the goal, gets ready, runs the loop, and ends when the arm arrives. Getting ready copies the true angle into the NEO\'s encoder, because the soft limits use it and it forgets at power-off. holdPosition keeps the last goal if the arm reached it, and otherwise holds where the arm is right now. Both commands require the arm, so they can never fight each other. If a student asks why moveTo ends: so the default command can take over, which is next.' }),
 
     L.code({ id: 'bindings', eyebrow: CODE, title: 'A default command that holds, and triggers', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'bindings' }, highlight: [4, 11], caption: 'The bumper fires only when the driver presses it **and** the arm has arrived.',
-      notes: 'The default command runs whenever nothing else needs the arm. If the arm is not at its last goal when you enable, it holds where it is, so it does not jump to an old goal. That is a safety feature, not a nice-to-have. Buttons start moves with onTrue, and each move ends by itself, so the default takes over. The last line shows that a Trigger can watch the arm, and you can combine it with a button using and. Here it just prints, but on a robot that is your shooter or claw.' }),
+      notes: 'The default command runs whenever nothing else needs the arm. If the arm is not at its last goal when you enable, it holds where it is, so it does not jump to an old goal. That is a safety feature. Buttons start moves with onTrue, and each move ends by itself, so the default takes over. The last line shows that a Trigger can watch the arm, and you can combine it with a button using and. Here it just prints, but on a robot that is your shooter or claw.' }),
 
     L.codeNotes({ id: 'profiled', eyebrow: CODE, title: 'Add a profile with ProfiledPIDController', file: 'ProfiledArmSubsystem.java', src: { file: `${J}/ProfiledArmSubsystem.java`, region: 'loop' }, callouts: [
       { line: [4, 5], title: 'The trapezoid', text: `Top speed ${PROFILE.maxV} rad/s, acceleration ${PROFILE.maxA} rad/s².` },
@@ -458,14 +458,14 @@ export default {
       notes: 'Safety is not optional. Before tuning, add soft limits, a current limit and an output clamp. REV suggests 40 to 60 amps for a NEO, and the default is 80. One person keeps a hand on the disable key, and everyone else stands clear.' }),
 
     L.code({ id: 'sim-setup', eyebrow: CODE, title: 'Tune without risking hardware', file: 'ArmSimModel.java', src: { file: `${J}/ArmSimModel.java`, region: 'physics' }, flag2027: 'SmartDashboard is removed. Telemetry replaces putData.', caption: '`update()` feeds the SPARK\'s volts in and the angle back out. `SmartDashboard.putData("Arm", mechanism)` publishes the drawing.',
-      notes: 'This is a pretend arm in Java with the same numbers as our slides, so what you see in sim should look like the plots. SingleJointedArmSim takes the motor, gearing, inertia, length, angle limits, a gravity switch and a starting angle. Mechanism2d is the stick drawing. Each loop, update passes the simulated SPARK\'s applied volts to the physics, then gives the angle back to the simulated encoder. To watch it, open the Mechanism tab in AdvantageScope and drag in the Arm entry, or use the Mechanism2d widget in the sim GUI.' }),
+      notes: 'This is a simulated arm in Java with the same numbers as our slides, so what you see in sim should look like the plots. SingleJointedArmSim takes the motor, gearing, inertia, length, angle limits, a gravity switch and a starting angle. Mechanism2d is the stick drawing. Each loop, update passes the simulated SPARK\'s applied volts to the physics, then gives the angle back to the simulated encoder. To watch it, open the Mechanism tab in AdvantageScope and drag in the Arm entry, or use the Mechanism2d widget in the sim GUI.' }),
 
     L.exercise({ id: 'sim-exercise', title: 'Tune the arm in the simulator', minutes: 5, tasks: [
       'In `Constants.java`, set `KP` to 2 and `KD`, `KG`, `KV` to 0. Run **Simulate Robot Code**.',
       'Enable, press Y, and watch the arm in AdvantageScope or the sim GUI. It sags.',
       'Follow the recipe: set `KG`, then `KV`, then raise `KP`, then add `KD`.',
     ], done: 'Y moves the arm to 45° and it holds within 2°, with no shaking.',
-      notes: 'Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck6.RobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants. Stop the simulator, edit, run again. The goal is to feel the recipe with real code. The Y button runs the move, using the profiled subsystem. If a pair finishes early, swap the subsystem for ArmSubsystem in RobotContainer and watch the setpoint jump. Timing: 5 minutes, ending around minute 44.' }),
+      notes: 'Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck6.RobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants. Stop the simulator, edit, run again. The Y button runs the move, using the profiled subsystem. If a pair finishes early, swap the subsystem for ArmSubsystem in RobotContainer and watch the setpoint jump. Timing: 5 minutes, ending around minute 44.' }),
 
     L.gotcha({ id: 'gotcha-runaway', title: 'The arm runs away at full speed', symptom: 'You enable, and the arm slams to a stop as fast as it can go.', cause: 'Motor and encoder disagree on direction. Moving "toward" the goal makes the error bigger, so P pushes harder.', fix: 'Robot disabled: lift the arm by hand. The angle must go up. Then at about 1 V: the arm must rise. Flip `ENCODER_INVERTED` or `MOTOR_INVERTED`.',
       notes: 'This is the dangerous one. Feedback only works if pushing up makes the reading go up. If they disagree, the correction makes the error worse, and it keeps getting worse until the arm hits something. Check both directions before you enable a closed loop. Hands on the arm, robot disabled, for the encoder. Then a very low voltage, with the arm clear, for the motor. In REVLib both are config settings: inverted on the motor config and inverted on absoluteEncoder.' }),
@@ -486,23 +486,23 @@ export default {
       { now: 'SmartDashboard.putData for Mechanism2d', next: 'Telemetry and Tunables replace it' },
       { now: 'REVLib 2026 still has conversion factors', next: 'REVLib alphas drop them: use native units' },
     ], note: 'The theory does not change. Gravity still follows a cosine. All 2027 details are alpha and may change.',
-      notes: 'This is a heads-up, not homework. Everything we taught today is for 2026 on the roboRIO. For 2027 the control hardware and some names change, and the REV note comes from their current API docs. We already avoid conversion factors, so that part carries forward. The control theory does not change at all. P, D, feedforward and profiles work on any controller, and that is why we spent half the time there. Do not chase these changes yet: WPILib 2027 is still in alpha.' }),
+      notes: 'For 2027 the control hardware and some names change, and the REV note comes from their current API docs. This deck avoids conversion factors, so that part carries forward. P, D, feedforward and profiles work the same on any controller. WPILib 2027 is still in alpha.' }),
 
-    L.recap({ id: 'recap', title: 'You can now', items: [
+    L.recap({ id: 'recap', items: [
       'Explain why P alone sags, and why too much P shakes.',
       'Use D as a brake, and know that it multiplies noise.',
       'Feed forward what you can predict: `kG × cos(angle)`, with 0° at flat.',
       'Tune in order with small, safe moves: kG, kS, kP, kD.',
       'Write an arm subsystem and profile it.',
     ], next: 'Deck 7 compares REV and CTRE motors and what they can do on board.',
-      notes: 'Quick recap. Ask a student to say each one in their own words, and get the first answer from someone new. If you only keep one sentence, keep this: feedforward does the work and PID cleans up. Next deck looks at REV and CTRE side by side, and you will now understand what those onboard closed loops are really doing. Timing: you should be about 44 minutes in. Take questions at the arm if you have one nearby.' }),
+      notes: 'Ask a student to say each one in their own words. Deck 7 compares REV and CTRE, including their onboard closed loops. Timing: about 44 minutes in. Take questions at the arm if you have one nearby.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Tuning a vertical arm', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html', short: 'docs.wpilib.org' },
       { label: 'Trapezoidal profiles', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/trapezoidal-profiles.html', short: 'docs.wpilib.org' },
       { label: 'SPARK feedforward', url: 'https://docs.revrobotics.com/revlib/spark/closed-loop/feed-forward-control', short: 'docs.revrobotics.com' },
-      ...(PLAYGROUND_URL ? [{ label: 'Arm playground', url: PLAYGROUND_URL, short: 'Break it safely' }] : []),
-    ], notes: 'Three good next stops. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page covers how to measure kG on a real arm. Take a photo of this slide.' }),
+      ...(PLAYGROUND_URL ? [{ label: 'Arm playground', url: PLAYGROUND_URL, short: 'Interactive arm simulation' }] : []),
+    ], notes: 'Three references. WPILib\'s vertical arm tutorial has its own interactive simulation. The trapezoidal profile page has the full API. REV\'s feed forward page covers how to measure kG on a real arm. Take a photo of this slide.' }),
   ],
 };
 

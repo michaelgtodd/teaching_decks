@@ -9,15 +9,15 @@ export default {
   description: 'Getting started with command-based Java and driving the 2026 KitBot from a gamepad.',
   slides: [
     L.cover({ title: 'KitBot drive: your first command-based robot', subtitle: 'From an empty project to a 2026 KitBot you drive with a gamepad', minutes: 35,
-      notes: '(30 s) Today we start with an empty project and finish with a KitBot you can drive from a gamepad. You will learn how command-based code is organised, and meet one big idea from control theory: open loop. Everything here is for the 2026 season and the roboRIO.' }),
+      notes: '(30 s) Today we start with an empty project and finish with a KitBot you can drive from a gamepad. It covers how command-based code is organised, and one control theory idea: open loop. Everything here is for the 2026 season and the roboRIO.' }),
 
-    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do', items: [
+    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
       'Explain a **subsystem**, a **command**, a **trigger**, a **default command** and the **scheduler**.',
       'Build `CANDriveSubsystem` for the four CIM motors on the KitBot.',
       'Bind a gamepad, and run a safe first test with the wheels off the ground.',
       'Recognise five common bring-up mistakes from their symptoms.',
       'Explain open loop, and why a human driver can get away with it.',
-    ], notes: '(30 s) Read these quickly. Point out that the last two are not extras. A team that can read symptoms fixes its robot in minutes, and a team that understands open loop knows why the robot drives differently on a tired battery. If you are short on time later, keep the first test and the gotchas, and shorten the code walk-through.' }),
+    ], notes: '(30 s) Read these quickly. A team that can read symptoms fixes its robot in minutes, and a team that understands open loop knows why the robot drives differently on a tired battery. If you are short on time later, keep the first test and the gotchas, and shorten the code walk-through.' }),
 
     L.diagram({ id: 'model', eyebrow: 'Command-based', title: 'The five parts of a command-based robot', flag2027: 'Commands v3 is new for Java. The v2 you learn here remains.',
       caption: 'Schematic. The scheduler is the only part that runs anything.',
@@ -116,7 +116,7 @@ Thread.sleep(2000);
 
 // Right: the scheduler keeps looping while this runs
 drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
-      notes: '(1 min) Imagine the head chef stops to watch one pot for two minutes. Nothing else in the kitchen happens. The same goes for your code: while a loop waits, no buttons are read and no motors are updated. You will see "Loop time of 0.02s overrun" and "CommandScheduler loop overrun". After 0.1 seconds without an update, motor safety stops the drive and reports "DifferentialDrive... Output not updated often enough." That safety feature is on your side. So describe what should happen over time, with decorators like withTimeout, and let the scheduler do the waiting.' }),
+      notes: '(1 min) Imagine the head chef stops to watch one pot for two minutes. Nothing else in the kitchen happens. The same goes for your code: while a loop waits, no buttons are read and no motors are updated. You will see "Loop time of 0.02s overrun" and "CommandScheduler loop overrun". After 0.1 seconds without an update, motor safety stops the drive and reports "DifferentialDrive... Output not updated often enough." So describe what should happen over time, with decorators like withTimeout, and let the scheduler do the waiting.' }),
 
     L.table({ id: 'habits', eyebrow: 'Best practice', title: 'Five habits that keep robot code readable', columns: ['Habit', 'In practice', 'Why'], widths: [32, 34, 34], fontSize: 28, rows: [
       ['Constants, not magic numbers', 'LEFT_LEADER_ID, not 1', 'Swap a motor and change one line'],
@@ -124,7 +124,7 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       ['Factories, not loose classes', 'drive.driveArcade(...)', 'Less code, and the requirement is automatic'],
       ['Name your commands', '.withName("Arcade Drive")', 'Logs show a name you can read'],
       ['Commit to git often', 'Commit after each thing works', 'You can always get back to working code'],
-    ], notes: '(1.5 min) These cost seconds now and save hours at competition. Constants: at an event, when a SPARK dies and the spare has another ID, you change one line. Ownership: if motors are private, no command can sneak around the subsystem and its requirements. Factories: FIRST ships both styles, and the guide lists less boilerplate as a strength of inline commands. Its trade-off is real, so it is fine if classes make more sense to you at first. Names: when the scheduler reports a slow loop, it prints each command by name. Commit: small commits are your undo button.' }),
+    ], notes: '(1.5 min) Constants: at an event, when a SPARK dies and the spare has another ID, you change one line. Ownership: if motors are private, no command can sneak around the subsystem and its requirements. Factories: FIRST ships both styles, and the guide lists less boilerplate as a strength of inline commands. Classes also work. Names: when the scheduler reports a slow loop, it prints each command by name. Commit: small commits are your undo button.' }),
 
     L.diagram({ id: 'open-loop', eyebrow: 'Control theory', title: 'Open loop: you command voltage and hope', caption: 'Schematic. Solid arrows are this robot. Dashed arrows are what closed loop adds, in Deck 6.',
       nodes: [
@@ -157,7 +157,7 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       { now: 'Java 17', next: 'Java 25' },
       { now: 'Commands v2', next: 'v2 remains, and v3 is new for Java' },
     ], note: 'Alpha software, so this may change. Everything in this deck is correct for the 2026 roboRIO.',
-    notes: '(30 s) This is a heads-up, not homework. You do not need to learn any of it today. Next year\'s software is still in alpha and could change. The ideas you learned today all carry over: subsystems, commands, one inverted side, open loop. Mostly the names change. Keep building for 2026.' }),
+    notes: '(30 s) WPILib 2027 is still in alpha and could change. Subsystems, commands, one inverted side and open loop all carry over. Mostly the names change.' }),
 
     L.recap({ id: 'recap', items: [
       'Say what a subsystem, command, trigger, default command and the scheduler each do.',
@@ -165,8 +165,8 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       'Bind a gamepad with flipped signs, a deadband and a scale, then test with wheels up.',
       'Read the symptoms: SPARK light colours, CAN ID errors, a spinning robot.',
       'Explain open loop, and why a human driver can get away with it.',
-    ], next: 'Deck 3, where AdvantageScope shows you what your robot is thinking.',
-    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can explain open loop, go back to the shower tap. Before people leave, make sure every team has committed working code. Next time we stop guessing about what the robot is doing, because we will be able to see it.' }),
+    ], next: 'Deck 3: AdvantageScope shows what your robot is doing.',
+    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can explain open loop, go back to the shower tap. Before people leave, make sure every team has committed working code.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Command-based basics', url: 'https://docs.wpilib.org/en/stable/docs/software/commandbased/what-is-command-based.html', short: 'docs.wpilib.org' },

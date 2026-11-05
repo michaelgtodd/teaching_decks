@@ -28,11 +28,11 @@ export default {
       title: 'Autonomous path planning libraries',
       subtitle: 'What each one does in 2026, and how to choose',
       minutes: 30,
-      notes: 'Welcome. In the autonomous period the robot drives itself, with no driver. Today we look at the libraries FRC teams use to make a robot follow a path. I will also tell you what I would do in your place, because a list of options does not help much on a Saturday at the shop. Facts here were checked on November 4, 2026, so look again before kickoff. Timing: 30 minutes, including a 6 minute exercise in the simulator.',
+      notes: 'In the autonomous period the robot drives itself, with no driver. This deck covers the libraries FRC teams use to make a robot follow a path, and ends with a recommendation. Facts here were checked on November 4, 2026, so look again before kickoff. Timing: 30 minutes, including a 6 minute exercise in the simulator.',
     }),
 
     L.lead({
-      id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do',
+      id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers',
       text: 'A path library makes your robot drive a planned curve by itself. Today you learn what it does, what it needs, and which one to pick.',
       points: [
         'Explain a path follower using the words from Deck 6.',
@@ -40,7 +40,7 @@ export default {
         'Tell PathPlanner, Choreo, BLine and WPILib\'s tools apart.',
         'Choose the right next step for your team.',
       ],
-      notes: '(1 min) Here is the plan. First, what a path follower really does, because it is Deck 6 again with a moving setpoint. Then what your robot must have first, and I will be honest about the KitBot. Then the libraries, one at a time, and a table to compare them. We finish with a way to choose, and an exercise in the simulator from Deck 4. A vendor library, or vendordep, is code from outside WPILib that you add to your project. If a kid asks which library is best, say "best for which robot?" and hold that thought.',
+      notes: '(1 min) Here is the plan. First, what a path follower really does, because it is Deck 6 again with a moving setpoint. Then what your robot must have first, including what a stock KitBot lacks. Then the libraries, one at a time, and a table to compare them. We finish with a way to choose, and an exercise in the simulator from Deck 4. A vendor library, or vendordep, is code from outside WPILib that you add to your project. If a kid asks which library is best, say "best for which robot?" and hold that thought.',
     }),
 
     L.table({
@@ -54,7 +54,7 @@ export default {
         ['WPILib\'s own tools', 'No vendordep to count', 'Not counted'],
       ],
       caption: 'Our count, Nov 2026, and rough: public Java repos with "rebuilt" or "frc" in the name, made Nov 2025 to Apr 2026. It shows what is in a repo, not what ran at events.',
-      notes: '(1.5 min) "Popular" should mean something, so we counted. We read the file list of 1,257 public Java robot projects from the 2026 season. PathPlanner is four to five times as common as Choreo. BLine is new, and small so far. A quarter have none of the three. Two numbers overlap: 54 repos have both PathPlanner and Choreo paths. This is rough. Some repos are prototypes, private repos are missing, and we skipped default file names like New Path. WPILib\'s own tools need no vendordep, so this method can\'t see them. We found no 2026 poll with results.',
+      notes: '(1.5 min) We read the file list of 1,257 public Java robot projects from the 2026 season. PathPlanner is four to five times as common as Choreo. BLine is new, and small so far. A quarter have none of the three. Two numbers overlap: 54 repos have both PathPlanner and Choreo paths. This is rough. Some repos are prototypes, private repos are missing, and we skipped default file names like New Path. WPILib\'s own tools need no vendordep, so this method can\'t see them. We found no 2026 poll with results.',
     }),
 
     L.diagram({
@@ -121,7 +121,7 @@ export default {
         ['Tuned drivetrain', 'Drives at the speed you ask for', 'Not yet: stick to volts, nothing measured'],
       ],
       caption: 'You can add them. The KitBot gearboxes have holes for optional encoders. Measure kV and kS with WPILib\'s SysId tool.',
-      notes: '(1.5 min) Here is the honest part. Every library today needs a pose, and a pose comes from sensors. Encoders measure wheel travel. A gyro measures heading. Odometry combines them into a position on the field. The KitBot uses brushed CIMs, which have no encoder inside, and FIRST\'s KitBot guide and code use no encoder or gyro. Tuned means the robot really drives at the speed you ask for. So on a stock KitBot, no path library can work yet. If a kid asks about NEOs: brushless motors report their own rotation, so you would still need the gyro.',
+      notes: '(1.5 min) Every library today needs a pose, and a pose comes from sensors. Encoders measure wheel travel. A gyro measures heading. Odometry combines them into a position on the field. The KitBot uses brushed CIMs, which have no encoder inside, and FIRST\'s KitBot guide and code use no encoder or gyro. Tuned means the robot really drives at the speed you ask for. So on a stock KitBot, no path library can work yet. If a kid asks about NEOs: brushless motors report their own rotation, so you would still need the gyro.',
     }),
 
     L.practice({
@@ -146,7 +146,7 @@ export default {
         'Better robot numbers give better paths: mass, motors, gearing.',
         'You write the follower yourself.',
       ] },
-      notes: '(2 min) This is the big difference today. In PathPlanner you are the artist: you bend the curve until it looks right, and the robot works out the timing from your limits. In Choreo you say where to go and what the robot can do, and a solver computes the fastest path. A solver is a program that searches for the best answer. It runs on your laptop before the match, so the path is fixed. One team on Chief Delphi tried it and reported paths about 6 to 11 percent faster. That is one team\'s test, not a rule. PathPlanner can also load Choreo paths, so you can add one to the other.',
+      notes: '(2 min) This is the main difference. In PathPlanner you bend the curve until it looks right, and the robot works out the timing from your limits. In Choreo you say where to go and what the robot can do, and a solver computes the fastest path. A solver is a program that searches for the best answer. It runs on your laptop before the match, so the path is fixed. One team on Chief Delphi tried it and reported paths about 6 to 11 percent faster. That is one team\'s test, not a rule. PathPlanner can also load Choreo paths, so you can add one to the other.',
     }),
 
     L.codeNotes({
@@ -164,7 +164,7 @@ export default {
     L.code({
       id: 'choreo', eyebrow: 'Choreo 2026.0.3', title: 'Choreo: you write the follower, then wire the routine',
       src: { file: `${J}/ChoreoPaths.java`, region: 'slide' }, file: 'deck10/ChoreoPaths.java', highlight: [2, 3, 4, 5, 6, 12, 13],
-      notes: '(1.5 min) The top half is the job PathPlanner does for you. Choreo hands you one sample per loop, and you decide how to follow it. This one uses the same LTV follower as before. We hand this method to an AutoFactory, along with get pose and reset pose. The bottom half is the part teams like. A routine is a set of triggers, the same Trigger class you bind buttons with. When the routine starts, reset odometry and run the path. At the spinUp marker, placed in the Choreo app, start the launcher. When the path is done, launch. Install it from the WPILib Dependency Manager too.',
+      notes: '(1.5 min) The top half is the job PathPlanner does for you. Choreo hands you one sample per loop, and you decide how to follow it. This one uses the same LTV follower as before. We hand this method to an AutoFactory, along with get pose and reset pose. The bottom half is the routine, which is a set of triggers, the same Trigger class you bind buttons with. When the routine starts, reset odometry and run the path. At the spinUp marker, placed in the Choreo app, start the launcher. When the path is done, launch. Install it from the WPILib Dependency Manager too.',
     }),
 
     L.codeNotes({
@@ -192,7 +192,7 @@ export default {
         ['Made by', 'Team 3015; one main developer', 'SleipnirGroup; two main developers', 'Team 2638 student; one main developer', 'WPILib project'],
       ],
       caption: 'WPILib\'s older app, PathWeaver, is deprecated, so do not start with it.',
-      notes: '(1.5 min) Photograph this one. Read down a column to learn a library, and across a row to compare. Three rows matter most for a young team. Drivetrains: BLine has no tank support. During a match: only PathPlanner can plan around obstacles while driving, and Choreo paths are fixed before the match. You write: PathPlanner asks for the least. "Made by" is worth a look too. These are mostly volunteers and students, so read their docs, say thank you, and report bugs kindly. Everything here comes from the 2026 releases we checked.',
+      notes: '(1.5 min) Photograph this one. Read down a column to learn a library, and across a row to compare. Three rows matter most for a young team. Drivetrains: BLine has no tank support. During a match: only PathPlanner can plan around obstacles while driving, and Choreo paths are fixed before the match. You write: PathPlanner asks for the least. "Made by" shows who maintains each one: mostly volunteers and students. Everything here comes from the 2026 releases we checked.',
     }),
 
     L.diagram({
@@ -201,7 +201,7 @@ export default {
         { id: 'sensors', x: 128, y: 250, w: 400, h: 150, label: 'Encoders and a gyro?', tone: 'ghost' },
         { id: 'tuned', x: 650, y: 250, w: 400, h: 150, label: 'Drivetrain tuned?', sub: 'Odometry matches a tape measure', tone: 'ghost' },
         { id: 'pp', x: 1172, y: 250, w: 620, h: 150, label: 'PathPlanner', sub: 'Tank or swerve. Most teams, most help.', tone: 'accent' },
-        { id: 'timed', x: 128, y: 560, w: 400, h: 150, label: 'Timed auto', sub: 'Valid today. Add sensors after.', tone: 'ink' },
+        { id: 'timed', x: 128, y: 560, w: 400, h: 150, label: 'Timed auto', sub: 'No sensors needed. Add them after.', tone: 'ink' },
         { id: 'sysid', x: 650, y: 560, w: 400, h: 150, label: 'Run SysId', sub: 'Then test one straight path', tone: 'paper' },
         { id: 'limit', x: 1172, y: 540, w: 620, h: 120, label: 'Autos work, and path speed is your limit?', tone: 'ghost' },
         { id: 'choreo', x: 1172, y: 770, w: 620, h: 120, label: 'Add Choreo', sub: 'PathPlanner can load its paths', tone: 'blue' },
@@ -214,19 +214,19 @@ export default {
         { from: 'pp', to: 'limit', fromSide: 'b', toSide: 't', label: 'later', lx: 1494, ly: 450, lw: 100 },
         { from: 'limit', to: 'choreo', fromSide: 'b', toSide: 't', label: 'yes', lx: 1494, ly: 695, lw: 80 },
       ],
-      notes: '(1.5 min) Here is our advice. Stock KitBot: stay left. A good timed auto beats a broken path. Once you add sensors, tune the drivetrain, then check odometry with a tape measure: roll the robot 3 meters and read the pose. Then use PathPlanner. Most teams use it, so help is easy to find, it works on tank and swerve, and the follower is included. Add Choreo only when your autos work and path speed is what is holding you back. PathPlanner can load Choreo paths, and 28 repos in our sample had Choreo paths without ChoreoLib. A swerve team can try BLine, but it is not where I would start. WPILib alone is great for learning.',
+      notes: '(1.5 min) Here is our advice. Stock KitBot: stay left. Once you add sensors, tune the drivetrain, then check odometry with a tape measure: roll the robot 3 meters and read the pose. Then use PathPlanner. Most teams use it, so help is easy to find, it works on tank and swerve, and the follower is included. Add Choreo only when your autos work and path speed is what is holding you back. PathPlanner can load Choreo paths, and 28 repos in our sample had Choreo paths without ChoreoLib. A swerve team can try BLine, but it is not where I would start. WPILib alone works for learning.',
     }),
 
     L.gotcha({
-      id: 'gotcha-start', title: 'The path is perfect, in the wrong place',
+      id: 'gotcha-start', title: 'The path is correct, but the start pose is wrong',
       symptom: 'The curve looks right and the logs say the robot hit its target, but the real robot misses.',
       cause: 'Resetting odometry tells the robot where it is, and it believes you. It can\'t tell you placed it wrong.',
       fix: 'Measure your starting pose, and line up the same way every match. In sim, 10° crooked ended 55 cm off.',
-      notes: '(1 min) We tried it in the simulator. Starting the robot 10 degrees crooked, it ended 55 cm from the goal, while odometry reported it was within about 1 cm. Starting 50 cm too far forward, it ended 50 cm off in the same way. The robot followed the path perfectly, in its own mind. Odometry only measures change from where you said it started. So your starting spot is part of your code. Choose something on the field you can line up against, and practice it.',
+      notes: '(1 min) We tried it in the simulator. Starting the robot 10 degrees crooked, it ended 55 cm from the goal, while odometry reported it was within about 1 cm. Starting 50 cm too far forward, it ended 50 cm off in the same way. By its own odometry, the robot followed the path. Odometry only measures change from where you said it started. So your starting spot is part of your code. Choose something on the field you can line up against, and practice it.',
     }),
 
     L.exercise({
-      id: 'exercise', title: 'Follow a path, then break it on purpose', minutes: 6,
+      id: 'exercise', title: 'Follow a path, then add a fault', minutes: 6,
       tasks: [
         'Run `WPILib: Simulate Robot Code`. In AdvantageScope, drag `SimPose` and `TargetPose` onto **Poses**.',
         'Click **Autonomous** in Robot State. When the robot stops, read `Path ended` in the VS Code terminal.',
@@ -245,7 +245,7 @@ export default {
         'PathPlanner draws paths, Choreo solves them, BLine chases targets, and WPILib gives you the parts.',
         'For most young teams: timed auto, then PathPlanner, then Choreo when speed is your limit.',
       ],
-      notes: '(30 sec) Read these back, and ask for a hand if anyone is unsure about one. The first one is the important one: these libraries are not magic, they are the control loop you already know, running on a moving setpoint. Take the next step your robot is ready for.',
+      notes: '(30 sec) Read these back. These libraries are the control loop from Deck 6, running on a moving setpoint.',
     }),
 
     L.links({

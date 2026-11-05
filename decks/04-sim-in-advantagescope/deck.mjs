@@ -38,14 +38,14 @@ export default {
   description: 'Hook up the WPILib simulator and drive the KitBot around a 2D field in AdvantageScope with no robot.',
   slides: [
     L.cover({ title: 'Drive the KitBot with no robot', subtitle: 'The WPILib simulator, a little physics, and AdvantageScope', minutes: 35,
-      notes: "Welcome. Today you drive the KitBot you coded in Deck 2, and you don't need a robot, just your laptop. This takes about 35 minutes, and about eight of those are you driving. Have your Deck 2 project open in WPILib VS Code. If yours isn't finished, pair up with someone whose is, or ask a mentor for a copy." }),
+      notes: "Today you drive the KitBot you coded in Deck 2, and you don't need a robot, just your laptop. This takes about 35 minutes, and about eight of those are you driving. Have your Deck 2 project open in WPILib VS Code. If yours isn't finished, pair up with someone whose is, or ask a mentor for a copy." }),
 
-    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'By the end of this deck you can', items: [
+    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
       'Explain what a simulator can and can\'t teach you.',
       'Add a small physics model to your Deck 2 drivetrain.',
       '**Drive the KitBot around a 2D field** with a controller or keyboard.',
       'Describe what the model calculates every 20 milliseconds.',
-    ], notes: "Here's what you'll be able to do by the end. The big one is in bold: a robot moving on a 2D field with nothing but a laptop and a controller or keyboard. The first and last items are about understanding. A simulator is a tool, and you need to know when to trust it. Timing: one minute." }),
+    ], notes: "The item in bold is the main goal: a robot moving on a 2D field with nothing but a laptop and a controller or keyboard. The first and last items are about understanding. A simulator is a tool, and you need to know when to trust it. Timing: one minute." }),
 
     L.compare({ id: 'why', eyebrow: 'Why simulate', title: 'What a simulator gives you, and what it leaves out',
       left: { label: 'What you get', tone: 'good', items: [
@@ -60,7 +60,7 @@ export default {
         '**Battery sag:** our simulated battery stays at 12 V.',
         '**Walls:** the robot drives straight through them.',
       ] },
-      notes: "Start with why. You can test code at home, a bad sign can't break anything, and programmers don't have to wait for the robot. Now be honest about the right column. There's no carpet, no wear, and a battery that stays at 12 volts. WPILib can add some of that, like BatterySim, but it doesn't come for free. A sim tests your logic and gives rough physics. If a kid asks whether it's useless, say no: it finds most sign mistakes before the robot touches the floor." }),
+      notes: "Start with why. You can test code at home, a bad sign can't break anything, and programmers don't have to wait for the robot. The right column lists the limits. There's no carpet, no wear, and a battery that stays at 12 volts. WPILib can add some of that, like BatterySim, but it doesn't come for free. A sim tests your logic and gives rough physics. If a kid asks whether it's useless, say no: it finds most sign mistakes before the robot touches the floor." }),
 
     L.diagram({ id: 'pipeline', eyebrow: 'The plan', title: 'One path from your stick to the field',
       nodes: [
@@ -99,7 +99,7 @@ export default {
         { line: 6, title: 'Methods, not motors', text: '`DifferentialDrive` calls these with each output.' },
         { line: [10, 15], title: 'The robot is unchanged', text: 'The real motors get the same `set()` call.' },
       ],
-      notes: "Deck 2 gave DifferentialDrive two motors. It has a second constructor that takes two methods, and the motor version just calls this one, so the robot behaves the same. Each method saves the output, then sends it on. Why not ask the SPARK? REV's docs say applied output needs extra sim code, and they don't cover brushed mode, which is what CIMs use. Saving it ourselves is simple and needs nothing from REV. Bonus: forward is positive on both sides, because the SPARK flips one side later." }),
+      notes: "Deck 2 gave DifferentialDrive two motors. It has a second constructor that takes two methods, and the motor version just calls this one, so the robot behaves the same. Each method saves the output, then sends it on. Why not ask the SPARK? REV's docs say applied output needs extra sim code, and they don't cover brushed mode, which is what CIMs use. Saving it ourselves is simple and needs nothing from REV. Forward is positive on both sides, because the SPARK flips one side later." }),
 
     L.codeNotes({ id: 'sim-periodic', eyebrow: 'Step 3: the sim loop', title: 'Step the model in `simulationPeriodic()`', file: 'CANDriveSubsystem.java',
       src: { file: `${J}/CANDriveSubsystem.java`, region: 'simperiodic' },
@@ -109,7 +109,7 @@ export default {
         { line: [7, 8], title: 'Output to volts', text: 'Deck 2 set 12 V compensation, so 0.5 means 6 V.' },
         { line: 11, title: 'Stop when disabled', text: 'Without this, the robot keeps driving after you disable it.' },
       ],
-      notes: "Every subsystem can have simulationPeriodic. The command scheduler calls it every loop, but only in simulation, so on the roboRIO this never runs. We turn output into volts: Deck 2 turned on voltage compensation at 12 volts, so 0.5 means 6 volts. Now the sneaky part. On a real robot, disabling stops the motors. Our saved numbers don't know that, and Motor Safety does nothing while disabled. Without this if statement, the sim robot keeps driving after you disable it. Test that yourself later." }),
+      notes: "Every subsystem can have simulationPeriodic. The command scheduler calls it every loop, but only in simulation, so on the roboRIO this never runs. We turn output into volts: Deck 2 turned on voltage compensation at 12 volts, so 0.5 means 6 volts. On a real robot, disabling stops the motors. Our saved numbers don't know that, and Motor Safety does nothing while disabled. Without this if statement, the sim robot keeps driving after you disable it. Test that yourself later." }),
 
     L.steps({ id: 'run', eyebrow: 'Run it', title: 'Start the simulator from VS Code', items: [
       { title: 'Check Desktop Support is on', text: 'In `build.gradle`: `includeDesktopSupport = true`.' },
@@ -117,7 +117,7 @@ export default {
       { title: 'Keep **Sim GUI** selected and press **Ok**', text: 'The Simulation GUI window opens.' },
       { title: 'Find the **Robot State** window', text: 'Its labels work like the Driver Station mode buttons.' },
     ], qr: { url: 'https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/introduction.html', label: 'WPILib simulation intro', short: 'docs.wpilib.org: Introduction to Robot Simulation' },
-      notes: "Let's run it. Follow along. First check desktop support, because simulating needs it. If it says false, change it to true. Then open the command palette and run WPILib: Simulate Robot Code. Don't use the little run button beside the WPILib logo: the docs warn it doesn't set simulation up properly. Keep Sim GUI selected and press Ok. A new window appears. Find Robot State. Stay out of Teleoperated until the next slide. If the build fails, read the first error in the terminal." }),
+      notes: "First check desktop support, because simulating needs it. If it says false, change it to true. Then open the command palette and run WPILib: Simulate Robot Code. Don't use the little run button beside the WPILib logo: the docs warn it doesn't set simulation up properly. Keep Sim GUI selected and press Ok. A new window appears. Find Robot State. Stay out of Teleoperated until the next slide. If the build fails, read the first error in the terminal." }),
 
     L.steps({ id: 'driver', eyebrow: 'Run it', title: 'Put a driver on `Joystick[0]`', items: [
       { title: 'Drag your device onto `Joystick[0]`', text: 'Drag from **System Joysticks** to **Joysticks**. No controller? Use **Keyboard 0**.' },
@@ -207,7 +207,7 @@ export default {
       { now: 'AdvantageScope field origin at the blue wall corner', next: 'Default origin at the center of the field' },
       { now: 'Java 17 on the roboRIO', next: 'Java 25 on Systemcore' },
     ], note: 'Alpha notes that may change. Everything in this deck is right for 2026.',
-      notes: "Quick heads-up, not homework. Everything you learned today is right for 2026 robots. These are alpha notes for 2027, so they may change. Packages get new names, motor set becomes setThrottle, and Java moves to version 25 on the new Systemcore controller. AdvantageScope's 2027 versions default to a field origin at the center, so a start pose like ours would need new numbers. Don't write any 2027 code this season." }),
+      notes: "These are alpha notes for 2027, so they may change. Packages get new names, motor set becomes setThrottle, and Java moves to version 25 on the new Systemcore controller. AdvantageScope's 2027 versions default to a field origin at the center, so a start pose like ours would need new numbers. Don't write any 2027 code this season." }),
 
     L.recap({ id: 'recap', items: [
       'A simulator tests your logic and rough physics, not carpet, wear or battery sag.',
@@ -215,7 +215,7 @@ export default {
       '`simulationPeriodic()` runs only in simulation, so the robot path stays clean.',
       'AdvantageScope draws `SimPose` on the 2D Field tab.',
     ], next: 'Deck 5: Elastic, the dashboard for your drivers.',
-      notes: "Read these back, and ask for a hand if anyone isn't sure about one. The main idea: you added a few lines to a real drivetrain and got a robot you can drive anywhere, running your real commands. Keep this project, because you can test every new command this way, even with no robot around. Next is Deck 5, on Elastic, the dashboard your drivers will use." }),
+      notes: "Read these back. The simulator runs your real commands, so keep this project: you can test every new command with no robot. Next is Deck 5, on Elastic, the dashboard your drivers will use." }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Simulation intro', url: 'https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/introduction.html', short: 'docs.wpilib.org' },

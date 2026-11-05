@@ -69,11 +69,11 @@ export default {
       title: 'REV vs CTRE motors and controllers',
       subtitle: 'What each one does on its own in 2026, and how to choose',
       minutes: 30,
-      notes: 'Welcome to the last deck of the core course. You have used a SPARK MAX on the KitBot and written PID for an arm. Today we look at what the motor controller can do by itself, from both big vendors. This is not a sales pitch, and I will not tell you which one to buy. By the end you should be able to weigh it up for your own team. Facts here were checked on November 4, 2026, so look again before you buy. Timing: 30 minutes.',
+      notes: 'This is the last deck of the core course. It covers what the motor controller can do by itself, from both big vendors, and does not recommend one. Facts here were checked on November 4, 2026, so look again before you buy. Timing: 30 minutes.',
     }),
 
     L.lead({
-      id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do',
+      id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers',
       text: 'In Deck 2 you met a SPARK MAX. In Deck 6 you ran PID on the roboRIO. Today that loop moves onto the motor controller.',
       points: [
         'Match a motor to a controller that really works with it.',
@@ -208,7 +208,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { id: 'both', x: 1391, y: 384, w: 401, h: 440, tone: 'accent', label: 'Pro and CANivore', sub: 'Timesync, device timestamps, Dynamic Motion Magic, full differential control.' },
       ],
       caption: 'Without Pro, a request with EnableFOC falls back to normal drive, but TorqueCurrentFOC will not run. A Season Pass covers 100 devices for one team number. Pro features are free in simulation.',
-      notes: 'Let\'s be exact, because people argue about this. FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. The free tier runs a very good robot, so Pro is optional. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one. Timing: 2 minutes.',
+      notes: 'FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. Pro is optional. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one. Timing: 2 minutes.',
     }),
 
     L.table({
@@ -255,7 +255,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { icon: 'Users', title: 'Who can help', text: 'Choose what your mentors, or a team nearby, can debug with you at an event.' },
         { icon: 'Link', title: 'Mixing is allowed', text: 'R504 lists both vendors and one project can use both libraries. You pay with two apps and two update routines.' },
       ],
-      notes: 'There is no winner here. REV gives you everything with no paid tier, separate parts, and encoders that wire straight to the controller. CTRE gives you built-in controllers, code generators and deep logging, and some features cost extra. Check today\'s store pages for prices, because they change. Mixing is legal and practical: a Talon FXS can even drive a NEO. Just know that following stays within a vendor, SPARKs stay on the roboRIO CAN bus, and Phoenix swerve needs all CTRE. The best motor is the one your team can keep running. Timing: 2 minutes.',
+      notes: 'REV gives you everything with no paid tier, separate parts, and encoders that wire straight to the controller. CTRE gives you built-in controllers, code generators and deep logging, and some features cost extra. Check today\'s store pages for prices, because they change. Mixing is legal and practical: a Talon FXS can even drive a NEO. Following stays within a vendor, SPARKs stay on the roboRIO CAN bus, and Phoenix swerve needs all CTRE. Timing: 2 minutes.',
     }),
 
     L.exercise({
@@ -267,7 +267,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         'Open `RevArm.java` or `CtreArm.java` and find the gravity lines.',
       ],
       done: 'your group can name the motor, controller, current limit and sensor, and point to the gravity lines.',
-      notes: 'Work in pairs. Mix programmers with electrical students if you can, since the sensor question is partly theirs. There is no single right answer, and a team that picks REV and a team that picks CTRE can both be correct. Walk around and ask "why that one?" If a group finishes early, have them work out the same pick with the other vendor and list what changes. Back in four minutes. Timing: 4 minutes.',
+      notes: 'Work in pairs. Mix programmers with electrical students if you can, since the sensor question is partly theirs. Either vendor can be a correct answer. Walk around and ask "why that one?" If a group finishes early, have them work out the same pick with the other vendor and list what changes. Back in four minutes. Timing: 4 minutes.',
     }),
 
     L.change2027({
@@ -281,7 +281,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { now: 'motor.set() on a Talon', next: 'Alpha: renamed setThrottle()' },
       ],
       note: 'Firmware 27.0.0 is a normal REV release from 2026-10-29. Alpha items may change: REVLib 2027.0.0-alpha-7, Phoenix 6 26.70.0-alpha-2.',
-      notes: 'This is a heads-up, not homework. One item is already real: REV released SPARK firmware 27.0.0 on October 29. Positions are in native sensor units, and velocity is in units per minute. That is why our arm uses rotations and converts in Java, so it does not depend on conversion factors. Everything marked alpha is for Systemcore, the controller replacing the roboRIO, and may change. Systemcore has more CAN buses, so every device must say which bus it is on, which is why we used CANBus today. If you search REV\'s online Java docs, you may land on this alpha API, so trust your installed library. Timing: 1 minute.',
+      notes: 'One item is already real: REV released SPARK firmware 27.0.0 on October 29. Positions are in native sensor units, and velocity is in units per minute. That is why our arm uses rotations and converts in Java, so it does not depend on conversion factors. Everything marked alpha is for Systemcore, the controller replacing the roboRIO, and may change. Systemcore has more CAN buses, so every device must say which bus it is on, which is why we used CANBus today. If you search REV\'s online Java docs, you may land on this alpha API, so trust your installed library. Timing: 1 minute.',
     }),
 
     L.recap({
@@ -294,7 +294,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         'Choose for your team from budget, parts and mentors.',
       ],
       next: 'That ends the core course. Decks 8 to 10 go deeper.',
-      notes: 'That is the core course. If you only remember one thing from today, make it this: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 go deeper for teams that want more: motors, advanced controls and autonomous path planning. Timing: 30 seconds.',
+      notes: 'That ends the core course. This deck comes down to two rules: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 cover motors, advanced controls and autonomous path planning. Timing: 30 seconds.',
     }),
 
     L.links({

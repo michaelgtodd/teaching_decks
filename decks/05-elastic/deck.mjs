@@ -44,9 +44,9 @@ export default {
   description: 'Using the Elastic dashboard bundled with WPILib 2026 to see data, pick an auto, tune a value and keep a layout.',
   slides: [
     L.cover({ title: 'Elastic: your robot on a dashboard', subtitle: 'See live data, pick an auto and tune a value from the laptop', minutes: 25,
-      notes: 'This is Elastic, the dashboard that comes with WPILib 2026. By the end you will have a driver tab of your own. We have 25 minutes, and about six of those are hands-on, so keep a laptop handy. If there is no robot free, the simulator from deck 4 is all you need. Timing: 20 seconds.' }),
+      notes: 'This is Elastic, the dashboard that comes with WPILib 2026. The exercise builds a driver tab. This takes 25 minutes, and about six of those are hands-on, so keep a laptop handy. If there is no robot free, the simulator from deck 4 is all you need. Timing: 20 seconds.' }),
 
-    L.cards({ id: 'outcomes', eyebrow: 'Outcomes', title: 'By the end of this deck you can', items: [
+    L.cards({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
       { icon: 'Activity', title: 'Read the robot', text: 'Send numbers from Java and watch them live in Elastic.' },
       { icon: 'Play', title: 'Pick an auto', text: 'Give the drive team an auto chooser on the laptop.' },
       { icon: 'Settings', title: 'Tune a value', text: 'Change a number from the dashboard safely, and see what it does.' },
@@ -99,7 +99,7 @@ export default {
       { line: 9, title: 'Every 20 ms', text: 'Send a few useful values. Put the rest in logs.' },
       { line: 11, title: 'Units in the name', text: '`Battery (V)` needs no explanation at a match.' },
     ], flag2027: '`SmartDashboard` is replaced by the Telemetry and Tunables APIs.',
-    notes: 'SmartDashboard is the Java class that writes to the notebook, and it is the 2026 way to do this. putNumber sends one number. putData sends a whole object with its own widget. Without withName a command shows up as something like RunCommand, which helps nobody. Elastic asks for new values about every 60 ms by default, so a dashboard number will not update any faster however often you send it. Every extra value is work inside your 20 ms loop. Timing: two minutes. If a kid asks: the slash in a key makes a folder.' }),
+    notes: 'SmartDashboard is the Java class that writes to the notebook, and it is the 2026 way to do this. putNumber sends one number. putData sends a whole object with its own widget. Without withName a command shows up as something like RunCommand. Elastic asks for new values about every 60 ms by default, so a dashboard number will not update any faster however often you send it. Every extra value is work inside your 20 ms loop. Timing: two minutes. If a kid asks: the slash in a key makes a folder.' }),
 
     L.codeNotes({ id: 'chooser', eyebrow: 'Autonomous', title: 'An auto chooser with SendableChooser', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'chooser' }, callouts: [
       { line: 5, title: 'A safe default', text: 'If nobody picks, the robot does nothing.' },
@@ -148,7 +148,7 @@ export default {
       { line: 3, title: 'A popup', text: 'A level, a title and text. It shows for 3 s by default.' },
       { line: 9, title: 'Wait a moment', text: 'The battery must stay low for 2 s, so a quick dip is ignored.' },
       { line: [12, 14], title: 'Switch tabs', text: '`selectTab` takes a tab name. No match means no change.' },
-    ], notes: 'These two extras are what teams like most. They need one file, Elastic.java, from the elasticlib folder of Elastic\'s repo. Elastic docs suggest a folder called util, and you may need to change the package line at the top. Our own helper, once, wraps runOnce with ignoringDisable so it also works while disabled. The tab names here are the two Elastic starts with, and they must match yours exactly. These work only in Elastic. Timing: one minute. If a kid asks: withNoAutoDismiss keeps a popup on screen.' }),
+    ], notes: 'These two extras need one file, Elastic.java, from the elasticlib folder of Elastic\'s repo. Elastic docs suggest a folder called util, and you may need to change the package line at the top. Our own helper, once, wraps runOnce with ignoringDisable so it also works while disabled. The tab names here are the two Elastic starts with, and they must match yours exactly. These work only in Elastic. Timing: one minute. If a kid asks: withNoAutoDismiss keeps a popup on screen.' }),
 
     L.table({ id: 'symptoms', eyebrow: 'Common mistake', title: 'Six symptoms and where they come from', columns: ['What you see', 'Why', 'Fix'], widths: [27, 39, 34], rows: [
       ['A typed value snaps back at once', 'putNumber in periodic writes over the box every 20 ms', 'setDefaultNumber once, then getNumber'],
@@ -165,7 +165,7 @@ export default {
       'Right-click `Battery (V)`, then **Show As**, **Voltage View**.',
       'Click **+**, rename the new tab `Debug`, and drag `Left Output (%)` onto it.',
       '**File**, **Save As**, into `src/main/deploy/elastic-layout.json`.',
-    ], done: '`Auto` shows a green check, and the file is in your deploy folder.', notes: 'Six minutes, in pairs. If there is no robot, use the simulator with localhost. Rename a tab by right-clicking it and choosing Rename. Voltage View runs from 4 to 13 volts by default, which suits a 12 volt battery. In simulation the battery number may just sit still, and that is fine. If you finish early, try Download From Robot, or add the Drive Scale box and turn on its submit button. Please do not press Enter on an enabled robot.' }),
+    ], done: '`Auto` shows a green check, and the file is in your deploy folder.', notes: 'Six minutes, in pairs. If there is no robot, use the simulator with localhost. Rename a tab by right-clicking it and choosing Rename. Voltage View runs from 4 to 13 volts by default, which suits a 12 volt battery. In simulation the battery number may not change. If you finish early, try Download From Robot, or add the Drive Scale box and turn on its submit button. Do not press Enter on an enabled robot.' }),
 
     L.change2027({ id: 'change', items: [
       { now: 'Older tutorials show Shuffleboard', next: 'Removed for 2027, so those steps do not apply' },
@@ -173,7 +173,7 @@ export default {
       { now: 'SmartDashboard.putNumber and putData', next: 'Telemetry and Tunables APIs' },
       { now: 'SendableChooser', next: 'Selectable' },
     ], note: 'Everything in this deck is correct for 2026. WPILib 2027 is still in alpha, so details may change.',
-    notes: 'Just a heads-up, nothing to do today. Elastic is staying with us: it is one of the two dashboards WPILib recommends going forward. The Java you send data with will change, though. The Telemetry and Tunables APIs take over from SmartDashboard, and Selectable takes over from SendableChooser. Keep using what you learned today for 2026, because Systemcore kits are not out yet. Timing: 30 seconds.' }),
+    notes: 'Elastic is one of the two dashboards WPILib recommends for 2027. The Java you send data with will change: the Telemetry and Tunables APIs take over from SmartDashboard, and Selectable takes over from SendableChooser. Use this deck for 2026, because Systemcore kits are not out yet. Timing: 30 seconds.' }),
 
     L.recap({ id: 'recap', items: [
       'Send data with `SmartDashboard` and see it in Elastic.',

@@ -20,9 +20,12 @@ Errors name the slide and the fix. Cut words or split the slide: never hack arou
 Young FRC students, many in their first season, ages roughly 12 to 16. Mentors are in the room.
 - Plain words and short sentences. Define every term the first time. Analogies from things they know (driving a car, a thermostat, a shower's hot tap).
 - Talk to "you". Never condescend, and never joke at the expense of a mistake.
-- No praise, reassurance or pep talk, on slides or in notes: no "well done", "don't worry", "that's normal" or "everyone hits this". Say what happens and what to do.
+- Decks are purely informative, on slides and in notes. State the fact, the step or the reason, and nothing else.
+- No praise, reassurance, pep talk or motivation: no "well done", "don't worry", "that's normal", "everyone hits this", "you can now" or "you need no math past...".
+- No framing about how to feel or how much it matters: no "heads-up, not homework", "a pointer, not a lesson", "if you remember one thing", "the honest part" or "the sneaky part".
+- No welcomes, group chants, rhetorical questions, or jokey labels such as "break it on purpose".
 - Slide text is short; the explanation goes in speaker notes. **One idea per slide.**
-- Speaker notes on every slide: what to say, in the mentor's voice, 40 to 120 words. Add the timing cue and any "if a kid asks X" where useful.
+- Speaker notes on every slide: what to say, in the mentor's voice, up to 120 words. Add the timing cue and any "if a kid asks X" where useful.
 - Titles describe the topic, in the same grammar across the deck. No drama ("It's not X, it's Y"). No hype words.
 - Prose punctuation is converted to curly quotes for you. Avoid em dashes in slide text.
 

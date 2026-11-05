@@ -13,9 +13,9 @@ export default {
   slides: [
     L.cover({
       title: 'Your first robot program',
-      subtitle: 'Today your code reaches a real robot.',
+      subtitle: 'Send code to a robot and turn it on safely',
       minutes: 95,
-      notes: 'Welcome, everyone. We have one goal: by the end, code you made is running on a real robot. There are two parts, with a break between them. In part one you meet the robot and get your laptop ready. In part two your group sends code to the robot and turns it on safely. Mentors: part one takes about 45 minutes and part two about 50, so do not run them back to back. Timing: 1 minute.',
+      notes: 'There are two parts, with a break between them. In part one you meet the robot and get your laptop ready. In part two your group sends code to the robot and turns it on safely. Mentors: part one takes about 45 minutes and part two about 50, so do not run them back to back. Timing: 1 minute.',
     }),
 
     L.demo({
@@ -23,7 +23,7 @@ export default {
       show: [
         'A mentor drives the robot around the room.',
         'Every move comes from code that a person wrote.',
-        'Today your code gets onto a robot. Next session, it drives.',
+        'Code reaches the robot in this deck. Driving comes in Deck 2.',
       ],
       notes: 'Drive the robot around for a minute, and let the students get close enough to hear it. Then stop and ask what they think is happening between the controller and the wheels. Take a few guesses. The point is that a person wrote the code doing this. Mentors: this needs the prepared robot from the prep list. Timing: 3 minutes.',
     }),
@@ -74,7 +74,7 @@ export default {
         { title: 'Deploy', text: 'Your laptop sends the code to the robot.' },
         { title: 'Enable', text: 'You tell the robot it may run your code.' },
       ],
-      notes: 'Think about an app on a phone. Build is finishing the app. Deploy is installing it on the phone. Enable is tapping it to start. They always go in that order. Say each word out loud together, because you will hear them all day. A robot that is not enabled will not move, even with code on it. That is a safety feature. Timing: 2 minutes.',
+      notes: 'Think about an app on a phone. Build is finishing the app. Deploy is installing it on the phone. Enable is tapping it to start. They always go in that order. A robot that is not enabled will not move, even with code on it. That is a safety feature. Timing: 2 minutes.',
     }),
 
     L.steps({
@@ -85,7 +85,7 @@ export default {
         { title: 'Cannot find one? Raise your hand', text: 'A mentor will sort it out.' },
       ],
       qr: { url: `${Z2R}/step-2/`, label: 'Installing the software', short: 'docs.wpilib.org: Step 2, Installing Software' },
-      notes: 'Hands on, and mentors walk the room. Everyone should have both apps open before we move on. If a laptop is missing something, send it to the help table and let that student share a neighbor\'s screen, so nobody falls behind. Do not start an install during this session, because it takes far too long. Driver Station needs Windows, so anyone on a Mac pairs up. Timing: 8 minutes.',
+      notes: 'Hands on, and mentors walk the room. Everyone should have both apps open before we move on. If a laptop is missing something, send it to the help table and let that student share a neighbor\'s screen. Do not start an install during this session, because it takes far too long. Driver Station needs Windows, so anyone on a Mac pairs up. Timing: 8 minutes.',
     }),
 
     L.gotcha({
@@ -120,8 +120,8 @@ export default {
     }),
 
     L.statement({
-      id: 'laptop-ready', text: 'Your laptop is ready.',
-      sub: 'You made a project and built it. That is the end of part one. Take a break.',
+      id: 'laptop-ready', text: 'End of part 1',
+      sub: 'Your project is built. Part 2 sends it to a robot. Take a break.',
       notes: 'Every laptop in the room should have reached Build Successful. Stop here. Part two needs a robot and small groups, and it works best in a fresh sitting. Timing: 1 minute.',
     }),
 
@@ -132,7 +132,7 @@ export default {
         { title: 'Plug the USB cable into the robot', text: 'A mentor will show you the port.' },
         { title: 'Plug in your game controller', text: 'It goes in your laptop.' },
       ],
-      notes: 'Welcome back. Split into groups of 3 or 4, with one laptop per group and a mentor nearby. Each group gets a turn at the robot. We start on a cable because it takes the radio out of the picture: if something goes wrong, there is less to check. Robot on means the rules change, so keep hands off the wheels. Timing: 3 minutes.',
+      notes: 'Split into groups of 3 or 4, with one laptop per group and a mentor nearby. Each group gets a turn at the robot. We start on a cable because it takes the radio out of the picture: if something goes wrong, there is less to check. Robot on means the rules change, so keep hands off the wheels. Timing: 3 minutes.',
     }),
 
     L.steps({
@@ -183,8 +183,8 @@ export default {
         'Watch the robot signal light blink, then press `Enter`.',
         'Swap, so everyone gets a turn.',
       ],
-      done: 'The light blinks when enabled and goes solid after `Enter`. Nothing spins today, and that is correct.',
-      notes: 'Before anyone enables, point to the robot signal light. Then say this: nothing will spin today, and that is correct. This practice code is not set up for our motors. Look for the blinking light, because it means your robot is listening to your laptop. Teleoperated means driver control. Saying enabling out loud warns everyone nearby. Use this checklist every time, even when nothing should move, because old code may still be on the robot. Timing: 15 minutes.',
+      done: 'The light blinks when enabled and goes solid after `Enter`. Nothing spins: this code is not set up for our motors.',
+      notes: 'Before anyone enables, point to the robot signal light. Nothing will spin, because this practice code is not set up for our motors. Look for the blinking light, because it means your robot is listening to your laptop. Teleoperated means driver control. Saying enabling out loud warns everyone nearby. Use this checklist every time, even when nothing should move, because old code may still be on the robot. Timing: 15 minutes.',
     }),
 
     L.diagram({
@@ -206,13 +206,13 @@ export default {
     }),
 
     L.recap({
-      id: 'recap', title: 'What you did today',
+      id: 'recap',
       items: [
-        'You opened WPILib VS Code.',
-        'You made and built a project.',
-        'You sent code to a robot.',
-        'You read the three lights.',
-        'You started and stopped a robot safely.',
+        'Open WPILib VS Code.',
+        'Make and build a project.',
+        'Send code to a robot.',
+        'Read the three lights.',
+        'Start and stop a robot safely.',
       ],
       next: 'Next session, Deck 2 makes the robot drive.',
       notes: 'Read these out. Next session we write code that makes the robot drive. Timing: 1 minute.',

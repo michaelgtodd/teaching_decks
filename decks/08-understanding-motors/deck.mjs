@@ -155,9 +155,9 @@ export default {
   description: 'Reading motor curves, gearing, heat, battery sag, current limits and voltage compensation, using the KitBot.',
   slides: [
     L.cover({ title: 'Understanding motors: read the curve', subtitle: 'Why your robot speeds up, slows down, heats up and browns out', minutes: 30,
-      notes: '(30 s) You have driven a KitBot. Today we look at the part that moves it. By the end you can read a motor curve, the chart every motor maker publishes. You will also know why a battery sags, and what a current limit really does. The math is multiplying and dividing. Everything here is for the 2026 season and the roboRIO.' }),
+      notes: '(30 s) This deck covers the KitBot motor: how to read a motor curve, the chart every motor maker publishes, why a battery sags, and what a current limit does. The math is multiplying and dividing. Everything here is for the 2026 season and the roboRIO.' }),
 
-    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do', items: [
+    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
       'Say what **voltage** does to a motor, and what **current** does.',
       'Read free speed, free current, stall torque and stall current off a motor curve.',
       'Work out a robot\'s top speed from its gearing, by hand.',
@@ -180,7 +180,7 @@ export default {
         { from: 'torque', to: 'speed', fromSide: 'b', toSide: 'r', route: 'vh', label: 'torque spins it up', lx: 1330, ly: 640, lw: 300 },
         { from: 'speed', to: 'back', fromSide: 'l', toSide: 'b', route: 'hv', label: 'more speed, more push-back', lx: 590, ly: 716, lw: 380 },
       ],
-      notes: '(2 min) Here is the whole deck on one slide. Voltage is how fast the motor wants to spin. Current is how hard it is pushing. The surprise is the second box: a spinning motor is also a generator, so it pushes back against the battery. The proper name is back EMF. Stopped, nothing pushes back, so lots of current flows. As speed climbs, push-back grows and current falls. Think of starting a bike in a high gear: a huge shove at first, then less and less as you get moving. If a kid asks: yes, that loop is real feedback, built into the physics.' }),
+      notes: '(2 min) Here is the whole deck on one slide. Voltage is how fast the motor wants to spin. Current is how hard it is pushing. Note the second box: a spinning motor is also a generator, so it pushes back against the battery. The proper name is back EMF. Stopped, nothing pushes back, so lots of current flows. As speed climbs, push-back grows and current falls. Think of starting a bike in a high gear: a huge shove at first, then less and less as you get moving. If a kid asks: yes, that loop is real feedback, built into the physics.' }),
 
     L.plot({ id: 'curve', eyebrow: 'Motor curves', title: 'Anatomy of a motor curve: a CIM at 12 V', xLabel: 'Speed (RPM)', yLabel: 'Percent of each line\'s maximum', xDomain: [0, CIM.freeRpm], yDomain: [0, 100], xTicks: quarterTicks, yTicks: [0, 25, 50, 75, 100],
       alt: 'Motor curve for a CIM. Torque and current fall in a straight line from their stall values at zero speed to almost nothing at free speed. Power is a hump that peaks at half speed.',
@@ -206,7 +206,7 @@ export default {
         { title: 'Free speed', text: 'All speed, no torque: 0 W.' },
         { title: 'Half speed', text: `Half of each: ${(CIM.stallNm / 2).toFixed(2)} Nm × ${Math.round(radS(halfRpm))} rad/s = **${Math.round(peakW)} W**.` },
       ],
-      notes: `(1.5 min) Power is how fast a motor does work. It is torque times speed, in radians per second. At stall you have torque but no speed, so zero. At free speed you have speed but no torque, also zero. Torque falls as speed rises, so the biggest product is in the middle: half torque times half speed. For a CIM that is ${Math.round(peakW)} watts at ${Math.round(halfRpm)} RPM. Try a kid's guess: at three quarters speed you get three quarters of the speed but one quarter of the torque, ${Math.round(wattsOut(CIM.freeRpm * 0.75))} watts. Peak power is not a place to sit, as we will see when we look at heat.` }),
+      notes: `(1.5 min) Power is how fast a motor does work. It is torque times speed, in radians per second. At stall you have torque but no speed, so zero. At free speed you have speed but no torque, also zero. Torque falls as speed rises, so the biggest product is in the middle: half torque times half speed. For a CIM that is ${Math.round(peakW)} watts at ${Math.round(halfRpm)} RPM. At three quarters speed you get three quarters of the speed but one quarter of the torque, ${Math.round(wattsOut(CIM.freeRpm * 0.75))} watts. Peak power is not a place to sit, as we will see when we look at heat.` }),
 
     L.plot({ id: 'voltage-curves', eyebrow: 'Control theory', title: 'Voltage slides the curve, load picks the point', xLabel: 'Speed (RPM)', yLabel: 'Torque (Nm)', xDomain: [0, CIM.freeRpm], yDomain: [0, 2.5], xTicks: quarterTicks, yTicks: [0, 0.5, 1, 1.5, 2, 2.5], refs: [{ y: LOAD_NM, label: `Load: ${LOAD_NM} Nm` }],
       alt: 'Torque against speed for a CIM at 12, 9 and 6 volts. The three straight lines are parallel. A flat load line crosses them at three different speeds.',
@@ -329,7 +329,7 @@ export default {
 
     L.code({ id: 'check-code', eyebrow: 'WPILib', title: 'Checking your math with `DCMotor`', file: 'MotorCheck.java', src: { file: `${J}/MotorCheck.java`, region: 'check' }, highlight: [3, 6, 7],
       caption: '`withReduction()` gears the motor down, so `freeSpeedRadPerSec` is now wheel speed. Radians per second × radius = metres per second.',
-      notes: '(1 min) WPILib already knows these motors. getCIM(2) means two CIMs in one gearbox, which is one side of the KitBot. withReduction applies your ratio, and hands back a new DCMotor with the speed divided and the torque multiplied, the two steps you did by hand. getCurrent with speed zero and 12 volts asks the stall question. You can swap in getNEO or getKrakenX60 and compare motors without touching a robot. The next slide is your turn, so try the paper part before you run this.' }),
+      notes: '(1 min) WPILib already knows these motors. getCIM(2) means two CIMs in one gearbox, which is one side of the KitBot. withReduction applies your ratio, and hands back a new DCMotor with the speed divided and the torque multiplied, the two steps you did by hand. getCurrent with speed zero and 12 volts asks the stall question. You can swap in getNEO or getKrakenX60 and compare motors without touching a robot. The next slide is the exercise. Do the paper part before you run this.' }),
 
     L.exercise({ id: 'exercise', title: 'Predict the KitBot, then check it', minutes: 5, tasks: [
       'Cover the gearing slide. Work out top speed at **8.45:1** from the curve.',
@@ -341,19 +341,19 @@ export default {
     notes: `(5 min) Work in pairs. Paper first, so the console is the check and not the answer. Answers, from running this DCMotor math: ${topMs.toFixed(2)} m/s, ${altMs.toFixed(2)} m/s, ${CIM.stallA} A, and ${CIM.stallA * BOT.motors} A. Copy the constants from deck8/Constants.java too. Four stalled CIMs can't really pull ${CIM.stallA * BOT.motors} A, because the battery sags first, so ask why. Early finishers: WPILib's DifferentialDrivetrainSim tops out at ${wpilibSimMs.toFixed(2)} m/s at 8.45:1, a little above free speed. Why? It has no friction, so nothing uses the free current. Then try getNEO(2) in place of getCIM(2).` }),
 
     L.recap({ id: 'recap', items: [
-      'Say it: **voltage sets speed, current sets torque**, and the load decides the current.',
+      '**Voltage sets speed, current sets torque**, and the load decides the current.',
       'Find free speed, free current, stall torque and stall current on any motor curve.',
       'Work out top speed by hand, and say why peak power sits at half speed.',
       'Explain stall heat, battery sag and brownouts in your own words.',
       'Tell motor current from battery current, choose a limit, and check it in your logs.',
     ], next: 'Deck 9: driver feel, feedforward and where loops run.',
-    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say why a stalled motor gets hot, go back to the push-back loop, because everything else follows from it. Before people leave, ask each team to read their own robot\'s current limits out of their code and say why each number is there. If they can\'t say, that is their next job.' }),
+    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say why a stalled motor gets hot, go back to the push-back loop, because everything else follows from it. Before people leave, ask each team to read their own robot\'s current limits out of their code and say why each number is there.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Brownouts and current draw', url: 'https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html', short: 'docs.wpilib.org' },
       { label: 'SPARK MAX current limits', url: 'https://docs.revrobotics.com/brushless/spark-max/gs/make-it-spin', short: 'docs.revrobotics.com' },
       { label: 'Locked rotor testing', url: 'https://docs.revrobotics.com/brushless/neo/locked-rotor-testing', short: 'docs.revrobotics.com' },
       { label: 'DCMotor Java docs', url: 'https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/system/plant/DCMotor.html', short: 'github.wpilib.org' },
-    ], notes: '(30 s) Leave this up during the break. The brownout page has a good section on planning a power budget, which is a nice next step for a team that keeps browning out. The REV test data shows how fast a stalled motor fails, and is worth reading before you design an arm. Print the brownout page for your pit if you can.' }),
+    ], notes: '(30 s) Leave this up during the break. The brownout page has a good section on planning a power budget, for teams that keep browning out. The REV test data shows how fast a stalled motor fails, and is worth reading before you design an arm. Print the brownout page for your pit if you can.' }),
   ],
 };

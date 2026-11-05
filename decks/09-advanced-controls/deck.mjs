@@ -324,9 +324,9 @@ export default {
   description: 'Input shaping, drivetrain feedforward and closed-loop speed, SysId, loops on the controller, and S-curve motion.',
   slides: [
     L.cover({ title: 'Advanced controls', subtitle: 'Driver feel, drivetrain feedforward, where the loop runs, and smoother motion', minutes: 35,
-      notes: '(30 s) This is the deeper deck, and you still need no math past algebra. You have driven a robot and tuned an arm. Today we make the driving feel good, make the drivetrain hit the speed you asked for, decide where a control loop should run, and smooth out motion. Every idea starts as a picture, then the numbers. Everything here is for the 2026 season and the roboRIO.' }),
+      notes: '(30 s) The math is algebra. This deck covers driver feel, drivetrain speed control, where a control loop should run, and smoother motion. Each idea comes as a picture, then the numbers. Everything here is for the 2026 season and the roboRIO.' }),
 
-    L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What you can do after this deck', items: [
+    L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What this deck covers', items: [
       { icon: 'Settings', title: 'Shape the stick', text: 'Add a deadband, a curve and a slew-rate limit, in the right order.' },
       { icon: 'Lightning', title: 'Predict the volts', text: 'Use kS, kV and kA on a drivetrain, and know what SysId measures.' },
       { icon: 'Clock', title: 'Place the loop', text: 'Choose between 20 ms on the roboRIO and 1 ms on the controller.' },
@@ -361,7 +361,7 @@ export default {
         { title: 'Already squared', text: '`arcadeDrive` squares its inputs unless you pass `false`.' },
         { title: 'Scale goes first', text: `Deck 2's is squared too: ${DRIVE_SCALE} becomes ${fix(DRIVE_SCALE ** 2, 2)} at full stick.` },
       ],
-      notes: `(1.5 min) Think of a car's accelerator: the first bit of travel is gentle. Input shaping does that to a stick, changing what the stick means without changing its range. Most driving happens at small movements, and a curve spreads your fingers over more of that part of the stick. These curves are exact math, the same formula as MathUtil.copyDirectionPow. Here is a surprise from Deck 2: the scale happens before arcadeDrive squares the value, so ${DRIVE_SCALE} turns into ${fix(DRIVE_SCALE ** 2, 2)} at full stick. FIRST's KitBot code does the same, and it is fine for a first drive. Now you know where your top speed went.` }),
+      notes: `(1.5 min) Think of a car's accelerator: the first bit of travel is gentle. Input shaping does that to a stick, changing what the stick means without changing its range. Most driving happens at small movements, and a curve spreads your fingers over more of that part of the stick. These curves are exact math, the same formula as MathUtil.copyDirectionPow. From Deck 2: the scale happens before arcadeDrive squares the value, so ${DRIVE_SCALE} turns into ${fix(DRIVE_SCALE ** 2, 2)} at full stick. FIRST's KitBot code does the same.` }),
 
     L.plot({ id: 'slew', eyebrow: CT, title: 'A slew-rate limit trades snap for smoothness', xLabel: 'Time after full stick (s)', yLabel: 'Simulated robot speed (m/s)', xDomain: [0, 1.2], yDomain: [0, 6], xTicks: [0, 0.3, 0.6, 0.9, 1.2], yTicks: [0, 2, 4, 6],
       alt: 'Simulated robot speed after a full-stick start, with no limit and with slew-rate limits of 3 and 1.5 per second. Stronger limits reach top speed later.',
@@ -448,7 +448,7 @@ export default {
       'Put back `KV`, then `KS`, then `KA`. Hold A after each one.',
       'Hold A and Y. Y is a simulated push. Raise `KP` until the push barely matters.',
     ], done: `with A and Y held, \`Drive/Left speed (mps)\` stays within 0.05 of ${TEST_MPS} m/s.`,
-    notes: '(5 min) Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck9.VelocityRobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants: stop the simulator, edit, run again. We ran these steps. P alone stops near 1.3 m/s. KV brings it to 1.88 and KS to 2.00. With the push, KP 6 sits 0.11 below the goal and KP 16 is the first whole number within 0.05. The Java only ever talks to the simulated drivetrain here, which is why this is safe to break.' }),
+    notes: '(5 min) Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck9.VelocityRobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants: stop the simulator, edit, run again. We ran these steps. P alone stops near 1.3 m/s. KV brings it to 1.88 and KS to 2.00. With the push, KP 6 sits 0.11 below the goal and KP 16 is the first whole number within 0.05. The Java only ever talks to the simulated drivetrain here, so no hardware is at risk.' }),
 
     L.plot({ id: 'onboard-faster', section: 'Where the loop runs', eyebrow: CODE, title: 'An onboard loop decides faster, on fresher data',
       alt: `Simulated arm angle over 3 seconds at kP ${HOT_KP}. The 20 millisecond loop keeps swinging. The 1 millisecond loop settles in ${fix(fastSettle, 2)} seconds.`,
@@ -473,7 +473,7 @@ export default {
 
     L.practice({ id: 'where-loop', title: 'Learn the loop in Java, then move it', rule: 'Get a new loop right on the roboRIO, then move it to the controller.',
       why: 'Java loops are easy to log, change and try in the simulator. A controller loop is quicker and fresher, but its gains use other units, so you tune it again.',
-      notes: '(1 min) This is about learning order, not about which is better. REV\'s docs recommend doing as much as you can on the motor controller, and for a fast mechanism like a shooter wheel you will want that. But while you are learning, seeing the loop matters more. In Java you can log every term and break it safely in the simulator, as you just did. Once you understand it, move it. Think of training wheels: useful first, and you take them off on purpose.' }),
+      notes: '(1 min) REV\'s docs recommend doing as much as you can on the motor controller, and a fast mechanism like a shooter wheel needs that. A loop in Java is easier to inspect while it is new: you can log every term and test it in the simulator. Move it to the controller once it works.' }),
 
     L.plot({ id: 'scurve', section: 'Smoother motion and what comes next', eyebrow: CT, title: 'An S-curve rounds off the corners of a trapezoid',
       alt: `Planned arm speed for a swing from ${SWING.from} to ${SWING.to} degrees. The trapezoid has sharp corners and takes ${fix(trapTime, 2)} seconds. The S-curve rounds them and takes ${fix(sCurveTime, 2)} seconds.`,
@@ -497,7 +497,7 @@ export default {
         '**You have met it:** SysId uses LQR for the P and D gains it suggests.',
         '**WPILib\'s advice:** pick the easiest strategy that works on the field.',
       ],
-      notes: '(1 min) This is a pointer, not a lesson. LQR stands for Linear-Quadratic Regulator, and it uses matrices, so explore it with a mentor. With PID you turn dials until it feels right. With LQR you say how far off you can tolerate and how many volts you want to spend, and the math picks the gains. If you use SysId, you are already using it. WPILib\'s own advice is to pick the easiest strategy that works, so finish feedforward and PID first. The state-space link on the last slide starts from PID and builds up.' }),
+      notes: '(1 min) LQR stands for Linear-Quadratic Regulator, and it uses matrices, so explore it with a mentor. With PID you turn dials until it feels right. With LQR you say how far off you can tolerate and how many volts you want to spend, and the math picks the gains. If you use SysId, you are already using it. WPILib\'s own advice is to pick the easiest strategy that works, so finish feedforward and PID first. The state-space link on the last slide starts from PID and builds up.' }),
 
     L.recap({ id: 'recap', items: [
       'Build the stick chain in order: sign, deadband, curve, scale, slew limit.',
@@ -506,7 +506,7 @@ export default {
       'Decide where a loop belongs: 20 ms on the roboRIO or 1 ms on the controller.',
       'Say how an S-curve differs from a trapezoid, and what state-space adds.',
     ], next: 'Deck 10 compares the autonomous path planning libraries.',
-    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say what kV means, go back to the picture of the steady push. Before people leave, make sure every team has committed the drive settings they liked. Everything today builds on Decks 2 and 6, so if something felt fast, those are the places to go back to.' }),
+    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say what kV means, go back to the picture of the steady push. Before people leave, make sure every team has committed the drive settings they liked. This deck builds on Decks 2 and 6.' }),
 
     L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
       { label: 'Feedforward in WPILib', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/feedforward.html', short: 'docs.wpilib.org' },

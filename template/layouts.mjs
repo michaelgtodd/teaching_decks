@@ -339,7 +339,7 @@ export function exercise(spec) {
   need(h <= G.bodyH, spec.id, `exercise overflows (~${Math.round(h)}px)`);
   return mk('exercise', spec, (ctx) => frame({
     id: spec.id, bg: C.blue, color: C.onDark, dark: true, ctx, notes: spec.notes, flag2027: spec.flag2027,
-    body: `<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml('Your turn', '#FFE7C7')}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:#FFFBF5">${rich(title, '#FFE7C7')}</h2></div><p style="flex:none;font-size:${T.lead}px;font-weight:700;background:${C.ink};color:#FFFBF5;padding:10px 28px;border-radius:8px">${minutes} min</p></div>
+    body: `<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml('Exercise', '#FFE7C7')}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:#FFFBF5">${rich(title, '#FFE7C7')}</h2></div><p style="flex:none;font-size:${T.lead}px;font-weight:700;background:${C.ink};color:#FFFBF5;padding:10px 28px;border-radius:8px">${minutes} min</p></div>
 <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
 ${tasks.map((t, i) => `<div style="display:flex;flex-direction:row;gap:24px;align-items:flex-start"><p style="flex:none;width:44px;font-family:${F.display};font-size:34px;font-weight:600;line-height:1.2;color:#FFE7C7">${i + 1}.</p><p style="flex:1;font-size:${T.body}px;line-height:1.35;color:#FFFBF5">${rich(t, '#FFE7C7')}</p></div>`).join('\n')}</div>
 <p style="font-size:${T.body}px;font-weight:600;line-height:1.3;background:${C.ink};color:#FFFBF5;padding:18px 28px;border-radius:8px">Done when: ${rich(done, C.blueBright)}</p>`,
@@ -360,7 +360,7 @@ ${show.map((t) => `<p style="font-size:${T.body}px;line-height:1.35;color:${C.on
 }
 
 export function recap(spec) {
-  const { title = 'You can now', items, next } = spec;
+  const { title = 'What this deck covered', items, next } = spec;
   need(items?.length >= 2 && items.length <= 5, spec.id, 'recap takes 2 to 5 items');
   const h = items.reduce((a, t) => a + estH(t, G.contentW - 84, T.body, 1.35) + 18, 0) + (next ? 100 : 0);
   need(h <= G.bodyH, spec.id, 'recap overflows');
@@ -390,7 +390,7 @@ export function change2027(spec) {
   const { title = 'What changes for 2027', items, note } = spec;
   need(items?.length >= 2 && items.length <= 6, spec.id, 'change2027 takes 2 to 6 items');
   return table({
-    id: spec.id, eyebrow: 'Heads-up, not homework', title, notes: spec.notes,
+    id: spec.id, eyebrow: 'Next season', title, notes: spec.notes,
     columns: ['In 2026 (what we teach)', 'Changing for 2027'], widths: [50, 50],
     rows: items.map((i) => [i.now, i.next]), caption: note,
   });

@@ -88,22 +88,22 @@ export default {
   slides: [
     L.cover({
       title: 'AdvantageScope: see what your robot is doing', subtitle: 'Reading robot data live and from logs', minutes: 30,
-      notes: 'Welcome back. In Deck 2 you built a drivetrain. Today we find out what it is really doing, using a program called AdvantageScope. It turns robot data into graphs you can read, while the robot runs or from a saved file afterwards. It comes with WPILib, so you already have it. At the end you will graph your own robot. (30 seconds)',
+      notes: 'In Deck 2 you built a drivetrain. AdvantageScope shows what it is doing. It turns robot data into graphs you can read, while the robot runs or from a saved file afterwards. It comes with WPILib, so you already have it. The exercise graphs your own robot. (30 seconds)',
     }),
     L.cards({
-      id: 'outcomes', eyebrow: 'Outcomes', title: 'What you will be able to do', items: [
+      id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
         { icon: 'Link', title: 'Connect', text: 'Open AdvantageScope and connect it to a robot.' },
         { icon: 'Code', title: 'Publish', text: 'Send values out of your Java code so you can graph them.' },
         { icon: 'Database', title: 'Save', text: 'Record a log, get it off the robot, and open it.' },
         { icon: 'Activity', title: 'Read', text: 'Read a graph and say what the robot did, and how well.' },
       ],
-      notes: 'Four things today. Connect, publish, save and read. The first three are about using the tool. The last one is the real skill. Reading a graph is how you will tune an arm in Deck 6, so we will spend real time on it. If you only remember one thing from today, make it this: when the robot does something odd, look at the data before you change the code. (1 minute)',
+      notes: 'Four topics: connect, publish, save and read. The first three are about using the tool. Reading a graph is how you tune an arm in Deck 6. When the robot does something odd, look at the data before you change the code. (1 minute)',
     }),
     L.compare({
       id: 'why', eyebrow: 'Why a data viewer', title: 'Print statements versus a data viewer',
       left: { label: 'Print statements', tone: 'bad', items: ['The robot loop runs 50 times a second, so lines fly past.', 'You see one number at a time, with no shape to it.', 'Two values are hard to match up at the same moment.'] },
       right: { label: 'A data viewer', tone: 'good', items: ['Every value becomes a line you can read at a glance.', 'Everything shares one clock, so causes line up with effects.', 'You can pause, zoom in, and look again after the match.'] },
-      notes: 'Your robot code runs every 20 milliseconds. That is 50 times a second, so a stutter can come and go before your eyes catch it. Print statements are fine for a quick check, and everyone uses them. But the WPILib docs say it plainly: the console does not scale to rich data. A graph shows the shape of what happened, and it lets you compare two values at the same instant. (90 seconds)',
+      notes: 'Your robot code runs every 20 milliseconds. That is 50 times a second, so a stutter can come and go before your eyes catch it. Print statements work for a quick check, but the WPILib docs say the console does not scale to rich data. A graph shows the shape of what happened, and it lets you compare two values at the same instant. (90 seconds)',
     }),
     L.steps({
       id: 'connect', eyebrow: 'Getting connected', title: 'Starting AdvantageScope and connecting to a robot', items: [
@@ -152,7 +152,7 @@ export default {
         { line: [4, 8], title: 'Public, no arguments', text: 'These methods are logged for you, and so are fields.' },
         { line: 12, title: 'Pick a name', text: '`name` sets what you will see in the log.' },
       ],
-      notes: 'Writing a line for every value gets tiring. Epilogue is built into WPILib for Java. Tag a class with @Logged and it generates the logging code when you build. The 2026 Java template already has this set up in build.gradle. By default it sends to NetworkTables, so Level 2 saves it too. Look under Robot, then container, then drive. Each tagged class has to be reachable from Robot. If a kid asks: lots of slow CAN reads can cause loop overruns, so log what you will use. (2 minutes)',
+      notes: 'Epilogue is built into WPILib for Java. Tag a class with @Logged and it generates the logging code when you build. The 2026 Java template already has this set up in build.gradle. By default it sends to NetworkTables, so Level 2 saves it too. Look under Robot, then container, then drive. Each tagged class has to be reachable from Robot. If a kid asks: lots of slow CAN reads can cause loop overruns, so log what you will use. (2 minutes)',
     }),
     L.steps({
       id: 'getlog', eyebrow: 'Logs', title: 'Getting a log off the robot', items: [
@@ -231,7 +231,7 @@ export default {
         'Drag `LeftAppliedOutput` and `RightAppliedOutput` to `Left Axis`.',
         'Enable. Push the left stick forward, then use the right stick to turn.',
       ], done: 'both lines follow the sticks, and they move differently when you turn.',
-      notes: 'Ask for a guess first: what will full stick read? Most people say 1. It reads about 0.5, because DRIVE_SCALE is 0.7 and arcadeDrive squares its inputs by default, and 0.7 squared is 0.49. That is a real finding from a graph. One side is inverted in the config (the left, on the KitBot), so one line may mirror the other. If so, have them work out why. Teams with no robot free can pair up, or use the simulator: there, getAppliedOutput reads 0 because nothing is simulating the SPARK, so those two lines stay flat and that is not a bug. With the Level 3 Epilogue code, Left Motor Speed and Right Motor Speed carry real values in the simulator. Safety first: wheels off the floor, and someone on the Driver Station ready to disable. (6 minutes)',
+      notes: 'Ask for a guess first: what will full stick read? Most people say 1. It reads about 0.5, because DRIVE_SCALE is 0.7 and arcadeDrive squares its inputs by default, and 0.7 squared is 0.49. One side is inverted in the config (the left, on the KitBot), so one line may mirror the other. If so, have them work out why. Teams with no robot free can pair up, or use the simulator: there, getAppliedOutput reads 0 because nothing is simulating the SPARK, so those two lines stay flat and that is not a bug. With the Level 3 Epilogue code, Left Motor Speed and Right Motor Speed carry real values in the simulator. Safety first: wheels off the floor, and someone on the Driver Station ready to disable. (6 minutes)',
     }),
     L.change2027({
       id: 'change2027', items: [
@@ -240,7 +240,7 @@ export default {
         { now: 'Packages under edu.wpi.first', next: 'Packages under org.wpilib, including Epilogue' },
         { now: 'AdvantageScope for debugging', next: 'AdvantageScope and Elastic are the recommended dashboards' },
       ], note: 'WPILib 2027 is in alpha, so any of this may change. Everything in this deck is right for 2026.',
-      notes: 'This is a heads-up, not homework. Do not try any of it on your 2026 robot. The skills carry over. AdvantageScope stays, and reading a graph does not change at all. Epilogue and DataLogManager both still exist in the alpha code, in new packages. Everything you learned today is what you should use on a roboRIO. (30 seconds)',
+      notes: 'Do not use any of it on a 2026 robot. AdvantageScope stays, and reading a graph does not change. Epilogue and DataLogManager both still exist in the alpha code, in new packages. (30 seconds)',
     }),
     L.recap({
       id: 'recap', items: [
@@ -250,7 +250,7 @@ export default {
         'Read a brownout from voltage and current.',
         'Name rise time, overshoot, settling time and steady-state error on a graph.',
       ], next: 'Deck 4 drives the simulator in AdvantageScope, with no robot needed.',
-      notes: 'Quick check before we move on: ask someone what overshoot looks like on a graph, and someone else where a log goes when there is no USB stick. Next time something odd happens on your robot, open the data first. Deck 4 uses this same tool with a simulated robot, so you can practice all of this at home. (30 seconds)',
+      notes: 'Quick check before we move on: ask someone what overshoot looks like on a graph, and someone else where a log goes when there is no USB stick. Deck 4 uses this same tool with a simulated robot. (30 seconds)',
     }),
     L.links({
       id: 'links', intro: 'Point your phone camera at a code.', items: [
@@ -259,7 +259,7 @@ export default {
         { label: 'Epilogue', url: 'https://docs.wpilib.org/en/stable/docs/software/telemetry/robot-telemetry-with-annotations.html', short: 'docs.wpilib.org' },
         { label: 'Brownouts', url: 'https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html', short: 'docs.wpilib.org' },
       ],
-      notes: 'These four pages are the official docs for everything today. AdvantageScope also has its docs built in: click the book icon in the tab bar and they work with no internet, which is handy at an event. Take a photo of this slide if you want them for later. Then get your robot on blocks and let us see some graphs. (30 seconds)',
+      notes: 'These four pages are the official docs for everything today. AdvantageScope also has its docs built in: click the book icon in the tab bar and they work with no internet, which is handy at an event. Take a photo of this slide if you want them for later. (30 seconds)',
     }),
   ],
 };
