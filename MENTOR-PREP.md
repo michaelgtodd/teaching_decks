@@ -18,11 +18,11 @@ What mentors do so that Deck 1 and the Setup lab run smoothly. None of this belo
 | VS Code archive | In the WPILib installer, choose Download VS Code archives to share with other computers |
 | `ni-frc-2026-game-tools_26.0.0_offline.iso` | 1.39 GB. On the NI page, click Install Offline |
 | REV Hardware Client 2 offline firmware | Get the "All versions" pack, then use Import Pack on the app's Downloads page |
-| `REVLib-offline-v2026.0.5.zip` | Needed in Deck 2 |
+| `REVLib-offline-v2026.0.5.zip` | Needed in Deck 1 |
 
 ## Robot, before Deck 1
 
-Deck 1 needs one finished robot. Use the Setup lab slides as your checklist.
+The first half of Deck 1 runs in the simulator on any laptop. The second half needs a robot with one motor that can spin freely. Use the Setup lab slides as your checklist.
 
 - **roboRIO:** check the type and the power connector, image it, and set the team number. Update roboRIO firmware only if it's brand new: version 5.0 or higher is fine.
 - **Radios:**
@@ -34,9 +34,8 @@ Deck 1 needs one finished robot. Use the Setup lab slides as your checklist.
   - Do Recovery Mode before setting IDs, because it erases settings.
   - Set unique IDs and motor types, click Persist Parameters, and label each one.
   - Leave the PDH ID at its default, with termination on.
-- **Demo:** load drive code and test it. The Deck 2 code in `examples/` hasn't run on a real robot yet.
-- **Getting Started program:** it drives PWM ports, so a CAN robot stays still. Deck 1 tells students this is expected.
-- **Check:** deploy it once and confirm three green lights. Keep the team number, CAN IDs and radio key with the robot.
+- **Deck 1 motor:** the deck uses CAN ID 6, the KitBot feeder roller, in brushed mode. On a robot without that roller, pick one motor that can spin freely and change `kMotorId`. The code in `examples/frc/robot/deck1/` hasn't run on a real robot yet.
+- **Check:** deploy it once, confirm three green lights, and hold A to spin the motor. Keep the team number, CAN IDs and radio key with the robot.
 
 ## Day of
 
@@ -44,7 +43,7 @@ Deck 1 needs one finished robot. Use the Setup lab slides as your checklist.
 - Have ready: robot on blocks, charged battery, USB cables, a controller per group, power strips.
 - Set up a help table for laptop problems, so nobody installs during the session.
 - Print the links slide. Students with no phone can't scan a QR code, and installs happen on the laptop anyway.
-- Run Deck 1 in two sittings. "Build Successful" is the natural stop, and part 2 needs groups of 3 or 4.
+- Deck 1 has a natural stop after the simulator exercise. The motor half needs REVLib installed, which needs internet or the offline zip, and a robot for each group.
 
 ## Running the Setup lab
 

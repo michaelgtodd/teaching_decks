@@ -9,37 +9,35 @@
   "cover": "cover",
   "order": [
     "cover",
-    "watch-it-move",
-    "five-parts",
-    "message-chain",
-    "two-apps",
-    "three-words",
-    "open-apps",
-    "two-vs-codes",
-    "make-project",
-    "build-it",
-    "cable-first",
+    "outcomes",
+    "wpilib",
+    "parts",
+    "declarative",
+    "scheduler",
+    "create",
+    "template",
+    "java-terms",
+    "first-line",
+    "simulate",
+    "gotcha-import",
+    "exercise-hello",
+    "vendordep",
+    "constants",
+    "subsystem",
+    "binding",
+    "bindings",
+    "exercise-motor",
+    "timing",
     "deploy",
-    "three-lights",
-    "red-light",
-    "stop-keys",
-    "turn-it-on",
-    "sense-decide-act",
+    "operate",
+    "exercise-robot",
     "recap",
     "links"
   ],
   "sections": {
     "s0": {
-      "description": "Meet the robot, get your laptop ready, send code to the robot and turn it on safely.",
+      "description": "A first command-based Java program, built from WPILib's template by following WPILib's documentation.",
       "start": "cover"
-    },
-    "s1": {
-      "description": "Part 1: meet the robot and get your laptop ready.",
-      "start": "watch-it-move"
-    },
-    "s2": {
-      "description": "Part 2: send your code to the robot.",
-      "start": "cable-first"
     }
   },
   "faces": {

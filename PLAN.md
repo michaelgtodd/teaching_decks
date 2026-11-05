@@ -20,7 +20,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 
 | # | Folder | Topic | Slides |
 |---|---|---|---|
-| 1 | `01-first-robot-program` | First program: meet the robot, build, deploy, enable safely | ~20 |
+| 1 | `01-first-robot-program` | First command-based program from WPILib's template: one button, one motor | ~25 |
 | 2 | `02-kitbot-drive` | Command-based basics, KitBot drivetrain, joystick | ~21 |
 | 3 | `03-advantagescope` | Reading robot data live and from logs | ~15 |
 | 4 | `04-sim-in-advantagescope` | Driving the WPILib simulator in AdvantageScope | ~16 |
@@ -86,6 +86,7 @@ Confirmed 2026-11-04 from primary sources. If you find one wrong, say so in your
 - **Moved:** current limits and voltage compensation from Deck 2 to Deck 8. Input shaping from Deck 2, and the onboard SPARK arm from Deck 6, to Deck 9.
 - **Added:** Deck 8 (understanding motors), Deck 9 (advanced controls), Deck 10 (auto path planning).
 - **Deck 1:** rebuilt after a newcomer review as a first-day lesson in two sittings. Installing and robot setup became the Setup lab, and mentor material became `MENTOR-PREP.md`.
+- **Deck 1 redo (2026-11-05):** the earlier version showed no code and ran the non-command-based Getting Started example. It now follows WPILib's docs to build a one-button, one-motor command-based program, with WPILib's screenshots (CC BY 4.0) and each slide naming its source page.
 - **Setup lab:** a task list, then the steps for each task. No time estimates, no reassurance and no advice on how to run it on the slides. That advice and the troubleshooting table are in `MENTOR-PREP.md`.
 - **Playground:** served from `docs/arm-playground/` on GitHub Pages so students need no login.
 

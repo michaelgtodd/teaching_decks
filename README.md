@@ -4,7 +4,7 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 
 | # | Deck | Slides |
 |---|---|---|
-| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1) | 19 |
+| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1) | 25 |
 | 2 | [KitBot drive: command-based Java and a joystick](https://claude.ai/artifact/GTK83fawoiqT1J83sS2YZS) | 21 |
 | 3 | [AdvantageScope: see what your robot is doing](https://claude.ai/artifact/JaTKFBgGZosZcVh4rAZYfV) | 18 |
 | 4 | [Driving the KitBot in the WPILib simulator](https://claude.ai/artifact/34wN5wfhF5zk26S62gMEP4) | 20 |
@@ -14,7 +14,7 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 8 | [Understanding motors: how to read a motor curve](https://claude.ai/artifact/B48BWKmNvk9TpxTMFg7GJM) | 20 |
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 |
 | 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 |
-| | **Total** | **205** |
+| | **Total** | **211** |
 | Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F) | 14 |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://claude.ai/artifact/WzcPfnPBQ1gA6uvLpfdEji) (every slide layout).
@@ -26,7 +26,7 @@ This repo and the playground are public. The slide links above stay private to t
 Nothing here has run on a real robot, and no one has viewed the slides, the animated embed or the playground in a browser yet.
 
 **Worth doing first**
-- Work through [MENTOR-PREP.md](MENTOR-PREP.md). Deck 1 needs a finished robot and installed laptops.
+- Work through [MENTOR-PREP.md](MENTOR-PREP.md). Deck 1 needs installed laptops, and a robot for its second half.
 - Page through each deck once. Layout was checked by estimate only.
 - Scan a few QR codes with a phone, from the back of the room. They pass a decoder check, but no phone has tried them.
 - Export PDFs if the shop wifi is unreliable. Fonts load from the web.
@@ -57,7 +57,7 @@ Nothing here has run on a real robot, and no one has viewed the slides, the anim
 - Every example compiles against WPILib 2026.2.1, REVLib 2026.0.5, Phoenix 26.3.0, PathPlannerLib 2026.1.2, ChoreoLib 2026.0.3 and BLine-Lib 0.9.3.
 - The drivetrain, telemetry, roboRIO arms, speed loop, SysId routine and path followers ran in headless WPILib simulation. Results are in each deck's `SOURCES.md`.
 - Not run: WPILib's Simulate Robot Code with its GUI for Decks 8 to 10, the path planning apps, and Choreo's solver.
-- All 54 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
+- All 55 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
 
 Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's popularity numbers are our own count of public repos, and its plot comes from stored run data in `sim-runs.json`.
 

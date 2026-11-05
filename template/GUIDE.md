@@ -32,6 +32,7 @@ Readers are new to FRC, many in their first season, ages roughly 12 to 16.
 - Outcome and recap slides list topics, not tasks: "What a subsystem does", not "Explain a subsystem".
 - Slide text is short; the explanation goes in speaker notes. **One idea per slide.**
 - Speaker notes on every slide: the explanation behind the slide, up to 120 words.
+- Lean on WPILib's material: follow the order and terms of docs.wpilib.org, use its template code unchanged where you can, and name the page on the slide with `ref`.
 - Titles describe the topic, in the same grammar across the deck. No drama ("It's not X, it's Y"). No hype words.
 - Prose punctuation is converted to curly quotes for you. Avoid em dashes in slide text.
 
@@ -72,7 +73,7 @@ Keep code readable at projector size. Limits are enforced: full-width `code` is 
 
 ## Layouts
 
-All take `id` (unique; letters, digits, `-`, `_`), `notes`, and optional `flag2027` (footer note, 72 chars, only when the specific thing on this slide changes for 2027).
+All take `id` (unique; letters, digits, `-`, `_`), `notes`, and optional `flag2027` (footer note, 72 chars, only when the specific thing on this slide changes for 2027) or `ref: {label, url}` (footer link to the WPILib page the slide comes from). One slide can't have both, and `ref` is for light backgrounds.
 Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 chars, one line). Text fields accept `**bold**`, `` `code` ``, `[text](https://url)`.
 
 | Layout | Use for | Required | Limits |
@@ -84,6 +85,7 @@ Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 cha
 | `points` | Truly parallel short items | `items[]` | 2 to 6 |
 | `cards` | Concepts side by side | `items[{icon?, title, text}]`, optional `intro` | 2 to 6; about 20 words each |
 | `steps` | Ordered procedure | `items[{title, text?}]`, optional `qr{url, label, short?}` | 2 to 6 |
+| `figure` | A WPILib docs screenshot with a key | `src`, `alt`, `width`, `height`, `credit`, `items[{mark?, title, text?}]`, optional `intro`, `inline`, `stack` | Up to 8 items, 4 with `stack`. `mark` matches a number in the image. `src` is the `/_blob/` url from uploading to that deck. |
 | `code` | Code alone | `src` or `code`, `file?`, `highlight[]` (1-based lines), `caption?` | see above |
 | `codeNotes` | Code with numbered notes | `src` or `code`, `file?`, `callouts[{line, title, text}]` | 1 to 4 callouts; `line` is 1-based within the shown code and may be an array |
 | `compare` | Two sides | `left`, `right`: each `{label, tone?: good, bad, neutral, items[] or code}` | Use `tone` plus a clear label |
@@ -101,6 +103,6 @@ Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 cha
 
 Icons: Activity Book Chart Chat Check CheckCircle Clock Cloud Code Database Globe GraduationCap Home Key Lightbulb Lightning Link Lock PaperPlane Play Search Settings Star ThumbsUp Tool Trust Users Verified Warning Wrench.
 
-**No screenshots or images.** We have none we can verify. For a tool's UI, use a clearly schematic `diagram` built only from confirmed labels. Say "schematic" in the caption.
+**Images come from the WPILib docs only.** frc-docs is CC BY 4.0, so a screenshot needs a credit line on the slide and an entry in `SOURCES.md`. Take images from the `stable` branch, look at each one, and skip any that shows an older project layout. Keep a copy in `decks/NN-name/images/`. For anything else, use a clearly schematic `diagram` built only from confirmed labels, and say "schematic" in the caption.
 
 **Vary layouts.** Don't stack `points` slides. A real diagram or table beats a list. Aim for no more than 3 `points` slides in a deck.

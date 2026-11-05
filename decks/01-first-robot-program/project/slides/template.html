@@ -1,0 +1,12 @@
+<section id="template" data-transition="fade" style="background:#F7F5EF;color:#1A2733;font-family:'Public Sans', Arial, sans-serif;padding:88px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#B8430A">Project</p><h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#12202E">The files in a command-based project</h2></div><table style="font-family:'Public Sans', Arial, sans-serif;font-size:28px;color:#1A2733;background:#FFFDF8;border:1px solid #D9D3C4">
+<tr style="background:#12202E"><th style="width:31%;color:#F7F5EF">In src/main/java/frc/robot</th><th style="width:39%;color:#F7F5EF">What it is for</th><th style="width:30%;color:#F7F5EF">In this deck</th></tr>
+<tr><td>Main.java</td><td>The main robot application</td><td>WPILib says not to touch it</td></tr>
+<tr style="background:#ECE8DD"><td>Robot.java</td><td>Main control flow, and the scheduler call</td><td>No changes</td></tr>
+<tr><td>RobotContainer.java</td><td>Holds subsystems, commands and button bindings</td><td>Both programs go here</td></tr>
+<tr style="background:#ECE8DD"><td>Constants.java</td><td>Globally accessible constants</td><td>The motor ID and speed</td></tr>
+<tr><td>subsystems/</td><td>Your subsystem classes</td><td>RollerSubsystem</td></tr>
+<tr style="background:#ECE8DD"><td>commands/</td><td>Your command classes</td><td>Not needed in this deck</td></tr>
+</table><p style="position:absolute;left:128px;bottom:56px;width:420px;font-size:24px;color:#45545F">Deck 1 · Your first robot program</p><p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:24px;color:#45545F">WPILib docs: <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html">Structuring a Command-Based Robot Project</a></p><p style="position:absolute;right:128px;bottom:56px;width:100px;text-align:right;font-size:24px;color:#45545F">8</p>
+<aside>This is WPILib’s standard structure, and every project in these decks follows it. WPILib recommends declaring subsystems as private fields in RobotContainer, and that is also where button bindings go. It also says that large amounts of robot code in Robot.java work against the declarative design. The template creates ExampleSubsystem, ExampleCommand and Autos to show the pattern. They do not touch any hardware, so they can stay for now.</aside>
+</section>

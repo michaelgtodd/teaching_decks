@@ -48,21 +48,26 @@ function header(id, eyebrow, title, dark = false) {
   need(eyebrow && plain(eyebrow).length <= 60, id, 'eyebrow is required (60 chars max)');
   return `<div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml(eyebrow, dark ? C.orangeBright : C.orange)}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:${dark ? C.onDark : C.ink}">${rich(title)}</h2></div>`;
 }
-function footer(ctx, { dark, flag2027, id }) {
+function footer(ctx, { dark, flag2027, id, ref }) {
   const soft = dark ? C.onDarkSoft : C.soft;
   let html = `<p style="position:absolute;left:${G.pad}px;bottom:56px;width:420px;font-size:${T.small}px;color:${soft}">${esc(ctx.deck.label ?? `Deck ${ctx.deck.no}`)} · ${esc(smart(ctx.deck.short))}</p>`;
   if (flag2027) {
     need(plain(flag2027).length <= 72, id, 'flag2027 is 72 chars max');
     html += `<p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:${T.small}px;font-weight:600;color:${dark ? C.blueBright : C.blue}">2027: ${rich(flag2027, dark ? C.blueBright : C.blue)}</p>`;
   }
+  if (ref) {
+    need(!flag2027, id, 'a slide has room for flag2027 or ref, not both');
+    need(ref.url && plain(ref.label).length <= 72, id, 'ref needs a url and a label of 72 chars max');
+    html += `<p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:${T.small}px;color:${soft}">WPILib docs: <a href="${esc(ref.url)}">${esc(smart(ref.label))}</a></p>`;
+  }
   html += `<p style="position:absolute;right:${G.pad}px;bottom:56px;width:100px;text-align:right;font-size:${T.small}px;color:${soft}">${ctx.index + 1}</p>`;
   return html;
 }
 const asideHtml = (notes) => (notes ? `<aside>${esc(smart(notes))}</aside>` : '');
-function frame({ id, bg = C.paper, color = C.text, dark = false, body, notes, ctx, flag2027, backdrop = '', chrome = true, padding, justify, gap = G.gap }) {
+function frame({ id, bg = C.paper, color = C.text, dark = false, body, notes, ctx, flag2027, ref, backdrop = '', chrome = true, padding, justify, gap = G.gap }) {
   const pad = padding || `${G.top}px ${G.pad}px ${G.bottom}px`;
   return `<section id="${id}" data-transition="fade" style="background:${bg};color:${color};font-family:${F.body};padding:${pad};display:flex;flex-direction:column;gap:${gap}px${justify ? `;justify-content:${justify}` : ''}">
-${backdrop}${body}${chrome ? footer(ctx, { dark, flag2027, id }) : ''}
+${backdrop}${body}${chrome ? footer(ctx, { dark, flag2027, id, ref }) : ''}
 ${asideHtml(notes)}
 </section>
 `;
@@ -92,7 +97,7 @@ export function sectionSlide(spec) {
   need(spec.section, spec.id, 'sectionSlide needs `section`: one sentence describing the part it opens');
   need(plain(title).length <= 40, spec.id, 'section title is 40 chars max');
   return mk('section', spec, (ctx) => frame({
-    id: spec.id, bg: C.ink, color: C.onDark, dark: true, ctx, notes: spec.notes, justify: 'center', gap: 20, backdrop: blueprint, flag2027: spec.flag2027,
+    id: spec.id, bg: C.ink, color: C.onDark, dark: true, ctx, notes: spec.notes, justify: 'center', gap: 20, backdrop: blueprint, flag2027: spec.flag2027, ref: spec.ref,
     body: `${no ? eyebrowHtml(`Part ${no}`, C.orangeBright) : ''}<h2 style="font-family:${F.display};font-size:${T.display}px;font-weight:600;line-height:1.08;color:${C.onDark}">${rich(title)}</h2>
 ${sub ? `<p style="font-size:${T.lead}px;line-height:1.3;color:${C.onDarkSoft}">${rich(sub, C.blueBright)}</p>` : ''}`,
   }));
@@ -106,7 +111,7 @@ export function statement(spec) {
   const soft = tone === 'ink' ? C.onDarkSoft : '#FFF1E2';
   if (sub) need(estLines(sub, 1560, T.lead) <= 3, spec.id, 'statement sub runs over 3 lines');
   return mk('statement', spec, (ctx) => frame({
-    id: spec.id, bg, color: C.onDark, dark: true, ctx, notes: spec.notes, justify: 'center', gap: 36, flag2027: spec.flag2027,
+    id: spec.id, bg, color: C.onDark, dark: true, ctx, notes: spec.notes, justify: 'center', gap: 36, flag2027: spec.flag2027, ref: spec.ref,
     body: `<h2 style="font-family:${F.display};font-size:${T.statement}px;font-weight:600;line-height:1.16;color:#FFFBF5">${rich(text, tone === 'ink' ? C.orangeBright : '#FFE7C7')}</h2>
 ${sub ? `<p style="font-size:${T.lead}px;line-height:1.35;color:${soft}">${rich(sub, tone === 'ink' ? C.blueBright : '#FFE7C7')}</p>` : ''}`,
   }));
@@ -117,7 +122,7 @@ export function lead(spec) {
   const { eyebrow, title, text, points = [] } = spec;
   need(estLines(text, G.contentW, T.lead) * T.lead * 1.35 + points.length * 70 <= G.bodyH, spec.id, 'lead text and points overflow');
   return mk('lead', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px">
 <p style="font-size:${T.lead}px;line-height:1.35;color:${C.text}">${rich(text)}</p>
 ${points.map((p) => `<p style="font-size:${T.body}px;line-height:1.35;color:${C.soft};border-left:6px solid ${C.orange};padding:4px 0 4px 24px">${rich(p)}</p>`).join('\n')}</div>`,
@@ -131,7 +136,7 @@ export function points(spec) {
   const h = items.reduce((a, it) => a + estH(it, G.contentW - 60, fs, 1.35) + 22, 0);
   need(h <= G.bodyH, spec.id, `points overflow (${Math.round(h)}px of ${G.bodyH}); cut words or split the slide`);
   return mk('points', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
 ${items.map((it) => `<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start"><div style="flex:none;width:18px;height:18px;background:${C.orange};border-radius:3px;transform:translateY(12px)"></div><p style="flex:1;font-size:${fs}px;line-height:1.35;color:${C.text}">${rich(it)}</p></div>`).join('\n')}</div>`,
   }));
@@ -155,7 +160,7 @@ export function cards(spec) {
     need(h <= cardH, spec.id, `card "${it.title}" needs ~${Math.round(h)}px, has ${Math.round(cardH)}; cut words`);
   });
   return mk('cards', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}${intro ? `<p style="font-size:${T.body}px;line-height:1.35;color:${C.soft}">${rich(intro)}</p>` : ''}
 <div style="flex:1;display:grid;grid-template-columns:repeat(${cols},1fr);gap:24px">
 ${items.map((it) => `<div style="display:flex;flex-direction:column;gap:14px;background:${C.card};padding:28px 32px;border:1px solid ${C.line};border-top:6px solid ${C.orange};border-radius:8px">
@@ -183,8 +188,44 @@ export function steps(spec) {
 ${items.map((it, i) => `<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start"><p style="flex:none;width:64px;height:64px;line-height:64px;text-align:center;font-family:${F.display};font-size:32px;font-weight:600;background:${C.ink};color:${C.onDark};border-radius:32px">${i + 1}</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:30px;font-weight:700;line-height:1.25;color:${C.ink}">${rich(it.title)}</p>${it.text ? `<p style="font-size:${fs}px;line-height:1.35;color:${C.soft}">${rich(it.text)}</p>` : ''}</div></div>`).join('\n')}</div>`;
   const side = qr ? `<div style="flex:none;width:460px;display:flex;flex-direction:column;align-items:center;gap:12px;justify-content:center">${qrBlock(qr, 420, spec.id)}<p style="font-size:${T.small}px;font-weight:700;text-align:center;color:${C.ink}">${rich(qr.label)}</p><p style="font-size:${T.small}px;text-align:center;line-height:1.25;color:${C.soft}"><a href="${esc(qr.url)}">${esc(qr.short || 'Open the official docs')}</a></p></div>` : '';
   return mk('steps', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<div style="flex:1;display:flex;flex-direction:row;gap:40px">${list}${side}</div>`,
+  }));
+}
+
+// A screenshot or figure from the docs, with a key. Numbers in the key match numbers in the image.
+// The image goes beside the key, or above it with `stack: true` for a wide image.
+export function figure(spec) {
+  const { eyebrow, title, src, alt, width, height, credit, intro, items, stack = false, inline = false } = spec;
+  need(src && alt, spec.id, 'figure needs src and alt');
+  need(width > 0 && height > 0, spec.id, 'figure needs the image width and height in px');
+  need(credit, spec.id, 'figure needs a credit line');
+  need(items?.length >= 1 && items.length <= (stack ? 4 : 8), spec.id, `figure key takes 1 to ${stack ? 4 : 8} items`);
+  const introH = intro ? estH(intro, G.contentW, T.body, 1.35) + G.gap : 0;
+  const creditH = estH(credit, stack ? G.contentW : 640, T.small, 1.25) + 10;
+  const row = (it) => `<div style="display:flex;flex-direction:row;gap:16px;align-items:flex-start">${it.mark ? `<p style="flex:none;width:44px;height:44px;line-height:44px;text-align:center;font-size:26px;font-weight:700;background:${C.ink};color:#FFFBF5;border-radius:22px">${esc(String(it.mark))}</p>` : ''}<div style="flex:1;display:flex;flex-direction:column;gap:2px">${inline ? `<p style="font-size:28px;line-height:44px;color:${C.text}"><b>${rich(it.title)}:</b> ${rich(it.text)}</p>` : `<p style="font-size:28px;font-weight:700;line-height:1.2;color:${C.ink}">${rich(it.title)}</p>${it.text ? `<p style="font-size:26px;line-height:1.3;color:${C.soft}">${rich(it.text)}</p>` : ''}`}</div></div>`;
+  const keyH = (it, w) => (inline ? estLines(`${it.title}: ${it.text}`, w, 28) * 44 : Math.max(44, estH(it.title, w, 28, 1.2) + (it.text ? estH(it.text, w, 26, 1.3) + 2 : 0)));
+  let imgW, imgH, key;
+  if (stack) {
+    const cols = items.length, w = (G.contentW - (cols - 1) * 24) / cols - 60;
+    const keyTall = Math.max(...items.map((it) => keyH(it, w)));
+    const room = G.bodyH - introH - creditH - keyTall - G.gap;
+    imgH = Math.min(room, (G.contentW * height) / width);
+    imgW = Math.round((imgH * width) / height); imgH = Math.round(imgH);
+    key = `<div style="display:grid;grid-template-columns:repeat(${cols},1fr);gap:24px">${items.map(row).join('\n')}</div>`;
+  } else {
+    imgH = Math.round(G.bodyH - introH - creditH);
+    imgW = Math.round((imgH * width) / height);
+    if (imgW > 1000) { imgW = 1000; imgH = Math.round((imgW * height) / width); }
+    const w = G.contentW - imgW - 48 - 60;
+    const tall = items.reduce((a, it) => a + keyH(it, w) + 12, 0);
+    need(tall <= G.bodyH - introH, spec.id, `figure key needs ~${Math.round(tall)}px of ${Math.round(G.bodyH - introH)}; cut words`);
+    key = `<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">${items.map(row).join('\n')}</div>`;
+  }
+  const image = `<div style="flex:none;width:${imgW}px;display:flex;flex-direction:column;gap:10px"><img src="${esc(src)}" alt="${esc(alt)}" style="width:${imgW}px;height:${imgH}px;object-fit:contain;border:1px solid ${C.inkLine};border-radius:8px"><p style="font-size:${T.small}px;line-height:1.25;color:${C.soft}">${rich(credit)}</p></div>`;
+  return mk('figure', spec, (ctx) => frame({
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
+    body: `${header(spec.id, eyebrow, title)}${intro ? `<p style="font-size:${T.body}px;line-height:1.35;color:${C.text}">${rich(intro)}</p>` : ''}<div style="flex:1;display:flex;flex-direction:${stack ? 'column' : 'row'};gap:${stack ? G.gap : 48}px;${stack ? 'align-items:center' : ''}">${image}${stack ? `<div style="width:${G.contentW}px">${key}</div>` : key}</div>`,
   }));
 }
 
@@ -224,7 +265,7 @@ export function code(spec) {
   if (hasCap) need(estLines(spec.caption, G.contentW, 28) <= 2, spec.id, 'caption is 2 lines max');
   const maxLines = hasCap ? 13 : 15;
   return mk('code', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, spec.eyebrow, spec.title)}${pane(spec, lines, { width: G.contentW, fs: T.code, maxLines })}${hasCap ? `<p style="font-size:28px;line-height:1.3;color:${C.soft}">${rich(spec.caption)}</p>` : ''}`,
   }));
 }
@@ -239,7 +280,7 @@ export function codeNotes(spec) {
   const marks = {};
   spec.callouts?.forEach((c, i) => { (Array.isArray(c.line) ? c.line : [c.line]).forEach((n) => { need(n >= 1 && n <= lines.length, spec.id, `callout ${i + 1} points at line ${n}, outside the code`); marks[n] = String(i + 1); }); });
   return mk('codeNotes', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, spec.eyebrow, spec.title)}<div style="flex:1;display:flex;flex-direction:row;gap:${G.splitGap}px">
 <div style="flex:none;width:${G.splitLeft}px;display:flex;flex-direction:column">${pane(spec, lines, { width: G.splitLeft, fs: T.codeDense, maxLines: 16, marks })}</div>
 <div style="flex:none;width:${G.splitRight}px;display:flex;flex-direction:column;justify-content:space-evenly">${callouts(spec.id, spec.callouts, G.splitRight, G.bodyH)}</div></div>`,
@@ -265,7 +306,7 @@ export function compare(spec) {
     return `<div style="flex:1;display:flex;flex-direction:column"><p style="font-size:28px;font-weight:700;background:${band};color:#FFFBF5;padding:10px 28px;border-radius:8px 8px 0 0">${rich(s.label, '#FFE7C7')}</p>${inner}</div>`;
   };
   return mk('compare', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<div style="flex:1;display:flex;flex-direction:row;gap:32px">${side(left, left.tone || 'neutral')}${side(right, right.tone || 'neutral')}</div>`,
   }));
 }
@@ -291,7 +332,7 @@ export function table(spec) {
   need(h <= avail, spec.id, `table needs ~${Math.round(h)}px of ${avail}; cut rows or words, or split it`);
   const cell = (tag, t, i, first) => `<${tag} style="${first ? `width:${ws[i]}%;` : ''}">${esc(smart(plain(t)))}</${tag}>`;
   return mk('table', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<table style="font-family:${F.body};font-size:${fontSize}px;color:${C.text};background:${C.card};border:1px solid ${C.line}">
 <tr style="background:${C.ink}">${columns.map((c, i) => `<th style="width:${ws[i]}%;color:${C.onDark}">${esc(smart(c))}</th>`).join('')}</tr>
 ${rows.map((r, ri) => `<tr${ri % 2 ? ` style="background:${C.paper2}"` : ''}>${r.map((c) => `<td>${esc(smart(plain(c)))}</td>`).join('')}</tr>`).join('\n')}
@@ -308,7 +349,7 @@ export function gotcha(spec) {
   const h = rows.reduce((a, [, t]) => a + estH(t, w, T.body, 1.35) + 30, 0);
   need(h <= G.bodyH - (snippet ? 240 : 40), spec.id, `gotcha overflows (~${Math.round(h)}px)`);
   return mk('gotcha', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     backdrop: `<div style="position:absolute;left:0;top:0;width:1920px;height:30px;background:${HAZARD}"></div>`,
     body: `${header(spec.id, 'Common mistake', title)}<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:12px">
 ${rows.map(([k, t], i) => `<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;${i < 2 ? `border-bottom:1px solid ${C.line};` : ''}padding:0 0 14px"><p style="flex:none;width:270px;font-size:26px;font-weight:700;line-height:1.5;color:${i === 2 ? C.blue : C.orange}">${k}</p><p style="flex:1;font-size:${T.body}px;line-height:1.35;color:${C.text}">${rich(t)}</p></div>`).join('\n')}
@@ -322,7 +363,7 @@ export function practice(spec) {
   need(estLines(rule, G.contentW - 80, T.lead) <= 3, spec.id, 'practice rule is 3 lines max');
   need(estLines(why, G.contentW, T.body) <= (snippet ? 3 : 7), spec.id, 'practice why is too long');
   return mk('practice', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, 'Best practice', title)}<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:20px">
 <p style="font-size:${T.lead}px;font-weight:600;line-height:1.3;color:${C.ink};background:${C.card};border-left:10px solid ${C.blue};padding:26px 36px">${rich(rule)}</p>
 <p style="font-size:${T.body}px;line-height:1.35;color:${C.soft}">${rich(why)}</p>
@@ -337,7 +378,7 @@ export function exercise(spec) {
   const h = tasks.reduce((a, t) => a + estH(t, G.contentW - 80, T.body, 1.35) + 14, 0) + 120;
   need(h <= G.bodyH, spec.id, `exercise overflows (~${Math.round(h)}px)`);
   return mk('exercise', spec, (ctx) => frame({
-    id: spec.id, bg: C.blue, color: C.onDark, dark: true, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, bg: C.blue, color: C.onDark, dark: true, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `<div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml('Exercise', '#FFE7C7')}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:#FFFBF5">${rich(title, '#FFE7C7')}</h2></div>
 <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
 ${tasks.map((t, i) => `<div style="display:flex;flex-direction:row;gap:24px;align-items:flex-start"><p style="flex:none;width:44px;font-family:${F.display};font-size:34px;font-weight:600;line-height:1.2;color:#FFE7C7">${i + 1}.</p><p style="flex:1;font-size:${T.body}px;line-height:1.35;color:#FFFBF5">${rich(t, '#FFE7C7')}</p></div>`).join('\n')}</div>
@@ -351,7 +392,7 @@ export function recap(spec) {
   const h = items.reduce((a, t) => a + estH(t, G.contentW - 84, T.body, 1.35) + 18, 0) + (next ? 100 : 0);
   need(h <= G.bodyH, spec.id, 'recap overflows');
   return mk('recap', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, 'Recap', title)}<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
 ${items.map((t) => `<div style="display:flex;flex-direction:row;gap:24px;align-items:flex-start"><x-icon name="CheckCircle" style="flex:none;color:${C.blue};width:48px;height:48px"></x-icon><p style="flex:1;font-size:${T.body}px;line-height:1.35;color:${C.text}">${rich(t)}</p></div>`).join('\n')}</div>
 ${next ? `<p style="font-size:28px;font-weight:600;line-height:1.3;color:${C.onDark};background:${C.ink};padding:16px 28px;border-radius:8px">Next: ${rich(next, C.blueBright)}</p>` : ''}`,
@@ -365,7 +406,7 @@ export function links(spec) {
   const w = (G.contentW - (items.length - 1) * 24) / items.length;
   items.forEach((q) => { need(plain(q.label).length * 28 * 0.56 <= 2 * (w - 40), spec.id, `label "${q.label}" too long`); });
   return mk('links', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}${intro ? `<p style="font-size:${T.body}px;line-height:1.3;color:${C.soft}">${rich(intro)}</p>` : ''}
 <div style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;justify-content:center">
 ${items.map((q) => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:12px">${qrBlock(q, size, spec.id)}<p style="font-size:28px;font-weight:700;line-height:1.2;text-align:center;color:${C.ink}">${rich(q.label)}</p><p style="font-size:${T.small}px;line-height:1.25;text-align:center;color:${C.soft}"><a href="${esc(q.url)}">${esc(q.short || shortUrl(q.url).split('/')[0])}</a></p></div>`).join('\n')}</div>`,
@@ -426,7 +467,7 @@ export function diagram(spec) {
       return h;
     }).join('\n');
     return frame({
-      id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+      id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
       body: `${header(spec.id, eyebrow, title)}${caption ? `<p style="position:absolute;left:128px;top:852px;width:1664px;font-size:28px;line-height:1.3;color:${C.soft}">${rich(caption)}</p>` : ''}${edgeHtml}\n${nodeHtml}`,
     });
   });
@@ -464,7 +505,7 @@ export function plot(spec) {
   const legend = `<div style="display:flex;flex-direction:row;gap:32px;align-items:center;height:36px">${series.map((s) => `<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><div style="flex:none;width:36px;height:5px;background:${SERIES[s.color]}"></div><p style="font-size:24px;color:${C.text}">${esc(smart(s.name))}${s.dash ? ' (dashed)' : ''}</p></div>`).join('')}</div>`;
   const chart = `<div style="flex:none;width:${W}px;display:flex;flex-direction:column;gap:8px">${legend}<div style="position:relative;width:${W}px;height:${H}px">${svg}${labels.join('')}</div></div>`;
   return mk('plot', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<div style="flex:1;display:flex;flex-direction:row;gap:${G.splitGap}px">${chart}${cs ? `<div style="flex:none;width:${G.splitRight}px;display:flex;flex-direction:column;justify-content:space-evenly">${callouts(spec.id, cs, G.splitRight, G.bodyH)}</div>` : ''}</div>`,
   }));
 }
@@ -475,7 +516,7 @@ export function embed(spec) {
   need(Buffer.byteLength(html) <= 16 * 1024, spec.id, `embed is ${Buffer.byteLength(html)} bytes; 16 KB max`);
   need(height <= 676, spec.id, 'embed height is 676 max');
   return mk('embed', spec, (ctx) => frame({
-    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027,
+    id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref,
     body: `${header(spec.id, eyebrow, title)}<x-embed style="position:absolute;left:128px;top:${G.bodyTop}px;width:1664px;height:${height}px">${html}</x-embed>`,
   }));
 }
@@ -483,5 +524,5 @@ export function embed(spec) {
 // Escape hatch: hand-written slide body in the format's subset. Use only when no layout fits.
 export function raw(spec) {
   need(spec.body, spec.id, 'raw needs body');
-  return mk('raw', spec, (ctx) => frame({ id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, body: `${header(spec.id, spec.eyebrow, spec.title)}${spec.body}` }));
+  return mk('raw', spec, (ctx) => frame({ id: spec.id, ctx, notes: spec.notes, flag2027: spec.flag2027, ref: spec.ref, body: `${header(spec.id, spec.eyebrow, spec.title)}${spec.body}` }));
 }
