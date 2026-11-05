@@ -40,23 +40,23 @@ const secondsToNear = (pts) => pts.find(([, y]) => y >= 0.95 * SETPOINT)?.[0].to
 const lastAngle = (pts) => Math.round(pts[pts.length - 1][1]);
 
 export default {
-  no: 5, short: 'Elastic', title: 'Elastic: your robot on a dashboard', minutes: 25,
+  no: 5, short: 'Elastic', title: 'Elastic: your robot on a dashboard',
   description: 'Using the Elastic dashboard bundled with WPILib 2026 to see data, pick an auto, tune a value and keep a layout.',
   slides: [
-    L.cover({ title: 'Elastic: your robot on a dashboard', subtitle: 'See live data, pick an auto and tune a value from the laptop', minutes: 25,
-      notes: 'This is Elastic, the dashboard that comes with WPILib 2026. The exercise builds a driver tab. This takes 25 minutes, and about six of those are hands-on, so keep a laptop handy. If there is no robot free, the simulator from deck 4 is all you need. Timing: 20 seconds.' }),
+    L.cover({ title: 'Elastic: your robot on a dashboard', subtitle: 'See live data, pick an auto and tune a value from the laptop',
+      notes: 'This is Elastic, the dashboard that comes with WPILib 2026. The exercise builds a driver tab, on a robot or in the simulator from Deck 4.' }),
 
-    L.cards({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
+    L.cards({ id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers', items: [
       { icon: 'Activity', title: 'Read the robot', text: 'Send numbers from Java and watch them live in Elastic.' },
       { icon: 'Play', title: 'Pick an auto', text: 'Give the drive team an auto chooser on the laptop.' },
       { icon: 'Settings', title: 'Tune a value', text: 'Change a number from the dashboard safely, and see what it does.' },
       { icon: 'Database', title: 'Keep your layout', text: 'Save the layout in your repo and load it from the robot.' },
-    ], notes: 'Four things today. You will read data, pick an auto, tune a value and keep your layout safe. The auto chooser is the one every team needs, because the drive team picks an auto before each match. The tuning part has one safety rule in it, so listen for that. Everything we do uses Elastic version 2026.1.1, the one the WPILib 2026 installer gives you. Timing: 40 seconds.' }),
+    ], notes: 'The auto chooser is the one every team needs, because the drive team picks an auto before each match. Everything here uses Elastic version 2026.1.1, the one the WPILib 2026 installer gives you.' }),
 
-    L.diagram({ id: 'networktables', eyebrow: 'What a dashboard is for', title: 'NetworkTables: a notebook shared by robot and laptop', nodes: [
+    L.diagram({ id: 'networktables', eyebrow: 'What a dashboard is for', title: 'NetworkTables: values shared by robot and laptop', nodes: [
       { id: 'write', x: 128, y: 370, w: 360, h: 110, label: 'Robot code writes', sub: '`putNumber`', tone: 'ink' },
       { id: 'read', x: 128, y: 590, w: 360, h: 110, label: 'Robot code reads', sub: '`getNumber`', tone: 'ink' },
-      { id: 'book', x: 620, y: 248, w: 680, h: 100, label: 'NetworkTables', sub: 'the shared notebook, kept on the robot', tone: 'accent' },
+      { id: 'book', x: 620, y: 248, w: 680, h: 100, label: 'NetworkTables', sub: 'shared keys and values, hosted by the robot', tone: 'accent' },
       { id: 'line1', x: 620, y: 380, w: 680, h: 90, label: '`Battery (V)`: 12.4', tone: 'paper' },
       { id: 'line2', x: 620, y: 490, w: 680, h: 90, label: '`Auto`: Do nothing', tone: 'paper' },
       { id: 'line3', x: 620, y: 600, w: 680, h: 90, label: '`Drive Scale`: 0.7', tone: 'paper' },
@@ -66,16 +66,16 @@ export default {
       { from: 'write', to: 'line1' }, { from: 'line1', to: 'show' },
       { from: 'type', to: 'line3', fromSide: 'l', toSide: 'r' }, { from: 'line3', to: 'read', fromSide: 'l', toSide: 'r' },
     ], caption: 'Each line is a key and a value. Either side can write, and both see the change.',
-    notes: 'A dashboard is a program on the laptop that shows what is going on inside the robot. The driver wants a quick glance during a match. You, the programmer, want every number. Both come through NetworkTables. Picture a notebook kept on the robot. The robot writes a line and Elastic reads it. You change a value and the robot reads that. Each line has a key, which is its name, and a value. These values are just examples. Timing: two minutes. If a kid asks: the robot program runs the notebook, so it restarts when the code restarts.' }),
+    notes: 'A dashboard is a program on the laptop that shows what is going on inside the robot. Drivers need a few values during a match, and programmers need many more. Both come through NetworkTables, a set of values hosted by the robot. The robot writes a value and Elastic reads it. You change a value in Elastic and the robot reads that. Each entry has a key, which is its name, and a value. These values are examples. The robot program hosts NetworkTables, so it restarts when the code restarts.' }),
 
     L.steps({ id: 'open-connect', eyebrow: 'Getting started', title: 'Open Elastic and connect it to the robot', items: [
       { title: 'Open Elastic', text: 'Driver Station gear tab: set **Dashboard Type** to Elastic. Or VS Code: WPILib logo, **Start Tool**, **Elastic**.' },
       { title: 'Open the network settings', text: 'Click **Settings**, then the **Network** tab.' },
       { title: 'At a robot with the Driver Station running', text: 'Set **IP Address Mode** to **Driver Station**. This is the default.' },
       { title: 'Without the Driver Station, or in simulation', text: '**Team Number (10.TE.AM.2)** with your **Team Number**, or **localhost (127.0.0.1)** for the simulator.' },
-      { title: 'Check the bottom of the window', text: '**Network Tables: Connected** means the notebook is open.' },
+      { title: 'Check the bottom of the window', text: '**Network Tables: Connected** means Elastic has reached the robot.' },
     ], qr: { url: 'https://frc-elastic.gitbook.io/docs/getting-started/connecting-to-your-robot', label: 'Connecting to your robot', short: 'frc-elastic.gitbook.io' },
-    notes: 'Two ways to open it. The KitBot guide uses the Dashboard Type dropdown on the Driver Station gear tab, and then Elastic opens with the Driver Station. WPILib docs use VS Code: press Ctrl+Shift+P or click the WPILib logo, choose Start Tool, then Elastic. Driver Station mode is the easiest, because Elastic asks the Driver Station where the robot is. Ctrl+K and Ctrl+Shift+K are shortcuts for robot and simulator. Timing: one minute. If a kid asks: if your Driver Station does not list Elastic, use Start Tool.' }),
+    notes: 'Two ways to open it. The KitBot guide uses the Dashboard Type dropdown on the Driver Station gear tab, and then Elastic opens with the Driver Station. WPILib docs use VS Code: press Ctrl+Shift+P or click the WPILib logo, choose Start Tool, then Elastic. Driver Station mode is the easiest, because Elastic asks the Driver Station where the robot is. Ctrl+K and Ctrl+Shift+K are shortcuts for robot and simulator. If your Driver Station does not list Elastic, use Start Tool.' }),
 
     L.diagram({ id: 'interface', eyebrow: 'The Elastic window', title: 'The window: tabs, a grid and the Add Widget button', nodes: [
       { id: 'menu', x: 128, y: 232, w: 760, h: 66, label: 'File · Edit · Help · Settings', tone: 'ink', size: 26 },
@@ -90,8 +90,8 @@ export default {
       { id: 'n2', x: 1268, y: 396, w: 524, h: 150, label: 'Right-click a widget', sub: '**Show As** changes its type. **Edit Properties** has the rest.', tone: 'ghost' },
       { id: 'n3', x: 1268, y: 562, w: 524, h: 100, label: 'Right-click a tab', sub: 'Rename, Duplicate or Close.', tone: 'ghost' },
       { id: 'n4', x: 1268, y: 678, w: 524, h: 110, label: 'Edit, Lock Layout', sub: 'Stops widgets moving at a match.', tone: 'ghost' },
-    ], caption: 'Schematic, not a screenshot. Drive the real app beside this slide.',
-    notes: 'Open the real app now and walk through this. It starts with two empty tabs, Teleoperated and Autonomous. Click Add Widget, expand SmartDashboard, then click and drag each value onto the grid. Those are the KitBot guide steps. Green outline means it fits, red means it does not. Drag an edge to resize. Right-click, Show As, to change the type. The Layouts tab in that dialog has List Layout, for grouping tiles. Lock Layout stops widgets moving, and you can still use them. Timing: three minutes, live.' }),
+    ], caption: 'Schematic, not a screenshot.',
+    notes: 'Elastic starts with two empty tabs, Teleoperated and Autonomous. Click Add Widget, expand SmartDashboard, then click and drag each value onto the grid. Those are the KitBot guide steps. Green outline means it fits, red means it does not. Drag an edge to resize. Right-click, Show As, to change the type. The Layouts tab in that dialog has List Layout, for grouping tiles. Lock Layout stops widgets moving, and you can still use them.' }),
 
     L.codeNotes({ id: 'publish', eyebrow: 'Sending data from Java', title: 'Send data with SmartDashboard', file: 'CANDriveSubsystem.java', src: { file: `${J}/CANDriveSubsystem.java`, region: 'publish' }, callouts: [
       { line: 3, title: 'A subsystem widget', text: 'It shows the running command, so name yours with `withName`.' },
@@ -99,33 +99,33 @@ export default {
       { line: 9, title: 'Every 20 ms', text: 'Send a few useful values. Put the rest in logs.' },
       { line: 11, title: 'Units in the name', text: '`Battery (V)` needs no explanation at a match.' },
     ], flag2027: '`SmartDashboard` is replaced by the Telemetry and Tunables APIs.',
-    notes: 'SmartDashboard is the Java class that writes to the notebook, and it is the 2026 way to do this. putNumber sends one number. putData sends a whole object with its own widget. Without withName a command shows up as something like RunCommand. Elastic asks for new values about every 60 ms by default, so a dashboard number will not update any faster however often you send it. Every extra value is work inside your 20 ms loop. Timing: two minutes. If a kid asks: the slash in a key makes a folder.' }),
+    notes: 'SmartDashboard is the Java class that writes to NetworkTables, and it is the 2026 way to do this. putNumber sends one number. putData sends a whole object with its own widget. Without withName a command shows up as something like RunCommand. Elastic asks for new values about every 60 ms by default, so a dashboard number will not update any faster however often you send it. Every extra value is work inside your 20 ms loop. A slash in a key makes a folder.' }),
 
     L.codeNotes({ id: 'chooser', eyebrow: 'Autonomous', title: 'An auto chooser with SendableChooser', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'chooser' }, callouts: [
       { line: 5, title: 'A safe default', text: 'If nobody picks, the robot does nothing.' },
       { line: 8, title: 'Send it once', text: 'Drag `Auto` out of **SmartDashboard** in Add Widget.' },
       { line: 13, title: 'Read it late', text: 'Calling `getSelected()` here means the last pick wins.' },
     ], flag2027: '`SendableChooser` is replaced by `Selectable`.',
-    notes: 'Every team needs this. A chooser is a list of commands with names. Robot.java calls getAutonomousCommand when auto starts, so the pick is read at the last moment. If you read getSelected in a constructor, you only ever get the default. In Elastic this appears as a ComboBox Chooser. Watch the mark beside it. A green check means the robot has your pick. A red exclamation mark means it does not. Elastic re-sends your pick after a code restart. Timing: 90 seconds.' }),
+    notes: 'Every team needs this. A chooser is a list of commands with names. Robot.java calls getAutonomousCommand when auto starts, so the pick is read at the last moment. If you read getSelected in a constructor, you only ever get the default. In Elastic this appears as a ComboBox Chooser. A green check means the robot has your pick. A red exclamation mark means it does not. Elastic re-sends your pick after a code restart.' }),
 
     L.gotcha({ id: 'live-tuning', title: 'Live tuning: Enter disables an enabled robot',
       symptom: 'You type a new value into a box, press Enter, and the enabled robot stops.',
       cause: 'Enter is the Driver Station shortcut for Disable, even while you are typing.',
       fix: 'Robot enabled? Click the box\'s submit button: **Show Submit Button** in **Edit Properties**.',
       code: region(`${J}/RobotContainer.java`, 'tuning'), flag2027: 'The Tunables API replaces `SmartDashboard` for typed-in values.',
-      notes: 'This is the safety slide. The code makes a box you can type in. With the robot disabled, Enter is fine. With it enabled, use the submit button. Timing: 45 seconds.' }),
+      notes: 'The code makes a box you can type in. With the robot disabled, Enter is fine. With it enabled, use the submit button.' }),
 
-    L.plot({ id: 'tune-gain', eyebrow: 'Control theory', title: 'Tuning a gain live: you close the loop', xLabel: 'Time (s)', yLabel: 'Arm angle (degrees)', xDomain: [0, 4], yDomain: [0, 120], xTicks: [0, 1, 2, 3, 4], yTicks: [0, 30, 60, 90, 120], refs: [{ y: SETPOINT, label: 'Setpoint' }],
+    L.plot({ id: 'tune-gain', eyebrow: 'Control theory', title: 'Tuning a gain live from a graph', xLabel: 'Time (s)', yLabel: 'Arm angle (degrees)', xDomain: [0, 4], yDomain: [0, 120], xTicks: [0, 1, 2, 3, 4], yTicks: [0, 30, 60, 90, 120], refs: [{ y: SETPOINT, label: 'Setpoint' }],
       series: [
         { name: `kP ${LOW_KP}`, color: 'orange', points: low, tag: { x: 2.3, y: 52, dy: 0, w: 150 } },
         { name: `kP ${MID_KP}`, color: 'blue', dash: true, points: mid, tag: { x: 1.6, y: 76, dy: 0, w: 150 } },
         { name: `kP ${HIGH_KP}`, color: 'green', points: high, tag: { x: 1.2, y: 116, dy: 0, w: 150 } },
       ], callouts: [
         { title: 'One change at a time', text: 'Change one gain, then look. Change two and you cannot tell which one helped.' },
-        { title: 'You are the feedback', text: 'Read the graph, decide, change the gain, then read it again.' },
+        { title: 'A manual loop', text: 'Read the graph, decide, change the gain, then read it again.' },
         { title: `Too low, then too high`, text: `kP ${LOW_KP} reaches only ${lastAngle(low)} degrees in ${SECONDS} s. kP ${HIGH_KP} swings ${peakOver(high)} degrees past.` },
         { title: 'Send the gains', text: '`SmartDashboard.putData("Arm PID", pid)`' },
-      ], notes: `These curves are simulated, not measured. The model is an arm with no gravity: ${DEG_PER_S_PER_VOLT} degrees per second per volt, a ${LAG_S} second lag, a ${MAX_VOLTS} volt limit and a 20 ms control loop, using only P to reach ${SETPOINT} degrees. A control loop measures, compares and corrects. When you tune, you are part of a loop too. PIDController is Sendable, so Elastic shows boxes for kP, kI, kD and Setpoint. Click Publish Values to send them. Enter does not. Put a Graph of the angle beside it. Deck 6 goes deeper. Timing: two minutes.` }),
+      ], notes: `These curves are simulated, not measured. The model is an arm with no gravity: ${DEG_PER_S_PER_VOLT} degrees per second per volt, a ${LAG_S} second lag, a ${MAX_VOLTS} volt limit and a 20 ms control loop, using only P to reach ${SETPOINT} degrees. A control loop measures, compares and corrects. When you tune, you are part of a loop too. PIDController is Sendable, so Elastic shows boxes for kP, kI, kD and Setpoint. Click Publish Values to send them. Enter does not. Put a Graph of the angle beside it. Deck 6 goes deeper.` }),
 
     L.compare({ id: 'driver-debug', eyebrow: 'Best practice', title: 'A clean driver tab and a noisy debug tab', left: { label: 'Driver tab: a quick glance', tone: 'good', items: [
       'Battery and the auto chooser, drawn large.',
@@ -135,37 +135,37 @@ export default {
       'Motor outputs, gains and graphs.',
       'Subsystem widgets and command names.',
       'Keys with units, like `Left Output (%)`.',
-    ] }, notes: 'WPILib docs make this point well: when the drive team looks at the dashboard, their focus leaves the match. So ask whether each widget really needs to be on the driver tab. LEDs on the robot are often a better way to tell the driver something. Your debug tab can be as messy as you like. Elastic gives you two tabs to start, and the plus button adds more. You will build both in the exercise. Timing: 45 seconds.' }),
+    ] }, notes: 'The WPILib docs note that when the drive team looks at the dashboard, their focus leaves the match. LEDs on the robot are often a better way to tell the driver something. Elastic gives you two tabs to start, and the plus button adds more. The exercise builds both.' }),
 
     L.practice({ id: 'layout-on-robot', title: 'Keep the layout on the robot',
       rule: 'Put the layout file in your deploy folder, so it lives in the repo and on the robot.',
       why: '**Save** keeps it inside Elastic on one laptop. **Save As** writes a `.json` file you can commit. **Download From Robot** gives any laptop the same layout.',
       code: region(`${J}/RobotContainer.java`, 'serve'),
-      notes: 'Picture a spare laptop at a competition, with no layout on it. If your layout is on the robot, you connect and press Ctrl+D. Elastic lists every json file in the top of the deploy folder. Overwrite replaces tabs with the same name, and Merge adds new widgets into free space. Open Layout loads a json file from the laptop, which is handy for sharing. One note: Elastic docs still say Export Layout, but the 2026.1.1 menu says Save As. Timing: 75 seconds.' }),
+      notes: 'With the layout on the robot, any laptop can connect and press Ctrl+D to load it. Elastic lists every json file in the top of the deploy folder. Overwrite replaces tabs with the same name, and Merge adds new widgets into free space. Open Layout loads a json file from the laptop. One note: Elastic docs still say Export Layout, but the 2026.1.1 menu says Save As.' }),
 
-    L.codeNotes({ id: 'notifications', eyebrow: 'Elastic extras', title: 'Talk to the driver: notifications and tab switching', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'alerts' }, callouts: [
+    L.codeNotes({ id: 'notifications', eyebrow: 'Elastic extras', title: 'Driver notifications and tab switching', file: 'RobotContainer.java', src: { file: `${J}/RobotContainer.java`, region: 'alerts' }, callouts: [
       { line: 1, title: 'Copy the helper', text: 'Add `Elastic.java` from Elastic\'s repo to your `util` folder.' },
       { line: 3, title: 'A popup', text: 'A level, a title and text. It shows for 3 s by default.' },
       { line: 9, title: 'Wait a moment', text: 'The battery must stay low for 2 s, so a quick dip is ignored.' },
       { line: [12, 14], title: 'Switch tabs', text: '`selectTab` takes a tab name. No match means no change.' },
-    ], notes: 'These two extras need one file, Elastic.java, from the elasticlib folder of Elastic\'s repo. Elastic docs suggest a folder called util, and you may need to change the package line at the top. Our own helper, once, wraps runOnce with ignoringDisable so it also works while disabled. The tab names here are the two Elastic starts with, and they must match yours exactly. These work only in Elastic. Timing: one minute. If a kid asks: withNoAutoDismiss keeps a popup on screen.' }),
+    ], notes: 'These two extras need one file, Elastic.java, from the elasticlib folder of Elastic\'s repo. Elastic docs suggest a folder called util, and you may need to change the package line at the top. Our own helper, once, wraps runOnce with ignoringDisable so it also works while disabled. The tab names here are the two Elastic starts with, and they must match yours exactly. These work only in Elastic. withNoAutoDismiss keeps a popup on screen.' }),
 
     L.table({ id: 'symptoms', eyebrow: 'Common mistake', title: 'Six symptoms and where they come from', columns: ['What you see', 'Why', 'Fix'], widths: [27, 39, 34], rows: [
       ['A typed value snaps back at once', 'putNumber in periodic writes over the box every 20 ms', 'setDefaultNumber once, then getNumber'],
-      ['A typed value is gone after a code restart', 'The notebook starts empty and Elastic does not re-send it', 'Copy good values into Constants.java'],
+      ['A typed value is gone after a code restart', 'NetworkTables starts empty and Elastic does not re-send it', 'Copy good values into Constants.java'],
       ['A widget is blank', 'An old layout: the key was renamed, or never sent', 'Remove it and drag in the new key'],
       ['A number never changes', 'The code sent it once, from a constructor', 'Send it from periodic'],
       ['Every widget looks dimmed', 'Elastic is disconnected', 'Read the bottom bar, then IP Address Mode'],
       ['The chooser shows a red mark', 'The robot lacks your pick. In 2026.1.1, Show As on a chooser stops it sending', 'Leave it as ComboBox Chooser'],
-    ], notes: 'Run down these quickly and point out that the first two look alike. putNumber writes every time it runs, while setDefaultNumber writes only into an empty box. Neither saves a typed value through a code restart, because Elastic does not send it back. The KitBot guide gives the fix: put a value you like into Constants. Advanced teams can use setPersistent, but then putNumber at startup would still overwrite it. The chooser bug is fixed in Elastic 2026.1.2, which WPILib 2026.2.1 does not install. Timing: 90 seconds.' }),
+    ], notes: 'The first two look alike. putNumber writes every time it runs, while setDefaultNumber writes only into an empty box. Neither saves a typed value through a code restart, because Elastic does not send it back. The KitBot guide gives the fix: put a value you like into Constants. Advanced teams can use setPersistent, but then putNumber at startup would still overwrite it. The chooser bug is fixed in Elastic 2026.1.2, which WPILib 2026.2.1 does not install.' }),
 
-    L.exercise({ id: 'exercise', title: 'Build a driver tab and save it', minutes: 6, tasks: [
+    L.exercise({ id: 'exercise', title: 'Build a driver tab and save it', tasks: [
       'Add the `Battery (V)`, `Left Output (%)` and `Auto` code, then deploy or simulate.',
       'Click **Add Widget**, expand **SmartDashboard**, and drag `Battery (V)` and `Auto` to **Teleoperated**.',
       'Right-click `Battery (V)`, then **Show As**, **Voltage View**.',
       'Click **+**, rename the new tab `Debug`, and drag `Left Output (%)` onto it.',
       '**File**, **Save As**, into `src/main/deploy/elastic-layout.json`.',
-    ], done: '`Auto` shows a green check, and the file is in your deploy folder.', notes: 'Six minutes, in pairs. If there is no robot, use the simulator with localhost. Rename a tab by right-clicking it and choosing Rename. Voltage View runs from 4 to 13 volts by default, which suits a 12 volt battery. In simulation the battery number may not change. If you finish early, try Download From Robot, or add the Drive Scale box and turn on its submit button. Do not press Enter on an enabled robot.' }),
+    ], done: '`Auto` shows a green check, and the file is in your deploy folder.', notes: 'With no robot, use the simulator with localhost. Rename a tab by right-clicking it and choosing Rename. Voltage View runs from 4 to 13 volts by default. In simulation the battery number may not change. Do not press Enter on an enabled robot.' }),
 
     L.change2027({ id: 'change', items: [
       { now: 'Older tutorials show Shuffleboard', next: 'Removed for 2027, so those steps do not apply' },
@@ -173,21 +173,21 @@ export default {
       { now: 'SmartDashboard.putNumber and putData', next: 'Telemetry and Tunables APIs' },
       { now: 'SendableChooser', next: 'Selectable' },
     ], note: 'Everything in this deck is correct for 2026. WPILib 2027 is still in alpha, so details may change.',
-    notes: 'Elastic is one of the two dashboards WPILib recommends for 2027. The Java you send data with will change: the Telemetry and Tunables APIs take over from SmartDashboard, and Selectable takes over from SendableChooser. Use this deck for 2026, because Systemcore kits are not out yet. Timing: 30 seconds.' }),
+    notes: 'Elastic is one of the two dashboards WPILib recommends for 2027. The Java you send data with will change: the Telemetry and Tunables APIs take over from SmartDashboard, and Selectable takes over from SendableChooser. Use this deck for 2026, because Systemcore kits are not out yet.' }),
 
     L.recap({ id: 'recap', items: [
-      'Send data with `SmartDashboard` and see it in Elastic.',
-      'Give the drive team an auto chooser with a safe default.',
-      'Tune with the submit button, never Enter on an enabled robot.',
-      'Change one gain at a time and watch the graph.',
-      'Keep your layout in the deploy folder, so it lives on the robot.',
-    ], next: 'Deck 6 tunes a real arm with PID and feedforward.', notes: 'Quick check before we move on. Ask someone what key disables the robot. Ask someone where a good tuned value should end up: Constants. Ask what a green check beside the chooser means. Deck 6 uses this same dashboard and graph to tune a real arm. Timing: 20 seconds.' }),
+      'Sending data with `SmartDashboard` and viewing it in Elastic.',
+      'An auto chooser with a safe default.',
+      'Tuning with the submit button, never Enter on an enabled robot.',
+      'Changing one gain at a time and watching the graph.',
+      'Keeping the layout in the deploy folder, so it lives on the robot.',
+    ], next: 'Deck 6 tunes an arm with PID and feedforward.', notes: 'Deck 6 uses this same dashboard and graph to tune an arm.' }),
 
-    L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
+    L.links({ id: 'links', items: [
       { label: 'Elastic docs', url: 'https://frc-elastic.gitbook.io/docs', short: 'frc-elastic.gitbook.io' },
       { label: 'Layouts from the robot', url: 'https://frc-elastic.gitbook.io/docs/additional-features-and-references/remote-layout-downloading', short: 'Remote Layout Downloading' },
       { label: 'Notifications and tabs', url: 'https://frc-elastic.gitbook.io/docs/additional-features-and-references/robot-notifications-with-elasticlib', short: 'ElasticLib' },
       { label: 'NetworkTables', url: 'https://docs.wpilib.org/en/stable/docs/software/networktables/networktables-intro.html', short: 'docs.wpilib.org' },
-    ], notes: 'These are the pages worth keeping. The Elastic docs are the place to start, but they can lag behind the app, so a menu label may differ from 2026.1.1. Trust what your screen says. The ElasticLib page covers everything else notifications can do. Take a photo of this slide if you want to come back to it later. Timing: 15 seconds.' }),
+    ], notes: 'The Elastic docs can lag behind the app, so a menu label may differ from 2026.1.1. The ElasticLib page covers everything else notifications can do.' }),
   ],
 };

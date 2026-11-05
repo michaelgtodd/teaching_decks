@@ -24,7 +24,6 @@
     "gotcha",
     "practice",
     "exercise",
-    "demo",
     "plot",
     "diagram",
     "change",
@@ -45,7 +44,7 @@
       "start": "section2"
     },
     "s3": {
-      "description": "Recurring teaching slides",
+      "description": "Recurring slides",
       "start": "section3"
     }
   },

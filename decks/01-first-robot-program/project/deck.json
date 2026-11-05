@@ -18,7 +18,6 @@
     "two-vs-codes",
     "make-project",
     "build-it",
-    "laptop-ready",
     "cable-first",
     "deploy",
     "three-lights",
@@ -39,7 +38,7 @@
       "start": "watch-it-move"
     },
     "s2": {
-      "description": "Part 2: send your code to the robot, in groups of 3 or 4.",
+      "description": "Part 2: send your code to the robot.",
       "start": "cable-first"
     }
   },

@@ -4,7 +4,7 @@ import * as L from '../../template/layouts.mjs';
 
 const J = 'examples/src/main/java/frc/robot/deck3';
 
-// Simulation 1: a KitBot-style launch on a good and a tired battery ------------------------------
+// Simulation 1: a KitBot-style launch on a good and a worn battery ------------------------------
 // CIM numbers are WPILib's DCMotor.getCIM. Gearing and wheel are KitbotGearing.k8p45 and
 // KitbotWheelSize.kSixInch. Mass and both batteries are assumptions, stated in the slide notes.
 const CIM = { volts: 12, stallNm: 2.42, stallA: 133, freeA: 2.7, freeRadS: (5310 * 2 * Math.PI) / 60 };
@@ -83,27 +83,27 @@ const settleS = response.filter(([, y]) => Math.abs(y - FINAL) > 0.02 * FINAL).a
 const overshoot = peak - SETPOINT, steadyError = SETPOINT - response.at(-1)[1];
 
 export default {
-  no: 3, short: 'AdvantageScope', title: 'AdvantageScope: see what your robot is doing', minutes: 30,
+  no: 3, short: 'AdvantageScope', title: 'AdvantageScope: see what your robot is doing',
   description: 'Reading robot data live and from logs with AdvantageScope, and getting that data out of Java.',
   slides: [
     L.cover({
-      title: 'AdvantageScope: see what your robot is doing', subtitle: 'Reading robot data live and from logs', minutes: 30,
-      notes: 'In Deck 2 you built a drivetrain. AdvantageScope shows what it is doing. It turns robot data into graphs you can read, while the robot runs or from a saved file afterwards. It comes with WPILib, so you already have it. The exercise graphs your own robot. (30 seconds)',
+      title: 'AdvantageScope: see what your robot is doing', subtitle: 'Reading robot data live and from logs',
+      notes: 'In Deck 2 you built a drivetrain. AdvantageScope shows what it is doing. It turns robot data into graphs you can read, while the robot runs or from a saved file afterwards. It comes with WPILib, so you already have it. The exercise graphs your own robot.',
     }),
     L.cards({
-      id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
+      id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers', items: [
         { icon: 'Link', title: 'Connect', text: 'Open AdvantageScope and connect it to a robot.' },
         { icon: 'Code', title: 'Publish', text: 'Send values out of your Java code so you can graph them.' },
         { icon: 'Database', title: 'Save', text: 'Record a log, get it off the robot, and open it.' },
-        { icon: 'Activity', title: 'Read', text: 'Read a graph and say what the robot did, and how well.' },
+        { icon: 'Activity', title: 'Read', text: 'Read a graph to see what the robot did, and how well.' },
       ],
-      notes: 'Four topics: connect, publish, save and read. The first three are about using the tool. Reading a graph is how you tune an arm in Deck 6. When the robot does something odd, look at the data before you change the code. (1 minute)',
+      notes: 'Four topics: connect, publish, save and read. The first three are about using the tool. Reading a graph is how you tune an arm in Deck 6. When the robot does something odd, look at the data before you change the code.',
     }),
     L.compare({
       id: 'why', eyebrow: 'Why a data viewer', title: 'Print statements versus a data viewer',
       left: { label: 'Print statements', tone: 'bad', items: ['The robot loop runs 50 times a second, so lines fly past.', 'You see one number at a time, with no shape to it.', 'Two values are hard to match up at the same moment.'] },
       right: { label: 'A data viewer', tone: 'good', items: ['Every value becomes a line you can read at a glance.', 'Everything shares one clock, so causes line up with effects.', 'You can pause, zoom in, and look again after the match.'] },
-      notes: 'Your robot code runs every 20 milliseconds. That is 50 times a second, so a stutter can come and go before your eyes catch it. Print statements work for a quick check, but the WPILib docs say the console does not scale to rich data. A graph shows the shape of what happened, and it lets you compare two values at the same instant. (90 seconds)',
+      notes: 'Your robot code runs every 20 milliseconds. That is 50 times a second, so a stutter can come and go before your eyes catch it. Print statements work for a quick check, but the WPILib docs say the console does not scale to rich data. A graph shows the shape of what happened, and it lets you compare two values at the same instant.',
     }),
     L.steps({
       id: 'connect', eyebrow: 'Getting connected', title: 'Starting AdvantageScope and connecting to a robot', items: [
@@ -113,7 +113,7 @@ export default {
         { title: 'Watch the window title', text: 'It says `Searching` until the robot answers.' },
         { title: 'On a USB cable?', text: '`File` > `Use USB roboRIO Address` switches to `172.22.11.2`.' },
       ], qr: { url: 'https://docs.advantagescope.org/overview/live-sources', label: 'Live Sources docs', short: 'docs.advantagescope.org' },
-      notes: 'Do this live on the projector. The address pattern is 10.TE.AM.2, where TE.AM is your team number split up, so team 1212 is 10.12.12.2. On a Mac the settings are under AdvantageScope, then Settings. Connecting to the simulator is one menu away: File, Connect to Simulator. That uses 127.0.0.1, and Deck 4 covers it. WPILib 2026.2.1 bundles AdvantageScope v26.0.0, and these labels come from that version. (2 minutes)',
+      notes: 'The address pattern is 10.TE.AM.2, where TE.AM is your team number split up, so team 1212 is 10.12.12.2. On a Mac the settings are under AdvantageScope, then Settings. Connecting to the simulator is one menu away: File, Connect to Simulator. That uses 127.0.0.1, and Deck 4 covers it. WPILib 2026.2.1 bundles AdvantageScope v26.0.0, and these labels come from that version.',
     }),
     L.diagram({
       id: 'window', eyebrow: 'The interface', title: 'The AdvantageScope window', nodes: [
@@ -129,20 +129,20 @@ export default {
         { id: 'ctrl', x: 560, y: 680, w: 1228, h: 160, label: 'Control Pane', sub: 'Drop fields here. On a Line Graph: `Left Axis`, `Discrete Fields`, `Right Axis`.', tone: 'paper' },
       ], edges: [{ from: 'field', to: 'ctrl', label: 'drag', lx: 468, ly: 716, lw: 92 }],
       caption: 'Schematic, not a screenshot. Part and tab names come from the AdvantageScope docs and source.',
-      notes: 'Now open the real app and point at each part. The sidebar lists every field. Click an arrow to open a folder. The tab bar picks a view, and the book icon opens the docs offline. Drag a field from the sidebar to Left Axis and watch it scroll. Then click the plus button to add a Table tab for exact values and a Console tab for messages. Clicking a time on the graph selects that time on every tab. (3 minutes)',
+      notes: 'The sidebar lists every field. Click an arrow to open a folder. The tab bar picks a view, and the book icon opens the docs offline. Drag a field from the sidebar to Left Axis and watch it scroll. Then click the plus button to add a Table tab for exact values and a Console tab for messages. Clicking a time on the graph selects that time on every tab.',
     }),
     L.code({
       id: 'level1', eyebrow: 'Level 1: see it live', title: 'Publishing a value with SmartDashboard', file: 'CANDriveSubsystem.java',
       src: { file: `${J}/CANDriveSubsystem.java`, region: 'dashboard' }, highlight: [4, 5, 6],
       caption: 'The key becomes a field. In the sidebar, open `SmartDashboard`, then `Drive`.',
       flag2027: 'SmartDashboard is removed. A Telemetry API replaces it.',
-      notes: 'This is the simplest way out of the robot. SmartDashboard is a small class that writes to NetworkTables, which is how the robot shares values over the network. periodic is the method every subsystem gets, and it runs every 20 milliseconds. Put the unit in the key, like BatteryVolts, and AdvantageScope labels the axis for you. Applied output is a fraction from minus 1 to 1, so it has no unit. This data is live only. Turn off the laptop and it is gone. (90 seconds)',
+      notes: 'This is the simplest way out of the robot. SmartDashboard is a small class that writes to NetworkTables, which is how the robot shares values over the network. periodic is the method every subsystem gets, and it runs every 20 milliseconds. Put the unit in the key, like BatteryVolts, and AdvantageScope labels the axis for you. Applied output is a fraction from minus 1 to 1, so it has no unit. This data is live only. Turn off the laptop and it is gone.',
     }),
     L.code({
       id: 'level2', eyebrow: 'Level 2: save it to a file', title: 'Saving a log with DataLogManager', file: 'Robot.java',
       src: { file: `${J}/Robot.java`, region: 'datalog' }, highlight: [3, 6],
       caption: 'By default the robot saves nothing. These two lines change that. The last line is next.',
-      notes: 'DataLogManager records every NetworkTables change to a .wpilog file on the robot. So everything from Level 1 is now saved, with no other changes. The second line adds the enabled state and joysticks, which is what lets you line up what the driver did with what the robot did. In a log, your values sit under NT, then SmartDashboard. A log is named FRC_TBD at first, and gets a date once the Driver Station connects. If a kid asks: logging runs on its own thread, so it costs very little. (90 seconds)',
+      notes: 'DataLogManager records every NetworkTables change to a .wpilog file on the robot. So everything from Level 1 is now saved, with no other changes. The second line adds the enabled state and joysticks, which is what lets you line up what the driver did with what the robot did. In a log, your values sit under NT, then SmartDashboard. A log is named FRC_TBD at first, and gets a date once the Driver Station connects. Logging runs on its own thread, so it costs very little.',
     }),
     L.codeNotes({
       id: 'level3', eyebrow: 'Level 3: the 2026 best practice', title: 'Logging whole classes with Epilogue', file: 'CANDriveSubsystem.java',
@@ -152,7 +152,7 @@ export default {
         { line: [4, 8], title: 'Public, no arguments', text: 'These methods are logged for you, and so are fields.' },
         { line: 12, title: 'Pick a name', text: '`name` sets what you will see in the log.' },
       ],
-      notes: 'Epilogue is built into WPILib for Java. Tag a class with @Logged and it generates the logging code when you build. The 2026 Java template already has this set up in build.gradle. By default it sends to NetworkTables, so Level 2 saves it too. Look under Robot, then container, then drive. Each tagged class has to be reachable from Robot. If a kid asks: lots of slow CAN reads can cause loop overruns, so log what you will use. (2 minutes)',
+      notes: 'Epilogue is built into WPILib for Java. Tag a class with @Logged and it generates the logging code when you build. The 2026 Java template already has this set up in build.gradle. By default it sends to NetworkTables, so Level 2 saves it too. Look under Robot, then container, then drive. Each tagged class has to be reachable from Robot. Lots of slow CAN reads can cause loop overruns, so log what you will use.',
     }),
     L.steps({
       id: 'getlog', eyebrow: 'Logs', title: 'Getting a log off the robot', items: [
@@ -163,15 +163,15 @@ export default {
         { title: 'Open it', text: '`File` > `Open Log(s)...`. REV `.revlog` and CTRE `.hoot` files open the same way.' },
       ], qr: { url: 'https://docs.advantagescope.org/overview/log-files', label: 'Log Files docs', short: 'docs.advantagescope.org' },
       flag2027: 'Systemcore alphas log to /home/systemcore/logs without a stick.',
-      notes: 'In the download window, pick your logs and click the down arrow. REV StatusLogger is on by default in 2026 and AdvantageScope converts its .revlog files, though they cannot be precisely synced with other logs. CTRE Signal Logger writes .hoot files. AdvantageScope asks you to accept the CTRE license first, and logs without Pro devices show fewer signals. The Driver Station can also copy logs: click the gear, then Upload WPILogs. (2 minutes)',
+      notes: 'In the download window, pick your logs and click the down arrow. REV StatusLogger is on by default in 2026 and AdvantageScope converts its .revlog files, though they cannot be precisely synced with other logs. CTRE Signal Logger writes .hoot files. AdvantageScope asks you to accept the CTRE license first, and logs without Pro devices show fewer signals. The Driver Station can also copy logs: click the gear, then Upload WPILogs.',
     }),
     L.plot({
       id: 'story', eyebrow: 'Worked example, not a real event', title: 'Reading a brownout from voltage and current',
       xLabel: 'Time (s)', yLabel: 'Volts, and amps divided by 30', xDomain: [0, 2], yDomain: [0, 14], xTicks: [0, 0.5, 1, 1.5, 2], yTicks: [0, 2, 4, 6, 8, 10, 12, 14],
       refs: [{ y: BROWNOUT_V, label: `Brownout line: ${BROWNOUT_V} V` }],
       series: [
-        { name: 'Tired battery V', color: 'orange', points: tired.map((p) => [p.t, p.volts]) },
-        { name: `Tired battery A ÷ ${AMP_SCALE}`, color: 'blue', points: tired.map((p) => [p.t, p.amps / AMP_SCALE]) },
+        { name: 'Worn battery V', color: 'orange', points: tired.map((p) => [p.t, p.volts]) },
+        { name: `Worn battery A ÷ ${AMP_SCALE}`, color: 'blue', points: tired.map((p) => [p.t, p.amps / AMP_SCALE]) },
         { name: 'Fresh battery V', color: 'green', dash: true, points: fresh.map((p) => [p.t, p.volts]) },
       ],
       callouts: [
@@ -180,14 +180,14 @@ export default {
         { title: 'Current', text: `Jumps to about ${Math.round(tiredPeakA / 10) * 10} A at the same moment.` },
         { title: 'The fix', text: `A fresh battery stays above ${Math.floor(freshLow * 10) / 10} V here.` },
       ],
-      notes: `This story is made up. Imagine a team raises DRIVE_SCALE to 1 and the robot stutters late in practice. Below ${BROWNOUT_V} V a roboRIO 1 cuts the motors, then they return above ${RECOVER_V} V. A roboRIO 2 defaults to 6.75. Simulated: 4 CIMs, 60 A limit, 50 kg, ${GEARING} to 1, 6 inch wheels, checked every 20 ms, motors coast when cut. Assumed batteries, including wiring: ${TIRED.volts} V with ${TIRED.ohms} ohms, ${FRESH.volts} V with ${FRESH.ohms}. In AdvantageScope, put voltage on Left Axis, current on Right Axis, and BrownedOut on Discrete Fields. The Driver Station log has voltage too, with no code. (2.5 minutes)`,
+      notes: `This example is made up: a team raises DRIVE_SCALE to 1 and the robot stutters late in practice. Below ${BROWNOUT_V} V a roboRIO 1 cuts the motors, then they return above ${RECOVER_V} V. A roboRIO 2 defaults to 6.75. Simulated: 4 CIMs, 60 A limit, 50 kg, ${GEARING} to 1, 6 inch wheels, checked every 20 ms, motors coast when cut. Assumed batteries, including wiring: ${TIRED.volts} V with ${TIRED.ohms} ohms, ${FRESH.volts} V with ${FRESH.ohms}. In AdvantageScope, put voltage on Left Axis, current on Right Axis, and BrownedOut on Discrete Fields. The Driver Station log has voltage too, with no code.`,
     }),
     L.practice({
       id: 'practice', title: 'What to log and how to name it',
       rule: 'Log inputs and outputs, put units in the names, and log more than you think you need.',
       why: 'You cannot record something after the match is over. Inputs are what the robot sensed. Outputs are what it asked for. With both, you can tell whether the code or the machine went wrong.',
       code: 'Drive/Left             // Left what? How big?\nDrive/LeftCurrentAmps  // Clear, and AdvantageScope labels the axis',
-      notes: 'Here is why inputs and outputs both matter. If the stick said full forward and the motor output was zero, look at the code. If the output was full and nothing moved, look at the robot. A number with no unit is a guess, and the unit has to be the last word in the name for AdvantageScope to read it. Log generously, because disk space is cheap and a repeat of the problem is not. If you see loop overruns, trim the slow reads. (1 minute)',
+      notes: 'If the stick said full forward and the motor output was zero, look at the code. If the output was full and nothing moved, look at the robot. A number with no unit is ambiguous, and the unit has to be the last word in the name for AdvantageScope to read it. Log generously: disk space is cheap, and a problem may not repeat. If you see loop overruns, trim the slow reads.',
     }),
     L.table({
       id: 'gotcha-live', eyebrow: 'Common mistake', title: 'When nothing shows up live',
@@ -197,14 +197,14 @@ export default {
         ['Searching, or an empty sidebar', 'Wrong mode: Connect to Simulator, or the AdvantageKit, Phoenix or RLOG source.', 'File > Connect to Robot > Default: NetworkTables 4.'],
         ['Connected, but your field is missing', 'The code never published it, or was never deployed.', 'Add the put to periodic() and deploy again.'],
       ],
-      notes: 'Work top to bottom. The AdvantageKit source only listens to AdvantageKit data, so a plain WPILib robot looks empty. If a field exists but its history is missing, that is Live Mode. The default, Low Bandwidth, only fetches a field after you pick it. Logging keeps everything, which is handy on the bench but should not be used when bandwidth is limited, like on a field. (90 seconds)',
+      notes: 'Work top to bottom. The AdvantageKit source only listens to AdvantageKit data, so a plain WPILib robot looks empty. If a field exists but its history is missing, that is Live Mode. The default, Low Bandwidth, only fetches a field after you pick it. Logging keeps everything, which is handy on the bench but should not be used when bandwidth is limited, like on a field.',
     }),
     L.gotcha({
       id: 'gotcha-log', title: 'The log is empty or missing',
       symptom: '`Failed to open log folder` or `No files found in folder`, or a file with almost nothing in it.',
       cause: 'Logging never started, no Driver Station was connected, or `Robot Log Path` is the wrong folder.',
       fix: 'Call `DataLogManager.start()`, connect the Driver Station, and match the path to where logs really are.',
-      notes: 'Three causes, in order. First, nothing is saved unless you start logging. Second, logging pauses after 10 seconds with no Driver Station, and any FRC_TBD file from a run that never connected is deleted the next time the code starts. So a bench test with no Driver Station can leave you nothing. Third, the path. No stick in the robot means your logs are in /home/lvuser/logs, but AdvantageScope looks in /U/logs until you change it. (1 minute)',
+      notes: 'Three causes, in order. First, nothing is saved unless you start logging. Second, logging pauses after 10 seconds with no Driver Station, and any FRC_TBD file from a run that never connected is deleted the next time the code starts. So a bench test with no Driver Station can leave you nothing. Third, the path. No stick in the robot means your logs are in /home/lvuser/logs, but AdvantageScope looks in /U/logs until you change it.',
     }),
     L.plot({
       id: 'control-theory', eyebrow: 'Control theory', title: 'Reading a response on a line graph',
@@ -221,17 +221,17 @@ export default {
         { title: 'Settling time', text: `${settleS.toFixed(1)} s until it stays within 2%.` },
         { title: 'Steady-state error', text: `Stops ${steadyError.toFixed(0)} degrees short.` },
       ],
-      notes: `The setpoint is where you asked to go. The measurement is where it really went. Every tuning job comes down to comparing those two lines. Think of a shower: you turn the tap, it goes too hot, then settles a bit too cool. Those four numbers name what you saw. Simulated: a second-order model with natural frequency ${WN} rad/s, damping ratio ${ZETA}, and a constant load, logged every 20 ms. It is not a real arm. Rise and settling are measured against the final value, and textbooks often measure overshoot that way too. Deck 6 tunes these numbers. (3 minutes)`,
+      notes: `The setpoint is where you asked to go. The measurement is where it really went. Every tuning job comes down to comparing those two lines. These four numbers describe the response. Simulated: a second-order model with natural frequency ${WN} rad/s, damping ratio ${ZETA}, and a constant load, logged every 20 ms. It is not a real arm. Rise and settling are measured against the final value, and textbooks often measure overshoot that way too. Deck 6 tunes these numbers.`,
     }),
     L.exercise({
-      id: 'exercise', title: 'Graphing left and right applied output', minutes: 6, tasks: [
+      id: 'exercise', title: 'Graphing left and right applied output', tasks: [
         'Copy `periodic()` from Level 1 into your `CANDriveSubsystem`, add the imports, and deploy.',
         'Put the robot on blocks, wheels off the floor. **No robot?** `getAppliedOutput()` reads 0 in the simulator, so run Level 3 and graph `Left Motor Speed` under `Robot/container/drive/drive`.',
         'Connect AdvantageScope, then open `SmartDashboard` and `Drive` in the sidebar.',
         'Drag `LeftAppliedOutput` and `RightAppliedOutput` to `Left Axis`.',
         'Enable. Push the left stick forward, then use the right stick to turn.',
       ], done: 'both lines follow the sticks, and they move differently when you turn.',
-      notes: 'Ask for a guess first: what will full stick read? Most people say 1. It reads about 0.5, because DRIVE_SCALE is 0.7 and arcadeDrive squares its inputs by default, and 0.7 squared is 0.49. One side is inverted in the config (the left, on the KitBot), so one line may mirror the other. If so, have them work out why. Teams with no robot free can pair up, or use the simulator: there, getAppliedOutput reads 0 because nothing is simulating the SPARK, so those two lines stay flat and that is not a bug. With the Level 3 Epilogue code, Left Motor Speed and Right Motor Speed carry real values in the simulator. Safety first: wheels off the floor, and someone on the Driver Station ready to disable. (6 minutes)',
+      notes: 'Full stick reads about 0.5, not 1, because DRIVE_SCALE is 0.7 and arcadeDrive squares its inputs by default, and 0.7 squared is 0.49. One side is inverted in the config (the left, on the KitBot), so one line may mirror the other. In the simulator, getAppliedOutput reads 0 because nothing is simulating the SPARK, so those two lines stay flat. With the Level 3 Epilogue code, Left Motor Speed and Right Motor Speed carry real values in the simulator. Keep the wheels off the floor, with one person ready to disable.',
     }),
     L.change2027({
       id: 'change2027', items: [
@@ -240,26 +240,26 @@ export default {
         { now: 'Packages under edu.wpi.first', next: 'Packages under org.wpilib, including Epilogue' },
         { now: 'AdvantageScope for debugging', next: 'AdvantageScope and Elastic are the recommended dashboards' },
       ], note: 'WPILib 2027 is in alpha, so any of this may change. Everything in this deck is right for 2026.',
-      notes: 'Do not use any of it on a 2026 robot. AdvantageScope stays, and reading a graph does not change. Epilogue and DataLogManager both still exist in the alpha code, in new packages. (30 seconds)',
+      notes: 'Do not use any of it on a 2026 robot. AdvantageScope stays, and reading a graph does not change. Epilogue and DataLogManager both still exist in the alpha code, in new packages.',
     }),
     L.recap({
       id: 'recap', items: [
-        'Connect AdvantageScope and find your way around its window.',
-        'Publish with `SmartDashboard`, save with `DataLogManager`, and tag classes with `@Logged`.',
-        'Get a `.wpilog` off the robot and open it.',
-        'Read a brownout from voltage and current.',
-        'Name rise time, overshoot, settling time and steady-state error on a graph.',
+        'Connecting AdvantageScope, and the parts of its window.',
+        'Publishing with `SmartDashboard`, saving with `DataLogManager`, and tagging classes with `@Logged`.',
+        'Getting a `.wpilog` off the robot and opening it.',
+        'Reading a brownout from voltage and current.',
+        'Rise time, overshoot, settling time and steady-state error on a graph.',
       ], next: 'Deck 4 drives the simulator in AdvantageScope, with no robot needed.',
-      notes: 'Quick check before we move on: ask someone what overshoot looks like on a graph, and someone else where a log goes when there is no USB stick. Deck 4 uses this same tool with a simulated robot. (30 seconds)',
+      notes: 'Deck 4 uses this same tool with a simulated robot.',
     }),
     L.links({
-      id: 'links', intro: 'Point your phone camera at a code.', items: [
+      id: 'links', items: [
         { label: 'AdvantageScope docs', url: 'https://docs.advantagescope.org', short: 'docs.advantagescope.org' },
         { label: 'On-robot data logs', url: 'https://docs.wpilib.org/en/stable/docs/software/telemetry/datalog.html', short: 'docs.wpilib.org' },
         { label: 'Epilogue', url: 'https://docs.wpilib.org/en/stable/docs/software/telemetry/robot-telemetry-with-annotations.html', short: 'docs.wpilib.org' },
         { label: 'Brownouts', url: 'https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html', short: 'docs.wpilib.org' },
       ],
-      notes: 'These four pages are the official docs for everything today. AdvantageScope also has its docs built in: click the book icon in the tab bar and they work with no internet, which is handy at an event. Take a photo of this slide if you want them for later. (30 seconds)',
+      notes: 'These four pages are the official docs for this deck. AdvantageScope also has its docs built in: click the book icon in the tab bar. They work with no internet.',
     }),
   ],
 };

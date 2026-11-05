@@ -6,8 +6,8 @@ that won't fit. Read `decks/00-template-gallery/deck.mjs`: it uses every layout 
 ```js
 import * as L from '../../template/layouts.mjs';
 export default {
-  no: 3, short: 'AdvantageScope', title: 'AdvantageScope: see what your robot thinks',
-  minutes: 30, description: 'One sentence for the outline.',
+  no: 3, short: 'AdvantageScope', title: 'AdvantageScope: see what your robot is doing',
+  description: 'One sentence for the outline.',
   slides: [ L.cover({...}), L.cards({...}), ... ],
 };
 ```
@@ -17,15 +17,21 @@ Errors name the slide and the fix. Cut words or split the slide: never hack arou
 
 ## Audience and voice
 
-Young FRC students, many in their first season, ages roughly 12 to 16. Mentors are in the room.
-- Plain words and short sentences. Define every term the first time. Analogies from things they know (driving a car, a thermostat, a shower's hot tap).
-- Talk to "you". Never condescend, and never joke at the expense of a mistake.
+Readers are new to FRC, many in their first season, ages roughly 12 to 16.
+- Plain words and short sentences. Define every term the first time.
+- No analogies or metaphors. Describe the thing itself: no "think of", "picture", "imagine", "it's like a", and no showers, kitchens, cars or bikes.
+- Talk to "you", the reader. Never condescend, and never joke at the expense of a mistake.
 - Decks are purely informative, on slides and in notes. State the fact, the step or the reason, and nothing else.
 - No praise, reassurance, pep talk or motivation: no "well done", "don't worry", "that's normal", "everyone hits this", "you can now" or "you need no math past...".
 - No framing about how to feel or how much it matters: no "heads-up, not homework", "a pointer, not a lesson", "if you remember one thing", "the honest part" or "the sneaky part".
 - No welcomes, group chants, rhetorical questions, or jokey labels such as "break it on purpose".
+- Nothing separates a presenter from an audience, on slides or in notes: no "mentor", "student", "kid", "the room", "the board", "raise your hand" or "if someone asks". An extra fact is just stated.
+- No advice on running an activity: no pairs, groups, turns or breaks, no "do this live", "walk the room", "read these out", "ask for a guess", "take a photo", "early finishers" or "if you are short on time".
+- No time estimates: no minutes on covers or exercises, no timing cues in notes, no "this takes a while". Technical times such as "every 20 ms" stay.
+- Safety warnings stay, kept to one short sentence.
+- Outcome and recap slides list topics, not tasks: "What a subsystem does", not "Explain a subsystem".
 - Slide text is short; the explanation goes in speaker notes. **One idea per slide.**
-- Speaker notes on every slide: what to say, in the mentor's voice, up to 120 words. Add the timing cue and any "if a kid asks X" where useful.
+- Speaker notes on every slide: the explanation behind the slide, up to 120 words.
 - Titles describe the topic, in the same grammar across the deck. No drama ("It's not X, it's Y"). No hype words.
 - Prose punctuation is converted to curly quotes for you. Avoid em dashes in slide text.
 
@@ -71,9 +77,9 @@ Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 cha
 
 | Layout | Use for | Required | Limits |
 |---|---|---|---|
-| `cover` | First slide | `title`, `subtitle`, `minutes` | title 44 chars |
+| `cover` | First slide | `title`, `subtitle` | title 44 chars |
 | `sectionSlide` | Opening a part | `id`, `title`, `section` (one sentence), optional `no`, `sub` | title 40 chars |
-| `statement` | The sentence to remember, max 2 per deck | `id`, `text`, optional `sub`, `tone: accent, ink, blue` | 4 lines |
+| `statement` | One key sentence, max 2 per deck | `id`, `text`, optional `sub`, `tone: accent, ink, blue` | 4 lines |
 | `lead` | One idea in a sentence or two | `text`, optional `points[]` | |
 | `points` | Truly parallel short items | `items[]` | 2 to 6 |
 | `cards` | Concepts side by side | `items[{icon?, title, text}]`, optional `intro` | 2 to 6; about 20 words each |
@@ -84,8 +90,7 @@ Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 cha
 | `table` | Comparisons | `columns[]`, `rows[][]`, `widths[]` sum 100, `caption?`, `fontSize?` | 2 to 6 columns; plain text in cells |
 | `gotcha` | Common mistake | `title`, `symptom`, `cause`, `fix`, optional 4-line `code` | At least one per deck |
 | `practice` | Best practice | `title`, `rule`, `why`, optional 7-line `code` | At least one per deck |
-| `exercise` | Hands-on task | `title`, `minutes`, `tasks[]`, `done` | 1 to 5 tasks; `done` must be observable |
-| `demo` | Presenter drives a tool | `title`, `show[]` | 2 to 5 |
+| `exercise` | Hands-on task | `title`, `tasks[]`, `done` | 1 to 5 tasks; `done` must be observable |
 | `plot` | Time-series chart | `xLabel, yLabel, xDomain, yDomain, xTicks, yTicks, series[{name, color, dash?, points, tag?{x,y,dx,dy,w,align}}]`, optional `refs[{y,label}]`, `callouts[{title,text}]` | 1 to 3 series. Colours `orange, blue, green`, in that order. |
 | `diagram` | Blocks and arrows | `nodes[{id,x,y,w,h,label,sub?,tone?,size?,round?}]`, `edges[{from,to,fromSide?,toSide?,route?,label?,lx?,ly?,lw?,dashed?}]`, `caption?` | Slide px: x 128 to 1792, y 232 to 916 (840 with caption). Tones `ink, paper, accent, blue, ghost`. Sides `l,r,t,b`. Routes `straight, hv, vh, elbow`. 24 parts max. |
 | `embed` | Self-running animation | `html` (whole small page), `height?` | 16 KB, system fonts, text 24px+. Nobody can click it, and exports flatten it. |
@@ -96,6 +101,6 @@ Content layouts need `eyebrow` (short topic label, 60 chars) and `title` (54 cha
 
 Icons: Activity Book Chart Chat Check CheckCircle Clock Cloud Code Database Globe GraduationCap Home Key Lightbulb Lightning Link Lock PaperPlane Play Search Settings Star ThumbsUp Tool Trust Users Verified Warning Wrench.
 
-**No screenshots or images.** We have none we can verify. For a tool's UI, use a `demo` slide and let the mentor drive the real thing, or a clearly schematic `diagram` built only from confirmed labels. Say "schematic" in the caption.
+**No screenshots or images.** We have none we can verify. For a tool's UI, use a clearly schematic `diagram` built only from confirmed labels. Say "schematic" in the caption.
 
 **Vary layouts.** Don't stack `points` slides. A real diagram or table beats a list. Aim for no more than 3 `points` slides in a deck.

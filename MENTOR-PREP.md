@@ -22,7 +22,7 @@ What mentors do so that Deck 1 and the Setup lab run smoothly. None of this belo
 
 ## Robot, before Deck 1
 
-Deck 1 needs one finished robot, because setup takes hours. Use the Setup lab slides as your checklist.
+Deck 1 needs one finished robot. Use the Setup lab slides as your checklist.
 
 - **roboRIO:** check the type and the power connector, image it, and set the team number. Update roboRIO firmware only if it's brand new: version 5.0 or higher is fine.
 - **Radios:**
@@ -72,8 +72,8 @@ Work from the wire outward: USB first, then Ethernet, then Wi-Fi.
 
 ## Test before you teach
 
-- Give a wiped laptop to a real 14-year-old and time them. Deck 1's 95 minutes is an estimate.
-- Time the first build, and check that it works with no internet on a laptop installed from the stick.
+- Give a wiped laptop to a real 14-year-old and watch them work through Deck 1.
+- Check that the first build works with no internet on a laptop installed from the stick.
 - Check that `Enter` disables when Driver Station isn't the active window. The docs only promise that for `Space`.
 - Check whether an NI account has an age limit, and whether Game Tools needs an administrator.
 

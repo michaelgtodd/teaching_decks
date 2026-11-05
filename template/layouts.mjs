@@ -73,7 +73,7 @@ const mk = (kind, spec, render) => { need(spec.id && /^[A-Za-z0-9_-]{1,64}$/.tes
 
 // Structure slides ----------------------------------------------------------------------------
 export function cover(spec) {
-  const { title, subtitle, minutes, tag = 'WPILib 2026 · Java · Command-based' } = spec;
+  const { title, subtitle, tag = 'WPILib 2026 · Java · Command-based' } = spec;
   need(plain(title).length <= 44, 'cover', `cover title is ${plain(title).length} chars; 44 max (two lines)`);
   return mk('cover', { id: 'cover', ...spec }, (ctx) => frame({
     id: spec.id || 'cover', bg: C.ink, color: C.onDark, chrome: false, notes: spec.notes, justify: 'center', gap: 32,
@@ -83,7 +83,6 @@ export function cover(spec) {
 <h1 style="font-family:${F.display};font-size:${T.display}px;font-weight:600;line-height:1.08;color:${C.onDark}">${rich(title)}</h1>
 <p style="font-size:${T.lead}px;line-height:1.3;color:${C.onDarkSoft}">${rich(subtitle, C.blueBright)}</p>
 <div style="display:flex;flex-direction:row;gap:20px;align-items:center">
-${minutes ? `<p style="font-size:${T.small}px;font-weight:700;background:${C.orangeBright};color:${C.ink};padding:10px 22px;border-radius:6px">${minutes} min</p>` : ''}
 <p style="font-size:${T.small}px;font-weight:600;color:${C.onDarkSoft}">${esc(tag)}</p></div>`,
   }));
 }
@@ -300,7 +299,7 @@ ${rows.map((r, ri) => `<tr${ri % 2 ? ` style="background:${C.paper2}"` : ''}>${r
   }));
 }
 
-// Recurring teaching slides: same look in every deck so kids learn to spot them ---------------------
+// Recurring slides: same look in every deck -----------------------------------------------------
 export function gotcha(spec) {
   const { title, symptom, cause, fix, code: snippet } = spec;
   need(symptom && cause && fix, spec.id, 'gotcha needs symptom, cause and fix');
@@ -332,30 +331,17 @@ ${snippet ? pane({ id: spec.id }, snippet.replace(/^\n+|\n+$/g, '').split('\n'),
 }
 
 export function exercise(spec) {
-  const { title, minutes, tasks, done } = spec;
+  const { title, tasks, done } = spec;
   need(tasks?.length >= 1 && tasks.length <= 5, spec.id, 'exercise takes 1 to 5 tasks');
-  need(minutes && done, spec.id, 'exercise needs minutes and done');
+  need(done, spec.id, 'exercise needs done');
   const h = tasks.reduce((a, t) => a + estH(t, G.contentW - 80, T.body, 1.35) + 14, 0) + 120;
   need(h <= G.bodyH, spec.id, `exercise overflows (~${Math.round(h)}px)`);
   return mk('exercise', spec, (ctx) => frame({
     id: spec.id, bg: C.blue, color: C.onDark, dark: true, ctx, notes: spec.notes, flag2027: spec.flag2027,
-    body: `<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml('Exercise', '#FFE7C7')}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:#FFFBF5">${rich(title, '#FFE7C7')}</h2></div><p style="flex:none;font-size:${T.lead}px;font-weight:700;background:${C.ink};color:#FFFBF5;padding:10px 28px;border-radius:8px">${minutes} min</p></div>
+    body: `<div style="display:flex;flex-direction:column;gap:6px">${eyebrowHtml('Exercise', '#FFE7C7')}<h2 style="font-family:${F.display};font-size:${T.title}px;font-weight:600;line-height:1.1;color:#FFFBF5">${rich(title, '#FFE7C7')}</h2></div>
 <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
 ${tasks.map((t, i) => `<div style="display:flex;flex-direction:row;gap:24px;align-items:flex-start"><p style="flex:none;width:44px;font-family:${F.display};font-size:34px;font-weight:600;line-height:1.2;color:#FFE7C7">${i + 1}.</p><p style="flex:1;font-size:${T.body}px;line-height:1.35;color:#FFFBF5">${rich(t, '#FFE7C7')}</p></div>`).join('\n')}</div>
 <p style="font-size:${T.body}px;font-weight:600;line-height:1.3;background:${C.ink};color:#FFFBF5;padding:18px 28px;border-radius:8px">Done when: ${rich(done, C.blueBright)}</p>`,
-  }));
-}
-
-export function demo(spec) {
-  const { title, show } = spec;
-  need(show?.length >= 2 && show.length <= 5, spec.id, 'demo takes 2 to 5 show items');
-  const h = show.reduce((a, t) => a + estH(t, G.contentW - 80, T.body, 1.35) + 14, 0);
-  need(h <= G.bodyH - 60, spec.id, 'demo overflows');
-  return mk('demo', spec, (ctx) => frame({
-    id: spec.id, bg: C.ink, color: C.onDark, dark: true, ctx, notes: spec.notes, flag2027: spec.flag2027, backdrop: blueprint,
-    body: `<div style="display:flex;flex-direction:row;gap:24px;align-items:center"><x-icon name="Play" style="color:${C.orangeBright};width:64px;height:64px"></x-icon>${header(spec.id, 'Live demo', title, true)}</div>
-<div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly">
-${show.map((t) => `<p style="font-size:${T.body}px;line-height:1.35;color:${C.onDark};border-left:6px solid ${C.orangeBright};padding:4px 0 4px 26px">${rich(t, C.blueBright)}</p>`).join('\n')}</div>`,
   }));
 }
 
@@ -391,7 +377,7 @@ export function change2027(spec) {
   need(items?.length >= 2 && items.length <= 6, spec.id, 'change2027 takes 2 to 6 items');
   return table({
     id: spec.id, eyebrow: 'Next season', title, notes: spec.notes,
-    columns: ['In 2026 (what we teach)', 'Changing for 2027'], widths: [50, 50],
+    columns: ['In 2026', 'Changing for 2027'], widths: [50, 50],
     rows: items.map((i) => [i.now, i.next]), caption: note,
   });
 }

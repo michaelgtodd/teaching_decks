@@ -131,7 +131,7 @@ function launch(b, limitA = Infinity) {
 const freshRaw = launch(FRESH), tiredRaw = launch(TIRED);
 const freshLimit = launch(FRESH, LIMIT_A), tiredLimit = launch(TIRED, LIMIT_A);
 if (freshRaw.bus <= BROWNOUT_V || tiredRaw.bus >= BROWNOUT_V) throw new Error('battery story no longer matches the model');
-if (Math.abs(tiredLimit.bus - tiredRaw.bus) > 1e-9) throw new Error('tired battery story no longer matches the model');
+if (Math.abs(tiredLimit.bus - tiredRaw.bus) > 1e-9) throw new Error('worn battery story no longer matches the model');
 
 // Choosing a limit: the current where the wheels slip. Same steps as DriveLimits.slipAmps ---------
 const GRIP = 1, GRAVITY = 9.81;
@@ -151,26 +151,26 @@ function region(file, name) {
 }
 
 export default {
-  no: 8, short: 'Understanding motors', title: 'Understanding motors: how to read a motor curve', minutes: 30,
+  no: 8, short: 'Understanding motors', title: 'Understanding motors: how to read a motor curve',
   description: 'Reading motor curves, gearing, heat, battery sag, current limits and voltage compensation, using the KitBot.',
   slides: [
-    L.cover({ title: 'Understanding motors: read the curve', subtitle: 'Why your robot speeds up, slows down, heats up and browns out', minutes: 30,
-      notes: '(30 s) This deck covers the KitBot motor: how to read a motor curve, the chart every motor maker publishes, why a battery sags, and what a current limit does. The math is multiplying and dividing. Everything here is for the 2026 season and the roboRIO.' }),
+    L.cover({ title: 'Understanding motors: read the curve', subtitle: 'Why your robot speeds up, slows down, heats up and browns out',
+      notes: 'This deck covers the KitBot motor: how to read a motor curve, the chart every motor maker publishes, why a battery sags, and what a current limit does. The math is multiplying and dividing. Everything here is for the 2026 season and the roboRIO.' }),
 
-    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
-      'Say what **voltage** does to a motor, and what **current** does.',
-      'Read free speed, free current, stall torque and stall current off a motor curve.',
-      'Work out a robot\'s top speed from its gearing, by hand.',
-      'Explain why a stalled motor heats up, and why the battery sags.',
-      'Tell **motor current** from **battery current**, and choose a current limit.',
-    ], notes: '(30 s) Read these quickly. The second one is the goal of the session: if you can find those four numbers on a chart, you can read any motor. The last one is where most teams get confused, so we build up to it slowly. Everything uses the KitBot, because you already know how it feels to drive one. If you are short on time, keep the curve slides and the current limit slides.' }),
+    L.points({ id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers', items: [
+      'What **voltage** does to a motor, and what **current** does.',
+      'Free speed, free current, stall torque and stall current on a motor curve.',
+      'Working out a robot\'s top speed from its gearing, by hand.',
+      'Why a stalled motor heats up, and why the battery sags.',
+      '**Motor current** versus **battery current**, and choosing a current limit.',
+    ], notes: 'Those four numbers let you read any motor curve. Motor current versus battery current is the usual source of confusion. Everything here uses the KitBot.' }),
 
     L.diagram({ id: 'model', eyebrow: 'Mental model', title: 'Voltage sets speed, current sets torque',
-      caption: 'Schematic. The loop settles when push-back leaves just enough current to carry the load.',
+      caption: 'Schematic. The loop settles when back-EMF leaves just enough current to carry the load.',
       nodes: [
-        { id: 'volts', x: 128, y: 290, w: 300, h: 170, label: 'Voltage', sub: 'how fast it wants to spin', tone: 'blue' },
-        { id: 'back', x: 556, y: 290, w: 300, h: 170, label: 'Minus push-back', sub: 'it is also a generator', tone: 'ghost' },
-        { id: 'amps', x: 984, y: 290, w: 300, h: 170, label: 'Current', sub: 'whatever gets through', tone: 'accent' },
+        { id: 'volts', x: 128, y: 290, w: 300, h: 170, label: 'Voltage', sub: 'sets the speed', tone: 'blue' },
+        { id: 'back', x: 556, y: 290, w: 300, h: 170, label: 'Minus back-EMF', sub: 'a spinning motor generates voltage', tone: 'ghost' },
+        { id: 'amps', x: 984, y: 290, w: 300, h: 170, label: 'Current', sub: 'what is left, divided by resistance', tone: 'accent' },
         { id: 'torque', x: 1492, y: 290, w: 300, h: 170, label: 'Torque', sub: 'how hard it twists', tone: 'ink' },
         { id: 'speed', x: 984, y: 610, w: 300, h: 170, label: 'Speed', sub: 'climbs as torque beats the load', tone: 'paper' },
       ],
@@ -178,9 +178,9 @@ export default {
         { from: 'volts', to: 'back' }, { from: 'back', to: 'amps' },
         { from: 'amps', to: 'torque' },
         { from: 'torque', to: 'speed', fromSide: 'b', toSide: 'r', route: 'vh', label: 'torque spins it up', lx: 1330, ly: 640, lw: 300 },
-        { from: 'speed', to: 'back', fromSide: 'l', toSide: 'b', route: 'hv', label: 'more speed, more push-back', lx: 590, ly: 716, lw: 380 },
+        { from: 'speed', to: 'back', fromSide: 'l', toSide: 'b', route: 'hv', label: 'more speed, more back-EMF', lx: 590, ly: 716, lw: 380 },
       ],
-      notes: '(2 min) Here is the whole deck on one slide. Voltage is how fast the motor wants to spin. Current is how hard it is pushing. Note the second box: a spinning motor is also a generator, so it pushes back against the battery. The proper name is back EMF. Stopped, nothing pushes back, so lots of current flows. As speed climbs, push-back grows and current falls. Think of starting a bike in a high gear: a huge shove at first, then less and less as you get moving. If a kid asks: yes, that loop is real feedback, built into the physics.' }),
+      notes: 'Voltage sets how fast the motor spins. Current sets how much torque it makes. A spinning motor is also a generator, so it produces a voltage against the battery, called back-EMF. A stopped motor has no back-EMF, so a lot of current flows. As speed climbs, back-EMF grows and current falls. That loop is real feedback, built into the physics.' }),
 
     L.plot({ id: 'curve', eyebrow: 'Motor curves', title: 'Anatomy of a motor curve: a CIM at 12 V', xLabel: 'Speed (RPM)', yLabel: 'Percent of each line\'s maximum', xDomain: [0, CIM.freeRpm], yDomain: [0, 100], xTicks: quarterTicks, yTicks: [0, 25, 50, 75, 100],
       alt: 'Motor curve for a CIM. Torque and current fall in a straight line from their stall values at zero speed to almost nothing at free speed. Power is a hump that peaks at half speed.',
@@ -195,7 +195,7 @@ export default {
         { title: 'Free current', text: `**${CIM.freeA} A** at free speed. That just beats friction.` },
         { title: 'Two straight lines', text: 'Current makes torque, so the two fall together.' },
       ],
-      notes: `(2 min) This is a motor curve, for the CIM on your KitBot. Speed runs along the bottom. Each line is a percent of its own biggest value, because they have different units. Now find four numbers. Left edge: stall, the motor is stuck, ${CIM.stallNm} newton metres and ${CIM.stallA} amps. Right edge: free speed, ${CIM.freeRpm} RPM, and ${CIM.freeA} amps. Those come from WPILib's DCMotor class, and the lines are drawn straight between them, so this is a model and not a test result. If you find a chart with different axes, look for the same four numbers at the ends of its lines.` }),
+      notes: `This is a motor curve, for the CIM on your KitBot. Speed runs along the bottom. Each line is a percent of its own biggest value, because they have different units. Now find four numbers. Left edge: stall, the motor is stuck, ${CIM.stallNm} newton metres and ${CIM.stallA} amps. Right edge: free speed, ${CIM.freeRpm} RPM, and ${CIM.freeA} amps. Those come from WPILib's DCMotor class, and the lines are drawn straight between them, so this is a model and not a test result. If you find a chart with different axes, look for the same four numbers at the ends of its lines.` }),
 
     L.plot({ id: 'power', eyebrow: 'Motor curves', title: 'Peak power sits at half speed', xLabel: 'Speed (RPM)', yLabel: 'Power out (W)', xDomain: [0, CIM.freeRpm], yDomain: [0, 400], xTicks: quarterTicks, yTicks: [0, 100, 200, 300, 400], refs: [{ y: peakW, label: `Peak: ${Math.round(peakW)} W` }],
       alt: `Power out of a CIM against speed. It is zero at stall and at free speed, and peaks at about ${Math.round(peakW)} watts at half speed.`,
@@ -206,7 +206,7 @@ export default {
         { title: 'Free speed', text: 'All speed, no torque: 0 W.' },
         { title: 'Half speed', text: `Half of each: ${(CIM.stallNm / 2).toFixed(2)} Nm × ${Math.round(radS(halfRpm))} rad/s = **${Math.round(peakW)} W**.` },
       ],
-      notes: `(1.5 min) Power is how fast a motor does work. It is torque times speed, in radians per second. At stall you have torque but no speed, so zero. At free speed you have speed but no torque, also zero. Torque falls as speed rises, so the biggest product is in the middle: half torque times half speed. For a CIM that is ${Math.round(peakW)} watts at ${Math.round(halfRpm)} RPM. At three quarters speed you get three quarters of the speed but one quarter of the torque, ${Math.round(wattsOut(CIM.freeRpm * 0.75))} watts. Peak power is not a place to sit, as we will see when we look at heat.` }),
+      notes: `Power is how fast a motor does work. It is torque times speed, in radians per second. At stall you have torque but no speed, so zero. At free speed you have speed but no torque, also zero. Torque falls as speed rises, so the biggest product is in the middle: half torque times half speed. For a CIM that is ${Math.round(peakW)} watts at ${Math.round(halfRpm)} RPM. At three quarters speed you get three quarters of the speed but one quarter of the torque, ${Math.round(wattsOut(CIM.freeRpm * 0.75))} watts. Running at peak power makes a lot of heat, as the heat slide shows.` }),
 
     L.plot({ id: 'voltage-curves', eyebrow: 'Control theory', title: 'Voltage slides the curve, load picks the point', xLabel: 'Speed (RPM)', yLabel: 'Torque (Nm)', xDomain: [0, CIM.freeRpm], yDomain: [0, 2.5], xTicks: quarterTicks, yTicks: [0, 0.5, 1, 1.5, 2, 2.5], refs: [{ y: LOAD_NM, label: `Load: ${LOAD_NM} Nm` }],
       alt: 'Torque against speed for a CIM at 12, 9 and 6 volts. The three straight lines are parallel. A flat load line crosses them at three different speeds.',
@@ -221,12 +221,12 @@ export default {
         { title: 'Load picks the point', text: `The motor runs where the lines cross: ${Math.round(rpmAtLoad(12))} RPM at 12 V, ${Math.round(rpmAtLoad(6))} RPM at 6 V.` },
         { title: 'Same torque, same amps', text: `That ${LOAD_NM} Nm takes ${Math.round(loadA)} A on all three lines.` },
       ],
-      notes: `(1.5 min) This is the mental model drawn as a chart. Each line is the same CIM at a different voltage, so moving the stick slides the whole line. The flat dashed line is an example load we picked, ${LOAD_NM} newton metres. A motor settles where its line crosses the load. Look along the dashed line: same torque, same current, about ${Math.round(loadA)} amps, at three different speeds. Voltage changed the speed. The load decided the current. That is why a robot pushing a wall pulls huge current while going nowhere. In control theory this is the plant: what the motor does with the voltage you send it.` }),
+      notes: `This is the mental model drawn as a chart. Each line is the same CIM at a different voltage, so moving the stick slides the whole line. The flat dashed line is an example load we picked, ${LOAD_NM} newton metres. A motor settles where its line crosses the load. Look along the dashed line: same torque, same current, about ${Math.round(loadA)} amps, at three different speeds. Voltage changed the speed. The load decided the current. That is why a robot pushing a wall pulls huge current while going nowhere. In control theory this is the plant: what the motor does with the voltage you send it.` }),
 
     L.table({ id: 'real-numbers', eyebrow: 'Motor curves', title: 'Reading real numbers: four FRC motors', columns: ['Motor', 'Free speed (RPM)', 'Free current (A)', 'Stall torque (Nm)', 'Stall current (A)', 'Peak power (W)'], widths: [24, 16, 15, 15, 15, 15], fontSize: 28,
       rows: MOTORS.map((m) => [m.name, String(m.freeRpm), String(m.freeA), String(m.stallNm), String(m.stallA), String(Math.round(motorPeakW(m)))]),
       caption: 'From WPILib `DCMotor` at v2026.2.1. The Kraken row is the non-FOC entry. Peak power here is stall torque × free speed ÷ 4.',
-      notes: `(1.5 min) Same four numbers, four motors. Ask: which is strongest? Kraken, at ${mKraken.stallNm} newton metres. Which uses the least current for its torque? NEO, at ${nmPerAmp(mNeo).toFixed(3)} newton metres per amp against ${nmPerAmp(mCim).toFixed(3)} for a CIM. Stall current is a warning, not a target. Peak power sits at half speed, so it takes about half of stall current: ${Math.round(ampsAtPeak(mCim))} amps for a CIM and ${Math.round(ampsAtPeak(mKraken))} for a Kraken. A 40 amp breaker won't let you stay there. REV quotes 406 watts for the NEO, and ours is the straight-line estimate. FOC, in Deck 7, is a second set of Kraken numbers.` }),
+      notes: `The Kraken is strongest, at ${mKraken.stallNm} newton metres. The NEO uses the least current for its torque, at ${nmPerAmp(mNeo).toFixed(3)} newton metres per amp against ${nmPerAmp(mCim).toFixed(3)} for a CIM. Stall current is not an operating point. Peak power sits at half speed, so it takes about half of stall current: ${Math.round(ampsAtPeak(mCim))} amps for a CIM and ${Math.round(ampsAtPeak(mKraken))} for a Kraken. A 40 amp breaker won't let you stay there. REV quotes 406 watts for the NEO, and ours is the straight-line estimate. FOC, in Deck 7, is a second set of Kraken numbers.` }),
 
     L.steps({ id: 'gearing', eyebrow: 'Gearing', title: 'Gearing trades speed for torque: the KitBot', items: [
       { title: 'Start at the motor', text: `${CIM.freeRpm} RPM free speed and ${CIM.stallNm} Nm stall torque.` },
@@ -235,7 +235,7 @@ export default {
       { title: 'One wheel turn rolls one circumference', text: `6 in × π = ${wheelTurnIn.toFixed(2)} in, which is ${wheelTurnM.toFixed(3)} m.` },
       { title: 'Turns per second × distance per turn', text: `${Math.round(wheelRpm)} ÷ 60 × ${wheelTurnM.toFixed(3)} = **${topMs.toFixed(1)} m/s** (${topFts.toFixed(1)} ft/s).` },
       { title: 'Compare with the real robot', text: `FIRST quotes ~${FIRST_FTS} ft/s (${FIRST_MS} m/s), ${realShare}% of this free-speed math.` },
-    ], notes: `(2 min) Do this on a whiteboard with them. A gearbox is like the low gear on a bike: your legs spin more, and each push counts for more. ${BOT.gear} to 1 means the wheel turns once for every ${BOT.gear} motor turns. Speed goes down by ${BOT.gear}, torque goes up by ${BOT.gear}. Power stays about the same, apart from losses. Then one wheel turn rolls the robot one circumference. We get ${topMs.toFixed(1)} metres per second. Free speed means no load at all. AndyMark's 12.7 feet per second estimate assumes a loaded CIM at 4100 RPM instead of 5310. Friction and a sagging battery are part of why. Hand math gives you the ceiling.` }),
+    ], notes: `${BOT.gear} to 1 means the wheel turns once for every ${BOT.gear} motor turns. Speed goes down by ${BOT.gear}, torque goes up by ${BOT.gear}. Power stays about the same, apart from losses. Then one wheel turn rolls the robot one circumference. We get ${topMs.toFixed(1)} metres per second. Free speed means no load at all. AndyMark's 12.7 feet per second estimate assumes a loaded CIM at 4100 RPM instead of 5310. Friction and a sagging battery are part of why. Hand math gives the upper limit.` }),
 
     L.plot({ id: 'heat', eyebrow: 'Heat', title: 'A stalled motor turns all its power into heat', xLabel: 'Speed (RPM)', yLabel: 'Power (W), one CIM at 12 V', xDomain: [0, CIM.freeRpm], yDomain: [0, 1600], xTicks: quarterTicks, yTicks: [0, 400, 800, 1200, 1600],
       alt: 'Power into a CIM, heat in its windings and power out, against speed. At stall all of the power in becomes heat. Heat falls fast as speed rises.',
@@ -246,17 +246,17 @@ export default {
       ],
       callouts: [
         { title: 'At stall', text: `${CIM.volts} V × ${CIM.stallA} A = **${Math.round(stallW)} W** in, and nothing out.` },
-        { title: 'Where it goes', text: 'No push-back, so only the copper windings hold the current back. They heat up.' },
+        { title: 'Where it goes', text: 'No back-EMF, so only the resistance of the windings limits the current. They heat up.' },
         { title: 'At half speed', text: `${Math.round(halfIn)} W in, ${Math.round(halfOut)} W out: ${Math.round((halfOut / halfIn) * 100)}% useful.` },
         { title: 'Current squared', text: 'Half the current means a quarter of the heat.' },
       ],
-      notes: `(1.5 min) Computed from the CIM numbers on an ideal 12 volt supply. Power in is volts times amps. Heat in the windings is current squared times resistance, ${R.toFixed(3)} ohms for a CIM. Power out is the hump from before. Near free speed, the little that goes in mostly beats friction. At stall no work comes out, so all ${Math.round(stallW)} watts become heat in a small motor. That is the same job a space heater does. Current squared is the key: heat grows much faster than current, so a modest cut in current saves a lot of heat. REV warns stall heat can damage a motor in a fraction of a second if it is not managed.` }),
+      notes: `Computed from the CIM numbers on an ideal 12 volt supply. Power in is volts times amps. Heat in the windings is current squared times resistance, ${R.toFixed(3)} ohms for a CIM. Power out is the hump from before. Near free speed, the little that goes in mostly beats friction. At stall no work comes out, so all ${Math.round(stallW)} watts become heat in a small motor. Current squared is the key: heat grows much faster than current, so a modest cut in current saves a lot of heat. REV warns stall heat can damage a motor in a fraction of a second if it is not managed.` }),
 
     L.plot({ id: 'battery', eyebrow: 'Battery and breakers', title: 'Battery sag and brownouts', xLabel: 'Total current from the battery (A)', yLabel: 'Battery voltage (V)', xDomain: [0, 400], yDomain: [0, 14], xTicks: [0, 100, 200, 300, 400], yTicks: [0, 2, 4, 6, 8, 10, 12, 14], refs: [{ y: BROWNOUT_V, label: `Brownout: ${BROWNOUT_V} V` }],
-      alt: 'Battery voltage falls in a straight line as current rises. The tired battery starts lower, falls faster and reaches the brownout line first.',
+      alt: 'Battery voltage falls in a straight line as current rises. The worn battery starts lower, falls faster and reaches the brownout line first.',
       series: [
         { name: `Fresh: ${FRESH.volts} V, ${FRESH.ohms} ohms`, color: 'orange', points: sagLine(FRESH), tag: { x: 165, y: 12.4, w: 340 } },
-        { name: `Tired: ${TIRED.volts} V, ${TIRED.ohms} ohms`, color: 'blue', dash: true, points: sagLine(TIRED), tag: { x: 12, y: 5.9, w: 340 } },
+        { name: `Worn: ${TIRED.volts} V, ${TIRED.ohms} ohms`, color: 'blue', dash: true, points: sagLine(TIRED), tag: { x: 12, y: 5.9, w: 340 } },
       ],
       callouts: [
         { title: 'Sag', text: 'Every amp drops voltage inside the battery.' },
@@ -264,7 +264,7 @@ export default {
         { title: 'Full stick from a stop', text: `No limit, fresh battery: ${Math.round(freshRaw.amps)} A, down to ${freshRaw.bus.toFixed(1)} V.` },
         { title: 'Breakers', text: '120 A main, 40 A per motor. They trip on heat after a delay, so spikes get through.' },
       ],
-      notes: `(1.5 min) Computed: each battery is a voltage behind a resistance, the same idea as WPILib's BatterySim, with wiring included. The two batteries are assumptions, the same two as Deck 3. A battery is not a perfect 12 volts: pull more current and the voltage drops. The tired one hits the line at about ${Math.round(ampsAtBrownout(TIRED))} amps, the fresh one at about ${Math.round(ampsAtBrownout(FRESH))}. Our launch number assumes four CIMs and no slip. A brownout is the roboRIO protecting itself: motors stop, then return above 7.5 volts. Breakers protect wires and watch heat over time, so they can't stop a sag. The next slides can.` }),
+      notes: `Computed: each battery is a voltage behind a resistance, the same idea as WPILib's BatterySim, with wiring included. The two batteries are assumptions, the same two as Deck 3. A battery is not a perfect 12 volts: pull more current and the voltage drops. The worn one hits the line at about ${Math.round(ampsAtBrownout(TIRED))} amps, the fresh one at about ${Math.round(ampsAtBrownout(FRESH))}. Our launch number assumes four CIMs and no slip. A brownout is the roboRIO protecting itself: motors stop, then return above 7.5 volts. Breakers protect wires and watch heat over time, so they can't stop a sag. The next slides can.` }),
 
     L.plot({ id: 'two-currents', eyebrow: 'Current', title: 'Motor current and battery current are different', xLabel: 'Time after full stick (s)', yLabel: 'Current per CIM (A)', xDomain: [0, 1], yDomain: [0, 80], xTicks: [0, 0.25, 0.5, 0.75, 1], yTicks: [0, 20, 40, 60, 80], refs: [{ y: LIMIT_A, label: `Limit: ${LIMIT_A} A` }],
       alt: `Simulated current in one CIM after a full-stick start with a ${LIMIT_A} amp limit. Motor current holds at the limit while battery current climbs from about ${Math.round(limitBatteryA)} amps to meet it, then both fall together.`,
@@ -275,10 +275,10 @@ export default {
       callouts: [
         { title: 'Motor current', text: 'In the windings. It makes torque and heat.' },
         { title: 'Battery current', text: 'In the wires and breakers. It sags the battery.' },
-        { title: 'A gearbox for electricity', text: `${CIM.volts} V × ${Math.round(limitBatteryA)} A in, ${limitVolts.toFixed(1)} V × ${LIMIT_A} A out. Same power.` },
+        { title: 'Same power, different split', text: `${CIM.volts} V × ${Math.round(limitBatteryA)} A in, ${limitVolts.toFixed(1)} V × ${LIMIT_A} A out. Same power.` },
         { title: 'What the SPARK limits', text: 'Motor current. `getOutputCurrent()` reads it too.' },
       ],
-      notes: `(2 min) Simulated, not measured: the model from the next slide. A motor controller is a gearbox for electricity. You just saw a gearbox trade speed for torque; a SPARK trades volts for amps. At a stop it switches on ${Math.round(limitDuty * 100)}% of the time, so the motor sees ${limitVolts.toFixed(1)} volts, and ${LIMIT_A} amps in the motor is only ${Math.round(limitBatteryA)} amps from the battery. Both are about ${Math.round(motorW)} watts. REV's rule: battery current equals motor current times duty cycle. REV calls motor current phase current. It stress-tested NEOs up to 80 amp limits behind a 40 amp breaker, and the breaker never tripped. If a kid asks: Talon FX calls these stator and supply current.` }),
+      notes: `Simulated, not measured: the model from the next slide. A SPARK trades volts for amps. At a stop it switches on ${Math.round(limitDuty * 100)}% of the time, so the motor sees ${limitVolts.toFixed(1)} volts, and ${LIMIT_A} amps in the motor is only ${Math.round(limitBatteryA)} amps from the battery. Both are about ${Math.round(motorW)} watts. REV's rule: battery current equals motor current times duty cycle. REV calls motor current phase current. It stress-tested NEOs up to 80 amp limits behind a 40 amp breaker, and the breaker never tripped. Talon FX calls these stator and supply current.` }),
 
     L.plot({ id: 'current-limit', eyebrow: 'Control theory', title: 'What a current limit protects', xLabel: 'Time after full stick (s)', yLabel: 'Current per CIM (A)', xDomain: [0, 1], yDomain: [0, 140], xTicks: [0, 0.25, 0.5, 0.75, 1], yTicks: [0, 35, 70, 105, 140], refs: [{ y: LIMIT_A, label: `Limit: ${LIMIT_A} A` }],
       alt: 'Simulated current in one CIM after a full-stick start. Without a limit it peaks at 133 amps. With a limit it holds at 60 amps, then falls.',
@@ -287,19 +287,19 @@ export default {
         { name: 'With limit', color: 'blue', dash: true, points: ampPts(limited), tag: { x: 0.42, y: 46 } },
       ],
       callouts: [
-        { title: 'The spike', text: `A stopped motor pushes nothing back, so the model starts at ${peak(noLimit)} A.` },
+        { title: 'The spike', text: `A stopped motor has no back-EMF, so the model starts at ${peak(noLimit)} A.` },
         { title: 'What it protects', text: 'Breakers, battery voltage and CIM heat.' },
         { title: 'The cost', text: `3 m/s takes ${timeTo(limited, 3)} s, not ${timeTo(noLimit, 3)} s.` },
         { title: 'Measure it', text: 'This is a model. Log `getOutputCurrent()` during a short, hard push.' },
       ],
-      notes: `(1.5 min) Simulated, not measured. The model is ${MODEL}. The limit is an ideal clamp. The SPARK turns its output down until motor current holds. You pay in acceleration, because less current means less torque, but top speed stays. With battery sag added, this launch stays at about ${freshLimit.bus.toFixed(1)} volts on the fresh battery, not ${freshRaw.bus.toFixed(1)}. A tired battery still falls to ${tiredLimit.bus.toFixed(1)}, so a limit doesn't replace a charged battery. FIRST uses ${LIMIT_A} A to reduce breaker trips and CIM damage. A setting is a request, so check your own log.` }),
+      notes: `Simulated, not measured. The model is ${MODEL}. The limit is an ideal clamp. The SPARK turns its output down until motor current holds. The cost is acceleration, because less current means less torque, but top speed stays. With battery sag added, this launch stays at about ${freshLimit.bus.toFixed(1)} volts on the fresh battery, not ${freshRaw.bus.toFixed(1)}. A worn battery still falls to ${tiredLimit.bus.toFixed(1)}, so a limit doesn't replace a charged battery. FIRST uses ${LIMIT_A} A to reduce breaker trips and CIM damage. A setting is a request, so check your own log.` }),
 
     L.codeNotes({ id: 'choose-limit', eyebrow: 'Current', title: 'Choosing a limit: stop where the wheels slip', file: 'DriveLimits.java', src: { file: `${J}/DriveLimits.java`, region: 'choose' }, callouts: [
       { line: 3, title: 'Grip sets the force', text: `Grip × weight. Our ${GRIP.toFixed(1)} and ${BOT.massKg} kg are assumptions.` },
       { line: [4, 5], title: 'Back through the gearing', text: `Shared by ${BOT.motors} CIMs, divided by ${BOT.gear}.` },
       { line: 6, title: 'Torque to amps', text: `${Math.round(slipA)} A per CIM. More just spins the wheels.` },
       { line: 11, title: 'Set the limit', text: `FIRST's ${LIMIT_A} A is close to our number.` },
-    ], notes: `(1.5 min) Here is one way to pick a number: ask what the motor needs to do. A drivetrain can only push until the wheels slip, so that force sets the job. Divide it through the gearing to get torque at one motor, then let DCMotor turn torque into amps. We get ${slipA.toFixed(1)} amps. Any more makes heat and wheel spin, not push. WPILib notes many teams gear to slip at 40 to 50 amps per motor. REV's FAQ suggests starting drive motors at 20 amps and raising it until the wheels break traction. For an arm, start from holding torque at the motor instead, as in Deck 6, and add some margin.` }),
+    ], notes: `Here is one way to pick a number: ask what the motor needs to do. A drivetrain can only push until the wheels slip, so that force sets the job. Divide it through the gearing to get torque at one motor, then let DCMotor turn torque into amps. We get ${slipA.toFixed(1)} amps. Any more makes heat and wheel spin, not push. WPILib notes many teams gear to slip at 40 to 50 amps per motor. REV's FAQ suggests starting drive motors at 20 amps and raising it until the wheels break traction. For an arm, start from holding torque at the motor instead, as in Deck 6, and add some margin.` }),
 
     L.plot({ id: 'voltage-comp', eyebrow: 'Control theory', title: 'Voltage compensation makes output repeatable', xLabel: 'Time (s)', yLabel: 'Robot speed (m/s), half stick', xDomain: [0, 2], yDomain: [0, 3], xTicks: [0, 0.5, 1, 1.5, 2], yTicks: [0, 1, 2, 3],
       alt: 'Simulated speed at half stick for two batteries. The compensated curve sits between them and does not depend on the battery.',
@@ -314,46 +314,46 @@ export default {
         { title: 'With it', text: 'The SPARK scales output to 12 V, so both batteries match.' },
         { title: 'The cost', text: 'A little top speed on a full battery. It can\'t add volts.' },
       ],
-      notes: `(1 min) Simulated, not measured: the same model as the current limit chart. The two battery voltages are examples we picked. This goes back to the mental model. Voltage sets speed, so if the battery changes, your speed changes. Half stick on 12.8 volts is 6.4 volts, and on 11.2 volts it is 5.6. Voltage compensation makes half mean 6 volts on either. It does not close the loop: the code still has no idea how fast the robot is going. But the same command now does nearly the same thing, which matters most in autonomous. FIRST's KitBot code turns it on for this reason.` }),
+      notes: `Simulated, not measured: the same model as the current limit chart. The two battery voltages are examples we picked. This goes back to the mental model. Voltage sets speed, so if the battery changes, your speed changes. Half stick on 12.8 volts is 6.4 volts, and on 11.2 volts it is 5.6. Voltage compensation makes half mean 6 volts on either. It does not close the loop: the code still has no idea how fast the robot is going. But the same command now does nearly the same thing, which matters most in autonomous. FIRST's KitBot code turns it on for this reason.` }),
 
     L.gotcha({ id: 'gotcha-readings', title: 'Comparing a motor limit with a PDH reading',
       symptom: `The motor is stalled at a ${LIMIT_A} A limit, but its PDH channel shows about ${Math.round(limitBatteryA)} A. One of them looks wrong.`,
       cause: '`getOutputCurrent()` is motor current. The PDH measures battery current. At low speed they are far apart.',
       fix: 'Compare `getOutputCurrent()` with your limit, and the PDH with your breaker. Log both.',
       code: region(`${J}/CANDriveSubsystem.java`, 'log'),
-      notes: `(1 min) Both numbers are right. This is the two-currents chart, seen on a real dashboard. Those ${LIMIT_A} and ${Math.round(limitBatteryA)} amps come from our model for a stalled CIM; yours will differ a little. The applied output line is the duty cycle, so you can check it yourself: multiply it by motor current and you get close to the PDH number. Put these four lines in periodic in your drive subsystem, and watch them in Elastic or AdvantageScope. The PDH channel number depends on your wiring, so look at which slot your SPARK uses.` }),
+      notes: `Both numbers are right. This is the two-currents chart, seen on a real dashboard. Those ${LIMIT_A} and ${Math.round(limitBatteryA)} amps come from our model for a stalled CIM; yours will differ a little. The applied output line is the duty cycle, so you can check it yourself: multiply it by motor current and you get close to the PDH number. Put these four lines in periodic in your drive subsystem, and watch them in Elastic or AdvantageScope. The PDH channel number depends on your wiring, so look at which slot your SPARK uses.` }),
 
     L.practice({ id: 'every-motor', title: 'A limit for every motor', rule: 'Give every motor its own limit, chosen for its job.',
       why: 'REV suggests 40 to 60 A for a NEO and 20 to 40 A for a NEO 550. FIRST uses 60 A on KitBot CIMs. In REV\'s stall test a NEO 550 lasted about 27 s at 40 A, and about 2 s at 80 A, the SPARK default.',
-      notes: '(30 s) This goes for every motor on the robot, not just the drivetrain. The 80 amp default suits some motors, but not a small one like a NEO 550. REV\'s test held the motor stalled at each limit, and warns those times are not guaranteed, so leave a wide margin. A mechanism that can jam, like an intake or an arm against a hard stop, needs the most care. You can raise a limit later if your logs show the mechanism needs it. Replacing a burnt motor at an event takes much longer.' }),
+      notes: 'This goes for every motor on the robot, not just the drivetrain. The 80 amp default suits some motors, but not a small one like a NEO 550. REV\'s test held the motor stalled at each limit, and warns those times are not guaranteed, so leave a wide margin. A mechanism that can jam, like an intake or an arm against a hard stop, needs the most care. You can raise a limit later if your logs show the mechanism needs it.' }),
 
     L.code({ id: 'check-code', eyebrow: 'WPILib', title: 'Checking your math with `DCMotor`', file: 'MotorCheck.java', src: { file: `${J}/MotorCheck.java`, region: 'check' }, highlight: [3, 6, 7],
       caption: '`withReduction()` gears the motor down, so `freeSpeedRadPerSec` is now wheel speed. Radians per second × radius = metres per second.',
-      notes: '(1 min) WPILib already knows these motors. getCIM(2) means two CIMs in one gearbox, which is one side of the KitBot. withReduction applies your ratio, and hands back a new DCMotor with the speed divided and the torque multiplied, the two steps you did by hand. getCurrent with speed zero and 12 volts asks the stall question. You can swap in getNEO or getKrakenX60 and compare motors without touching a robot. The next slide is the exercise. Do the paper part before you run this.' }),
+      notes: 'WPILib already knows these motors. getCIM(2) means two CIMs in one gearbox, which is one side of the KitBot. withReduction applies your ratio, and hands back a new DCMotor with the speed divided and the torque multiplied, the two steps you did by hand. getCurrent with speed zero and 12 volts asks the stall question. You can swap in getNEO or getKrakenX60 and compare motors without touching a robot.' }),
 
-    L.exercise({ id: 'exercise', title: 'Predict the KitBot, then check it', minutes: 5, tasks: [
-      'Cover the gearing slide. Work out top speed at **8.45:1** from the curve.',
+    L.exercise({ id: 'exercise', title: 'Predict the KitBot, then check it', tasks: [
+      'Work out top speed at **8.45:1** from the curve.',
       'Now do **10.71:1**, another ratio WPILib lists for the KitBot chassis.',
       'Write down stall current at 12 V for one CIM, then for all four.',
       'Call `MotorCheck.print()` in `RobotContainer`, then run `WPILib: Simulate Robot Code`.',
       'Set `GEARING` to 10.71 and run it again. Compare with your paper.',
-    ], done: `your paper matches the console to two digits, and you can say why FIRST's ${FIRST_MS} m/s is lower.`,
-    notes: `(5 min) Work in pairs. Paper first, so the console is the check and not the answer. Answers, from running this DCMotor math: ${topMs.toFixed(2)} m/s, ${altMs.toFixed(2)} m/s, ${CIM.stallA} A, and ${CIM.stallA * BOT.motors} A. Copy the constants from deck8/Constants.java too. Four stalled CIMs can't really pull ${CIM.stallA * BOT.motors} A, because the battery sags first, so ask why. Early finishers: WPILib's DifferentialDrivetrainSim tops out at ${wpilibSimMs.toFixed(2)} m/s at 8.45:1, a little above free speed. Why? It has no friction, so nothing uses the free current. Then try getNEO(2) in place of getCIM(2).` }),
+    ], done: 'your paper matches the console to two digits.',
+    notes: `Answers, from running this DCMotor math: ${topMs.toFixed(2)} m/s, ${altMs.toFixed(2)} m/s, ${CIM.stallA} A, and ${CIM.stallA * BOT.motors} A. Copy the constants from deck8/Constants.java too. Four stalled CIMs can't really pull ${CIM.stallA * BOT.motors} A, because the battery sags first. WPILib's DifferentialDrivetrainSim tops out at ${wpilibSimMs.toFixed(2)} m/s at 8.45:1, a little above free speed, because it has no friction, so nothing uses the free current.` }),
 
     L.recap({ id: 'recap', items: [
       '**Voltage sets speed, current sets torque**, and the load decides the current.',
-      'Find free speed, free current, stall torque and stall current on any motor curve.',
-      'Work out top speed by hand, and say why peak power sits at half speed.',
-      'Explain stall heat, battery sag and brownouts in your own words.',
-      'Tell motor current from battery current, choose a limit, and check it in your logs.',
+      'Free speed, free current, stall torque and stall current on any motor curve.',
+      'Top speed by hand, and why peak power sits at half speed.',
+      'Stall heat, battery sag and brownouts.',
+      'Motor current versus battery current, choosing a limit, and checking it in logs.',
     ], next: 'Deck 9: driver feel, feedforward and where loops run.',
-    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say why a stalled motor gets hot, go back to the push-back loop, because everything else follows from it. Before people leave, ask each team to read their own robot\'s current limits out of their code and say why each number is there.' }),
+    notes: 'Most of this deck follows from the back-EMF loop. A stalled motor has no back-EMF, so current is high and the energy becomes heat.' }),
 
-    L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
+    L.links({ id: 'links', items: [
       { label: 'Brownouts and current draw', url: 'https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html', short: 'docs.wpilib.org' },
       { label: 'SPARK MAX current limits', url: 'https://docs.revrobotics.com/brushless/spark-max/gs/make-it-spin', short: 'docs.revrobotics.com' },
       { label: 'Locked rotor testing', url: 'https://docs.revrobotics.com/brushless/neo/locked-rotor-testing', short: 'docs.revrobotics.com' },
       { label: 'DCMotor Java docs', url: 'https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/system/plant/DCMotor.html', short: 'github.wpilib.org' },
-    ], notes: '(30 s) Leave this up during the break. The brownout page has a good section on planning a power budget, for teams that keep browning out. The REV test data shows how fast a stalled motor fails, and is worth reading before you design an arm. Print the brownout page for your pit if you can.' }),
+    ], notes: 'The brownout page has a section on planning a power budget. The REV test data shows how fast a stalled motor fails. The DCMotor docs list every method used in this deck.' }),
   ],
 };

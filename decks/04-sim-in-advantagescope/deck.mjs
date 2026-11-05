@@ -34,18 +34,18 @@ const TOP = TOP_SPEED.toFixed(1);
 const FIRST_KICK_G = ((2 / (60 * KG_PER_LB)) * C2 * NOMINAL / 9.80665).toFixed(0);
 
 export default {
-  no: 4, short: 'Sim in AdvantageScope', title: 'Driving the KitBot in the WPILib simulator', minutes: 35,
+  no: 4, short: 'Sim in AdvantageScope', title: 'Driving the KitBot in the WPILib simulator',
   description: 'Hook up the WPILib simulator and drive the KitBot around a 2D field in AdvantageScope with no robot.',
   slides: [
-    L.cover({ title: 'Drive the KitBot with no robot', subtitle: 'The WPILib simulator, a little physics, and AdvantageScope', minutes: 35,
-      notes: "Today you drive the KitBot you coded in Deck 2, and you don't need a robot, just your laptop. This takes about 35 minutes, and about eight of those are you driving. Have your Deck 2 project open in WPILib VS Code. If yours isn't finished, pair up with someone whose is, or ask a mentor for a copy." }),
+    L.cover({ title: 'Drive the KitBot with no robot', subtitle: 'The WPILib simulator, a little physics, and AdvantageScope',
+      notes: "This deck drives the KitBot from Deck 2 with no robot, just a laptop. It starts from your Deck 2 project in WPILib VS Code." }),
 
-    L.points({ id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers', items: [
-      'Explain what a simulator can and can\'t teach you.',
-      'Add a small physics model to your Deck 2 drivetrain.',
-      '**Drive the KitBot around a 2D field** with a controller or keyboard.',
-      'Describe what the model calculates every 20 milliseconds.',
-    ], notes: "The item in bold is the main goal: a robot moving on a 2D field with nothing but a laptop and a controller or keyboard. The first and last items are about understanding. A simulator is a tool, and you need to know when to trust it. Timing: one minute." }),
+    L.points({ id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers', items: [
+      'What a simulator can and can\'t show.',
+      'A small physics model added to the Deck 2 drivetrain.',
+      '**Driving the KitBot around a 2D field** with a controller or keyboard.',
+      'What the model calculates every 20 milliseconds.',
+    ], notes: "The result is a robot moving on a 2D field with only a laptop and a controller or keyboard. A simulator is a tool, and it matters when to trust it." }),
 
     L.compare({ id: 'why', eyebrow: 'Why simulate', title: 'What a simulator gives you, and what it leaves out',
       left: { label: 'What you get', tone: 'good', items: [
@@ -60,7 +60,7 @@ export default {
         '**Battery sag:** our simulated battery stays at 12 V.',
         '**Walls:** the robot drives straight through them.',
       ] },
-      notes: "Start with why. You can test code at home, a bad sign can't break anything, and programmers don't have to wait for the robot. The right column lists the limits. There's no carpet, no wear, and a battery that stays at 12 volts. WPILib can add some of that, like BatterySim, but it doesn't come for free. A sim tests your logic and gives rough physics. If a kid asks whether it's useless, say no: it finds most sign mistakes before the robot touches the floor." }),
+      notes: "You can test code at home, a bad sign can't break anything, and programmers don't have to wait for the robot. The right column lists the limits. There's no carpet, no wear, and a battery that stays at 12 volts. WPILib can add some of that, like BatterySim, but it doesn't come for free. A sim tests your logic and gives rough physics. It finds most sign mistakes before the robot touches the floor." }),
 
     L.diagram({ id: 'pipeline', eyebrow: 'The plan', title: 'One path from your stick to the field',
       nodes: [
@@ -79,9 +79,9 @@ export default {
         { from: 'sim', to: 'pose' }, { from: 'pose', to: 'as' },
       ],
       caption: 'Schematic. A **pose** is where the robot is and which way it faces.',
-      notes: "This is the whole plan, so keep it in mind during the code slides. Your stick goes into the same command as Deck 2. That output used to go only to the SPARK MAX controllers. Now we also save a copy. On a real robot the motors move. In simulation nothing is attached, so DriveSim works out what the robot would do and publishes a pose. AdvantageScope draws it. The orange boxes are everything we add today." }),
+      notes: "This is the whole plan. Your stick goes into the same command as Deck 2. That output used to go only to the SPARK MAX controllers. Now we also save a copy. On a real robot the motors move. In simulation nothing is attached, so DriveSim works out what the robot would do and publishes a pose. AdvantageScope draws it. The orange boxes are the new code." }),
 
-    L.codeNotes({ id: 'sim-model', eyebrow: 'Step 1: the model', title: 'Build a KitBot out of math', file: 'DriveSim.java',
+    L.codeNotes({ id: 'sim-model', eyebrow: 'Step 1: the model', title: 'A physics model of the KitBot', file: 'DriveSim.java',
       src: { file: `${J}/DriveSim.java`, region: 'sim' },
       callouts: [
         { line: [3, 4], title: 'Match the real KitBot', text: '2 CIMs per side, 8.45:1 gearing, 6 inch wheels.' },
@@ -89,7 +89,7 @@ export default {
         { line: [11, 12], title: 'Step time forward', text: 'Give it volts, then move ahead 20 ms.' },
         { line: 13, title: 'Share the result', text: 'Each step sends the new pose.' },
       ],
-      notes: "This is the model, and it's short. createKitbotSim builds a physics model of the kit drivetrain. We tell it two CIMs per side, 8.45 to 1 gearing and six inch wheels, the standard setup in AndyMark's AM14U6 guide. The null means no fake sensor noise. StructPublisher sends the pose the way AdvantageScope's docs recommend. step does the work: feed in volts, move time forward, publish. If a kid asks about Field2d: it works too, but struct data is what AdvantageScope asks for first." }),
+      notes: "This is the model, and it's short. createKitbotSim builds a physics model of the kit drivetrain. We tell it two CIMs per side, 8.45 to 1 gearing and six inch wheels, the standard setup in AndyMark's AM14U6 guide. The null means no fake sensor noise. StructPublisher sends the pose the way AdvantageScope's docs recommend. step does the work: feed in volts, move time forward, publish. Field2d works too, but struct data is AdvantageScope's first choice." }),
 
     L.codeNotes({ id: 'capture', eyebrow: 'Step 2: the outputs', title: 'Save each output on its way to the motors', file: 'CANDriveSubsystem.java',
       src: { file: `${J}/CANDriveSubsystem.java`, region: 'capture' },
@@ -109,7 +109,7 @@ export default {
         { line: [7, 8], title: 'Output to volts', text: 'Deck 2 set 12 V compensation, so 0.5 means 6 V.' },
         { line: 11, title: 'Stop when disabled', text: 'Without this, the robot keeps driving after you disable it.' },
       ],
-      notes: "Every subsystem can have simulationPeriodic. The command scheduler calls it every loop, but only in simulation, so on the roboRIO this never runs. We turn output into volts: Deck 2 turned on voltage compensation at 12 volts, so 0.5 means 6 volts. On a real robot, disabling stops the motors. Our saved numbers don't know that, and Motor Safety does nothing while disabled. Without this if statement, the sim robot keeps driving after you disable it. Test that yourself later." }),
+      notes: "Every subsystem can have simulationPeriodic. The command scheduler calls it every loop, but only in simulation, so on the roboRIO this never runs. We turn output into volts: Deck 2 turned on voltage compensation at 12 volts, so 0.5 means 6 volts. On a real robot, disabling stops the motors. Our saved numbers don't know that, and Motor Safety does nothing while disabled. Without this if statement, the sim robot keeps driving after you disable it." }),
 
     L.steps({ id: 'run', eyebrow: 'Run it', title: 'Start the simulator from VS Code', items: [
       { title: 'Check Desktop Support is on', text: 'In `build.gradle`: `includeDesktopSupport = true`.' },
@@ -142,24 +142,24 @@ export default {
       symptom: 'You press keys or move the stick, and the robot sits still.',
       cause: 'Robot State isn\'t on **Teleoperated**, `Joystick[0]` is empty, or another window has keyboard focus.',
       fix: 'Click **Teleoperated**. Drag your device onto `Joystick[0]`. Click the Sim GUI window before you use the keys.',
-      notes: "Work down the list. Is Robot State on Teleoperated? Is something on Joystick[0]? Using a keyboard? Check which window you clicked last. Keys go to the window with focus, and the Sim GUI reads them through its own window. Click AdvantageScope and your keys stop working until you click back. Side-by-side windows help. If driving works and only turning is dead, go back and set up Axis 4." }),
+      notes: "Check that Robot State is on Teleoperated and that something is on Joystick[0]. With a keyboard, check which window you clicked last. Keys go to the window with focus, and the Sim GUI reads them through its own window. Click AdvantageScope and your keys stop working until you click back. Side-by-side windows help. If driving works and only turning is dead, go back and set up Axis 4." }),
 
     L.gotcha({ id: 'gotcha-wrong-way', title: 'The robot drives the wrong way',
       symptom: 'You push forward and the robot backs up, spins, or crosses the screen the wrong way.',
       cause: '**Backs up:** a stick isn\'t negated. **Spins:** one side has a flipped sign. **Wrong way on screen:** check the view first, because heading 0 faces the red wall.',
       fix: 'Negate both sticks in `RobotContainer`. Pass both saved outputs to `setInputs` with no minus signs.',
-      notes: "Three problems look like wrong way. Backing up means the stick sign is missing: pushing away reads negative, so Deck 2 negates it. Spinning means one side has the wrong sign. WPILib's docs say to negate an inverted right side, but we saved the output before the SPARK inverts it, so both go in unchanged. Last, check the view: AdvantageScope can rotate the field. A stick mistake you find here is one you won't meet on the real robot." }),
+      notes: "Three problems look like wrong way. Backing up means the stick sign is missing: pushing away reads negative, so Deck 2 negates it. Spinning means one side has the wrong sign. WPILib's docs say to negate an inverted right side, but we saved the output before the SPARK inverts it, so both go in unchanged. Last, check the view: AdvantageScope can rotate the field." }),
 
     L.gotcha({ id: 'gotcha-empty', title: 'AdvantageScope shows nothing',
       symptom: 'The simulator is running, but the field is empty or the title bar says "Searching".',
       cause: '"Searching" means it hasn\'t found the simulator. An empty field means the tab hasn\'t been told what to draw.',
       fix: 'Use `Connect to Simulator`, not `Connect to Robot`. Then drag `SimPose` onto **Poses**.',
-      notes: "Check the title bar first. If it says Searching, AdvantageScope hasn't found the simulator. Make sure you chose Connect to Simulator and that the simulator is still running. It keeps retrying, so it will connect once the code is up. If it's connected and the field is empty, the tab doesn't know what to draw, so drag SimPose to Poses. If a kid scrolled the timeline and it looks frozen: scrolling left leaves live time, and scrolling all the way right comes back." }),
+      notes: "Check the title bar first. If it says Searching, AdvantageScope hasn't found the simulator. Make sure you chose Connect to Simulator and that the simulator is still running. It keeps retrying, so it will connect once the code is up. If it's connected and the field is empty, the tab doesn't know what to draw, so drag SimPose to Poses. If the timeline looks frozen: scrolling left leaves live time, and scrolling all the way right comes back." }),
 
     L.practice({ id: 'practice', title: 'Keep sim code out of the real robot\'s path',
       rule: 'Keep sim code in `simulationPeriodic()` and `DriveSim`. Drive the same commands in sim and on the robot.',
       why: 'Your commands never ask whether they are in a simulator, so what you test is what runs on the robot. Code that never runs on the roboRIO can\'t break it at an event.',
-      notes: "Look back at what we changed. The commands didn't change at all, and neither did RobotContainer. The physics lives in one class that's only built in simulation. That matters for two reasons. What you test is what runs on the robot, so passing in sim means something. And code that never runs on the roboRIO can't break it at an event. Avoid checks like 'if simulation' inside commands. If a command acts differently in sim, you've stopped testing your real code." }),
+      notes: "The commands didn't change at all, and neither did RobotContainer. The physics lives in one class that's only built in simulation. That matters for two reasons. What you test is what runs on the robot, so passing in sim means something. And code that never runs on the roboRIO can't break it at an event. Avoid checks like 'if simulation' inside commands. If a command acts differently in sim, you've stopped testing your real code." }),
 
     L.diagram({ id: 'plant', eyebrow: 'Control theory', title: 'The plant model: what runs every 20 ms',
       nodes: [
@@ -169,7 +169,7 @@ export default {
         { id: 'mass', x: 992, y: 270, w: 226, h: 180, label: 'Mass', sub: 'force becomes acceleration', tone: 'ink' },
         { id: 'speed', x: 1280, y: 270, w: 226, h: 180, label: 'Speed', sub: 'one for each side', tone: 'ink' },
         { id: 'pose', x: 1566, y: 270, w: 226, h: 180, label: 'Pose', sub: 'speed added up over time', tone: 'blue' },
-        { id: 'back', x: 700, y: 590, w: 520, h: 130, label: 'Back-EMF', sub: 'a spinning motor pushes back against the battery', tone: 'accent' },
+        { id: 'back', x: 700, y: 590, w: 520, h: 130, label: 'Back-EMF', sub: 'a spinning motor generates a voltage against the battery', tone: 'accent' },
       ],
       edges: [
         { from: 'volts', to: 'motor' }, { from: 'motor', to: 'gear' }, { from: 'gear', to: 'mass' }, { from: 'mass', to: 'speed' }, { from: 'speed', to: 'pose' },
@@ -177,7 +177,7 @@ export default {
         { from: 'back', to: 'motor', fromSide: 'l', toSide: 'b', route: 'hv' },
       ],
       caption: 'Schematic. Not in this model: friction, tire slip, current limits and battery sag.',
-      notes: "Control theory calls the thing you're controlling the plant. A model is math that predicts it. Follow the chain. Volts go into the motor and become torque. Gearing multiplies torque by 8.45 and cuts speed by the same amount. Force on the robot's mass gives acceleration, and speed adds up into a pose. Now the loop at the bottom: a spinning motor acts like a generator and pushes back, which is called back-EMF. Faster motor, less push. The whole chain steps every 20 milliseconds." }),
+      notes: "Control theory calls the thing you're controlling the plant. A model is math that predicts it. Follow the chain. Volts go into the motor and become torque. Gearing multiplies torque by 8.45 and cuts speed by the same amount. Force on the robot's mass gives acceleration, and speed adds up into a pose. Now the loop at the bottom: a spinning motor generates a voltage against the battery, which is called back-EMF. The faster the motor, the less current flows. The whole chain steps every 20 milliseconds." }),
 
     L.plot({ id: 'full-throttle', eyebrow: 'Control theory', title: 'Full throttle from a standstill', xLabel: 'Time (s)', yLabel: 'Speed (ft/s)',
       xDomain: [0, 1.5], yDomain: [0, 20], xTicks: [0, 0.5, 1, 1.5], yTicks: [0, 5, 10, 15, 20],
@@ -187,19 +187,19 @@ export default {
         { name: '120 lb (what if)', color: 'blue', dash: true, points: fullThrottle(120, 1.5) },
       ],
       callouts: [
-        { title: 'It flattens out', text: 'Back-EMF grows with speed, so the push fades.' },
+        { title: 'It flattens out', text: 'Back-EMF grows with speed, so torque falls.' },
         { title: 'Mass changes the time', text: 'Double the mass, double the time. Same top speed.' },
         { title: `Why ${TOP}, not 12.7?`, text: 'The 12.7 assumes CIMs loaded down to 4100 rpm. This model has no friction.' },
       ],
-      notes: `This was computed, not drawn: WPILib's drivetrain equation with DCMotor.getCIM(2) constants, 8.45 to 1, six inch wheels and 12 volts held steady, stepped every 20 ms. Speed rises fast, then flattens as back-EMF grows. You'll see that shape all over control theory. The model tops out at ${TOP} feet per second. AndyMark's 12.7 assumes CIMs at 4100 rpm, about 75 percent of free speed. The first step asks for about ${FIRST_KICK_G} g, which real tires and our 60 amp limit wouldn't allow. createKitbotSim assumes 60 pounds; 120 is a what-if.` }),
+      notes: `This was computed, not drawn: WPILib's drivetrain equation with DCMotor.getCIM(2) constants, 8.45 to 1, six inch wheels and 12 volts held steady, stepped every 20 ms. Speed rises fast, then flattens as back-EMF grows. That shape is common in control theory. The model tops out at ${TOP} feet per second. AndyMark's 12.7 assumes CIMs at 4100 rpm, about 75 percent of free speed. The first step asks for about ${FIRST_KICK_G} g, which real tires and our 60 amp limit wouldn't allow. createKitbotSim assumes 60 pounds; 120 is a what-if.` }),
 
-    L.exercise({ id: 'exercise', title: 'Drive a figure-8, then change the robot', minutes: 8, tasks: [
+    L.exercise({ id: 'exercise', title: 'Drive a figure-8, then change the robot', tasks: [
       'Drive a figure-8. Then time one full-stick trip across the field.',
       'In `DriveSim`, change `k8p45` to `k5p95` or `k12p75`. Time the same trip.',
       'Change it back. In `RobotContainer`, pass `this::slewedForward` to `driveArcade`.',
       'Slam the stick from stop to full. Watch how the start changes.',
-    ], done: 'you have two trip times and can say what the limiter did.',
-      notes: "Eight minutes, and mentors walk the room. Deck 2 scaled the stick to 0.7 and arcadeDrive squares that, so full stick is about 0.49, or about 8 feet per second. Time the same trip before changing anything. Gearing changes top speed: 5.95 is faster, 12.75 is slower. Then try the slew rate limiter, which limits how fast a number can change, so it softens a hard start. Done early? Ask what they'd expect on a real robot, and why." }),
+    ], done: 'you have two trip times.',
+      notes: "Deck 2 scaled the stick to 0.7 and arcadeDrive squares that, so full stick is about 0.49, or about 8 feet per second. Gearing changes top speed: 5.95 is faster, 12.75 is slower. The slew rate limiter limits how fast a number can change, so it softens a hard start." }),
 
     L.change2027({ id: 'change', items: [
       { now: 'edu.wpi.first packages', next: 'org.wpilib packages' },
@@ -215,13 +215,13 @@ export default {
       '`simulationPeriodic()` runs only in simulation, so the robot path stays clean.',
       'AdvantageScope draws `SimPose` on the 2D Field tab.',
     ], next: 'Deck 5: Elastic, the dashboard for your drivers.',
-      notes: "Read these back. The simulator runs your real commands, so keep this project: you can test every new command with no robot. Next is Deck 5, on Elastic, the dashboard your drivers will use." }),
+      notes: "The simulator runs your real commands, so every new command can be tested with no robot. Deck 5 covers Elastic, the dashboard for drivers." }),
 
-    L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
+    L.links({ id: 'links', items: [
       { label: 'Simulation intro', url: 'https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/introduction.html', short: 'docs.wpilib.org' },
       { label: 'Drivetrain sim tutorial', url: 'https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/drivesim-tutorial/index.html', short: 'docs.wpilib.org' },
       { label: 'AdvantageScope live sources', url: 'https://docs.advantagescope.org/overview/live-sources', short: 'docs.advantagescope.org' },
       { label: 'REVLib simulation', url: 'https://docs.revrobotics.com/revlib/spark/sim/simulation-getting-started', short: 'docs.revrobotics.com' },
-    ], notes: "Point your phone at these. Left to right: WPILib's simulation intro, its step-by-step drivetrain simulation tutorial, AdvantageScope's guide to live connections, and REV's simulation docs for the SPARK features we skipped today. The WPILib tutorial goes further than we did, with simulated encoders and a gyro. Use it once your robot has those sensors." }),
+    ], notes: "Left to right: WPILib's simulation intro, its step-by-step drivetrain simulation tutorial, AdvantageScope's guide to live connections, and REV's simulation docs for the SPARK features this deck skips. The WPILib tutorial goes further, with simulated encoders and a gyro." }),
   ],
 };

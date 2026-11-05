@@ -2,20 +2,20 @@
 
 Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
-| # | Deck | Slides | Minutes |
-|---|---|---|---|
-| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1), in two sittings | 20 | 95 |
-| 2 | [KitBot drive: command-based Java and a joystick](https://claude.ai/artifact/GTK83fawoiqT1J83sS2YZS) | 21 | 35 |
-| 3 | [AdvantageScope: see what your robot is doing](https://claude.ai/artifact/JaTKFBgGZosZcVh4rAZYfV) | 18 | 30 |
-| 4 | [Driving the KitBot in the WPILib simulator](https://claude.ai/artifact/34wN5wfhF5zk26S62gMEP4) | 20 | 35 |
-| 5 | [Elastic: your robot on a dashboard](https://claude.ai/artifact/WZPaHFuaBmtMtApk8vHWng) | 17 | 25 |
-| 6 | [Arm PID: control theory and a PID + feedforward arm](https://claude.ai/artifact/Qz8eXkwsVK9YstL5HcFmhJ) | 33 | 45 |
-| 7 | [REV vs CTRE motors and controllers](https://claude.ai/artifact/JuXBHuqkLPMZLFdaGe2tVr) | 19 | 30 |
-| 8 | [Understanding motors: how to read a motor curve](https://claude.ai/artifact/B48BWKmNvk9TpxTMFg7GJM) | 20 | 30 |
-| 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 | 35 |
-| 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 | 30 |
-| | **Total** | **206** | **390** |
-| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F) | 14 | |
+| # | Deck | Slides |
+|---|---|---|
+| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1) | 19 |
+| 2 | [KitBot drive: command-based Java and a joystick](https://claude.ai/artifact/GTK83fawoiqT1J83sS2YZS) | 21 |
+| 3 | [AdvantageScope: see what your robot is doing](https://claude.ai/artifact/JaTKFBgGZosZcVh4rAZYfV) | 18 |
+| 4 | [Driving the KitBot in the WPILib simulator](https://claude.ai/artifact/34wN5wfhF5zk26S62gMEP4) | 20 |
+| 5 | [Elastic: your robot on a dashboard](https://claude.ai/artifact/WZPaHFuaBmtMtApk8vHWng) | 17 |
+| 6 | [Arm PID: control theory and a PID + feedforward arm](https://claude.ai/artifact/Qz8eXkwsVK9YstL5HcFmhJ) | 33 |
+| 7 | [REV vs CTRE motors and controllers](https://claude.ai/artifact/JuXBHuqkLPMZLFdaGe2tVr) | 19 |
+| 8 | [Understanding motors: how to read a motor curve](https://claude.ai/artifact/B48BWKmNvk9TpxTMFg7GJM) | 20 |
+| 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 |
+| 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 |
+| | **Total** | **205** |
+| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F) | 14 |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://claude.ai/artifact/WzcPfnPBQ1gA6uvLpfdEji) (every slide layout).
 
@@ -57,7 +57,7 @@ Nothing here has run on a real robot, and no one has viewed the slides, the anim
 - Every example compiles against WPILib 2026.2.1, REVLib 2026.0.5, Phoenix 26.3.0, PathPlannerLib 2026.1.2, ChoreoLib 2026.0.3 and BLine-Lib 0.9.3.
 - The drivetrain, telemetry, roboRIO arms, speed loop, SysId routine and path followers ran in headless WPILib simulation. Results are in each deck's `SOURCES.md`.
 - Not run: WPILib's Simulate Robot Code with its GUI for Decks 8 to 10, the path planning apps, and Choreo's solver.
-- All 52 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
+- All 54 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
 
 Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's popularity numbers are our own count of public repos, and its plot comes from stored run data in `sim-runs.json`.
 

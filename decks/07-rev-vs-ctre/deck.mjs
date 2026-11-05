@@ -62,30 +62,29 @@ const deg = (x) => x.toFixed(0);
 const secs = (x) => x.toFixed(2);
 
 export default {
-  no: 7, short: 'REV vs CTRE', title: 'REV vs CTRE motors and controllers', minutes: 30,
+  no: 7, short: 'REV vs CTRE', title: 'REV vs CTRE motors and controllers',
   description: 'What REV and CTRE motors, controllers and tools do on their own in 2026, and how a young team can choose.',
   slides: [
     L.cover({
       title: 'REV vs CTRE motors and controllers',
       subtitle: 'What each one does on its own in 2026, and how to choose',
-      minutes: 30,
-      notes: 'This is the last deck of the core course. It covers what the motor controller can do by itself, from both big vendors, and does not recommend one. Facts here were checked on November 4, 2026, so look again before you buy. Timing: 30 minutes.',
+      notes: 'This is the last deck of the core course. It covers what the motor controller can do by itself, from both big vendors, and does not recommend one. Facts here were checked on November 4, 2026, so look again before you buy.',
     }),
 
     L.lead({
-      id: 'outcomes', eyebrow: 'Outcomes', title: 'What this deck covers',
-      text: 'In Deck 2 you met a SPARK MAX. In Deck 6 you ran PID on the roboRIO. Today that loop moves onto the motor controller.',
+      id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers',
+      text: 'Deck 2 used a SPARK MAX. Deck 6 ran PID on the roboRIO. This deck moves that loop onto the motor controller.',
       points: [
-        'Match a motor to a controller that really works with it.',
-        'Explain why a fast loop on the controller beats a slow one on the roboRIO.',
-        'Read the same arm in REVLib and in Phoenix 6.',
-        'Say what costs money, and choose for your own team.',
+        'Which motors work with which controllers.',
+        'Why a fast loop on the controller beats a slow one on the roboRIO.',
+        'The same arm in REVLib and in Phoenix 6.',
+        'What costs money, and how to choose.',
       ],
-      notes: 'Here is the plan. First, what each vendor sells, and which parts work together. Then the control theory reason to run a loop on the controller. Then what each controller does for you, what costs money, and the same arm written both ways. A quick word: an "ecosystem" just means one vendor\'s motors, controllers, sensors, library and setup app, which are designed to work together. Timing: 1 minute. If a kid asks which is better, say "better for what?" and hold that thought until the end.',
+      notes: 'The deck covers what each vendor sells, which parts work together, why to run a loop on the controller, what each controller does, what costs money, and the same arm written both ways.',
     }),
 
     L.table({
-      id: 'ecosystems', eyebrow: 'Hardware', title: 'The two ecosystems at a glance',
+      id: 'ecosystems', eyebrow: 'Hardware', title: 'The two vendors at a glance',
       columns: ['', 'REV', 'CTRE'], widths: [20, 40, 40], fontSize: 24,
       rows: [
         ['Motors on sale', 'NEO 2.0, NEO 550, NEO Vortex', 'Kraken X60, Kraken X44, Minion'],
@@ -97,7 +96,7 @@ export default {
         ['2026 software', 'REVLib 2026.0.5, with 2026 firmware', 'Phoenix 6 26.3.0, with 2026 firmware'],
       ],
       caption: 'Checked 2026-11-04. NEO V1.1 is discontinued and Falcon 500 is out of stock, but both are still legal if you own them.',
-      notes: 'Read across each row. The big split is built in versus separate. A Kraken is a motor with its controller inside, so there are fewer wires, and only two power leads and CAN. A NEO needs a SPARK next to it. An absolute encoder remembers its position after power off, which is what an arm wants. Note the app: the old REV Hardware Client reached end of life, so use Hardware Client 2. The last row is the matched set for 2026 robots. Krakens are designed by WestCoast Products with CTRE control technology, and run the CTRE software. Timing: 2 minutes.',
+      notes: 'The big split is built in versus separate. A Kraken is a motor with its controller inside, so there are fewer wires, and only two power leads and CAN. A NEO needs a SPARK next to it. An absolute encoder remembers its position after power off, which is what an arm wants. Note the app: the old REV Hardware Client reached end of life, so use Hardware Client 2. The last row is the matched set for 2026 robots. Krakens are designed by WestCoast Products with CTRE control technology, and run the CTRE software.',
     }),
 
     L.table({
@@ -112,7 +111,7 @@ export default {
         ['Brushed, such as CIM', 'Yes', 'With Flex Dock', 'Yes', 'No'],
       ],
       caption: 'Tell the controller what is attached. Brushed Mode with a brushless motor connected permanently damages the motor. A Talon FXS will not drive until you pick its motor in `MotorArrangement`.',
-      notes: 'This is the slide to photograph. A Talon FX only ever drives the motor it is built into, and the game manual says so too. Talon FXS is the flexible one: Minion, NEO, NEO 550, Vortex with a Solo Adapter, and most brushed motors. NEO 2.0 is not on CTRE\'s list. Some teams report it works, but that is forum talk, so bench test first. A Vortex on a SPARK MAX only gets 42 counts per revolution. Remember the KitBot: CIMs are brushed, so kBrushed. Getting this wrong can destroy a motor. Timing: 2 minutes.',
+      notes: 'A Talon FX only ever drives the motor it is built into, and the game manual says so too. Talon FXS is the flexible one: Minion, NEO, NEO 550, Vortex with a Solo Adapter, and most brushed motors. NEO 2.0 is not on CTRE\'s list. Some teams report it works, but that is forum talk, so bench test first. A Vortex on a SPARK MAX only gets 42 counts per revolution. KitBot CIMs are brushed, so kBrushed. Getting this wrong can destroy a motor.',
     }),
 
     L.plot({
@@ -129,7 +128,7 @@ export default {
         { title: 'Lower gain at 50 Hz', text: `The swing goes away, but settling takes ${secs(settled(onRioLow))} s.` },
         { title: 'Same gain at 1 kHz', text: `No big swing, and it settles in ${secs(settled(onController))} s.` },
       ],
-      notes: `Think of a shower. If hot water takes ages to arrive, you over-turn the tap. Delay makes a controller overshoot. This is a simulation, not a robot: a 2 kg arm, 0.5 m long, 60:1 on a NEO 2.0, a 40 A limit, kG feedforward and P only, nudged from 45 to 55 degrees. The 1 kHz loop sees a 1 ms old angle. We assume 50 Hz sees a 20 ms old angle. Same gain is ${KP} volts per radian. Lower gain is ${KP_LOW}, set to overshoot no more than the 1 kHz curve. On a full 45 degree move the 12 V limit matters more, so the gap shrinks to ${secs(settled(bigFast, 45, 1))} s against ${secs(settled(bigSlow, 45, 1))} s. Timing: 3 minutes.`,
+      notes: `Delay makes a controller overshoot. This is a simulation, not a robot: a 2 kg arm, 0.5 m long, 60:1 on a NEO 2.0, a 40 A limit, kG feedforward and P only, nudged from 45 to 55 degrees. The 1 kHz loop sees a 1 ms old angle. We assume 50 Hz sees a 20 ms old angle. Same gain is ${KP} volts per radian. Lower gain is ${KP_LOW}, set to overshoot no more than the 1 kHz curve. On a full 45 degree move the 12 V limit matters more, so the gap shrinks to ${secs(settled(bigFast, 45, 1))} s against ${secs(settled(bigSlow, 45, 1))} s.`,
     }),
 
     L.table({
@@ -145,7 +144,7 @@ export default {
         ['Following', 'config.follow(leader, invert), set on the follower', 'Follower request: copies the leader\'s output type'],
       ],
       caption: 'Arm gravity works the same way on both: the sensor must read 0 when the arm is level.',
-      notes: 'This is the Deck 6 arm, moved onto the controller. On the roboRIO you wrote ArmFeedforward with kS, kG and kV. Both controllers now have those terms built in. On REV, kG means an elevator, and arms use kCos. On CTRE, one kG and you choose Arm_Cosine. A gain slot is a saved set of gains you can switch between. Watch the units: SPARK kP outputs duty cycle, while a Talon voltage request outputs volts, so the same number means different things. One REV note: firmware 27.0.0 lists a fix for followers running about 1% slow, so test two-motor mechanisms on 26.x. Timing: 2 minutes.',
+      notes: 'This is the Deck 6 arm, moved onto the controller. On the roboRIO you wrote ArmFeedforward with kS, kG and kV. Both controllers now have those terms built in. On REV, kG means an elevator, and arms use kCos. On CTRE, one kG and you choose Arm_Cosine. A gain slot is a saved set of gains you can switch between. The units differ: SPARK kP outputs duty cycle, while a Talon voltage request outputs volts, so the same number means different things. One REV note: firmware 27.0.0 lists a fix for followers running about 1% slow, so test two-motor mechanisms on 26.x.',
     }),
 
     L.compare({
@@ -168,7 +167,7 @@ export default {
           '**Dynamic:** change the limits in every request. Needs Pro and a CANivore.',
         ],
       },
-      notes: 'A motion profile is a plan for the whole move, not just the end point. Without one, PID sees a big error and slams the motor. With one, the controller feeds PID a target that moves smoothly. Plot speed against time and you get a trapezoid: up, flat, down. Jerk is how fast acceleration changes, and limiting it rounds the corners. All of this runs on the controller, so you send one target and it does the rest. MAXMotion updates its profile every 10 ms and its PID every 1 ms. MAXMotion velocity ignores cruise velocity. Timing: 2 minutes.',
+      notes: 'A motion profile is a plan for the whole move, not just the end point. Without one, PID sees a big error and slams the motor. With one, the controller feeds PID a target that moves smoothly. Plot speed against time and you get a trapezoid: up, flat, down. Jerk is how fast acceleration changes, and limiting it rounds the corners. All of this runs on the controller, so you send one target and it does the rest. MAXMotion updates its profile every 10 ms and its PID every 1 ms. MAXMotion velocity ignores cruise velocity.',
     }),
 
     L.table({
@@ -182,7 +181,7 @@ export default {
         ['Battery sag', 'voltageCompensation holds output steady', 'Voltage requests do this, up to what the battery gives'],
       ],
       caption: 'Brownout is the same on both. Below 6.3 V (roboRIO 1) or 6.75 V (roboRIO 2 default), the roboRIO sends CAN motor controllers an explicit disable.',
-      notes: 'Two words. Stator current is the current inside the motor, and it makes torque and heat. Supply current is what comes out of the battery. SPARK Smart Current Limit holds phase current, which is the motor side. A soft limit is a position the controller refuses to drive past, so your code cannot push an arm through the frame. It only works if your zero is right. SPARK also has a blunt current chop as a backstop. Brownout is the roboRIO protecting itself, so if you see it often, check the battery and wiring first. Timing: 90 seconds.',
+      notes: 'Two terms. Stator current is the current inside the motor, and it makes torque and heat. Supply current is what comes out of the battery. SPARK Smart Current Limit holds phase current, which is the motor side. A soft limit is a position the controller refuses to drive past, so your code cannot push an arm through the frame. It only works if your zero is right. SPARK also has a blunt current chop as a backstop. Brownout is the roboRIO protecting itself, so if you see it often, check the battery and wiring first.',
     }),
 
     L.practice({
@@ -195,7 +194,7 @@ config.smartCurrentLimit(40);
 // Talon FX
 config.CurrentLimits.StatorCurrentLimit = 40;
 config.CurrentLimits.StatorCurrentLimitEnable = true;`,
-      notes: 'This is true for both vendors. The roboRIO should say where to go, and the controller should do the fast work of getting there. Pick the limit for the motor and the job, not one number for the whole robot. REV publishes suggested ranges, and CTRE suggests finding your stator limit by testing. A limit is also why a stalled intake gets warm instead of dying. Forty amps here is just an example. A real arm may want less, and a drivetrain may want more. Timing: 1 minute.',
+      notes: 'This is true for both vendors. The roboRIO should say where to go, and the controller should do the fast work of getting there. Pick the limit for the motor and the job, not one number for the whole robot. REV publishes suggested ranges, and CTRE suggests finding your stator limit by testing. With a limit, a stalled intake gets warm instead of burning out. Forty amps here is just an example. A real arm may want less, and a drivetrain may want more.',
     }),
 
     L.diagram({
@@ -208,7 +207,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { id: 'both', x: 1391, y: 384, w: 401, h: 440, tone: 'accent', label: 'Pro and CANivore', sub: 'Timesync, device timestamps, Dynamic Motion Magic, full differential control.' },
       ],
       caption: 'Without Pro, a request with EnableFOC falls back to normal drive, but TorqueCurrentFOC will not run. A Season Pass covers 100 devices for one team number. Pro features are free in simulation.',
-      notes: 'FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. Pro is optional. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one. Timing: 2 minutes.',
+      notes: 'FOC, field oriented control, times the motor\'s magnetic field more cleverly, for about 15 percent more peak power. Talon FXS does not support it. A CANivore is a USB box that adds a second, faster CAN bus, and it costs money but needs no license. Pro is optional. Fused CANcoder blends the absolute sensor with the motor\'s fast sensor. A license matches the firmware year, so check before you rely on an old one.',
     }),
 
     L.table({
@@ -222,21 +221,21 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         ['Generates', 'No code generator. Templates for MAXSwerve and EasySwerve', 'Swerve project, Elevator subsystem, CANdle subsystem'],
         ['Simulation', 'SparkMaxSim and SparkFlexSim run closed loop and MAXMotion', 'SimState classes for every Phoenix 6 device'],
       ],
-      notes: 'Logging is the flight recorder from Deck 3, and both vendors now do it for you. REV StatusLogger is new for 2026 and needs no code. CTRE logs every status signal with CAN timestamps, and free users can export key signals like position, velocity and current. Tuner X is ahead on generating code: it can build a full swerve project. That swerve API needs all Phoenix devices. REV gives you template projects instead. Hardware Client 2 is a separate install from the old client. Simulation connects to Deck 4, and both plug into WPILib physics. We ran the REV simulator for Deck 6 but not the CTRE one, so this is not a head-to-head test. Timing: 90 seconds.',
+      notes: 'Both vendors now record logs automatically. REV StatusLogger is new for 2026 and needs no code. CTRE logs every status signal with CAN timestamps, and free users can export key signals like position, velocity and current. Tuner X is ahead on generating code: it can build a full swerve project. That swerve API needs all Phoenix devices. REV gives you template projects instead. Hardware Client 2 is a separate install from the old client. Simulation connects to Deck 4, and both plug into WPILib physics. We ran the REV simulator for Deck 6 but not the CTRE one, so this is not a head-to-head test.',
     }),
 
     L.compare({
       id: 'arm-setup', eyebrow: 'Same job, both vendors', title: 'Arm setup: sensor, gains and gravity',
       left: { label: 'REVLib 2026', tone: 'neutral', code: region('RevArm.java', 'sensor'), highlight: [12] },
       right: { label: 'Phoenix 6 2026', tone: 'neutral', code: region('CtreArm.java', 'sensor'), highlight: [8, 9, 10] },
-      notes: 'Here is the same arm, with an absolute encoder on the arm shaft. On the left, a Through Bore Encoder is wired to the SPARK. On the right, a CANcoder talks over CAN, free as RemoteCANcoder. Its readings arrive over the bus, and Pro\'s FusedCANcoder blends in the fast motor sensor. Highlighted lines are gravity. kCosRatio is 1 because the encoder turns once per arm rotation. We set no conversion factors, because SPARK firmware 27 removes them. Safety: SPARK MAX 27.0.0 lists a fix for closed loop using the wrong sensor after a reboot, in a setup like this one. On 26.1.5, test a reboot before you trust it. Gains are starting guesses. Timing: 1 minute.',
+      notes: 'Here is the same arm, with an absolute encoder on the arm shaft. On the left, a Through Bore Encoder is wired to the SPARK. On the right, a CANcoder talks over CAN, free as RemoteCANcoder. Its readings arrive over the bus, and Pro\'s FusedCANcoder blends in the fast motor sensor. Highlighted lines are gravity. kCosRatio is 1 because the encoder turns once per arm rotation. We set no conversion factors, because SPARK firmware 27 removes them. Safety: SPARK MAX 27.0.0 lists a fix for closed loop using the wrong sensor after a reboot, in a setup like this one. On 26.1.5, test a reboot before you trust it. Gains are starting guesses.',
     }),
 
     L.compare({
       id: 'arm-move', eyebrow: 'Same job, both vendors', title: 'Arm move: profile and command',
       left: { label: 'REVLib 2026', tone: 'neutral', code: `${region('RevArm.java', 'profile')}\n\n${region('RevArm.java', 'move')}` },
       right: { label: 'Phoenix 6 2026', tone: 'neutral', code: `${region('CtreArm.java', 'profile')}\n\n${region('CtreArm.java', 'move')}` },
-      notes: 'Both commands look nearly the same. Convert degrees to rotations in Java, send one target, then wait until the arm arrives. Nothing loops on the roboRIO, unlike your Deck 6 subsystem. Velocity units differ: REV uses RPM, CTRE uses rotations per second. These are the same motion. Not on the slide: on REV, configure with PersistMode saves settings so they survive a brownout. On CTRE, apply saves them and resets anything you left out. This arm rests just above level, because the SPARK reading wraps at 0. We left out kS because firmware 27 changes how it acts at a zero velocity setpoint. Timing: 1 minute.',
+      notes: 'Both commands look nearly the same. Convert degrees to rotations in Java, send one target, then wait until the arm arrives. Nothing loops on the roboRIO, unlike your Deck 6 subsystem. Velocity units differ: REV uses RPM, CTRE uses rotations per second. These are the same motion. Not on the slide: on REV, configure with PersistMode saves settings so they survive a brownout. On CTRE, apply saves them and resets anything you left out. This arm rests just above level, because the SPARK reading wraps at 0. We left out kS because firmware 27 changes how it acts at a zero velocity setpoint.',
     }),
 
     L.gotcha({
@@ -244,7 +243,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
       symptom: 'A SPARK shows "Outdated REV Device", REVLib says the firmware is too old or too new, or Phoenix reports a firmware version error.',
       cause: 'On both vendors, firmware and library are a matched pair for each season. The newest firmware listed can be for next season.',
       fix: 'For 2026, pick the newest 26.x in Hardware Client 2, and the 2026 firmware year in Tuner X.',
-      notes: 'Both vendors work this way. Hardware Client 2 needs 26.x or newer, so a SPARK on 2025 firmware goes through Recovery Mode once. There, the version menu automatically picks the most up-to-date firmware, so stop and choose yours. On CTRE, the status code says firmware and API major versions must match, and Tuner X has a year selector. Its changelog already lists 26.70 firmware, for a 2027 alpha API that does not support the roboRIO. New Talon FX built after April 2026 need 26.3.0.0 or newer. Timing: 1 minute.',
+      notes: 'Both vendors work this way. Hardware Client 2 needs 26.x or newer, so a SPARK on 2025 firmware goes through Recovery Mode once. There, the version menu automatically picks the most up-to-date firmware, so stop and choose yours. On CTRE, the status code says firmware and API major versions must match, and Tuner X has a year selector. Its changelog already lists 26.70 firmware, for a 2027 alpha API that does not support the roboRIO. New Talon FX built after April 2026 need 26.3.0.0 or newer.',
     }),
 
     L.cards({
@@ -252,22 +251,22 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
       items: [
         { icon: 'Chart', title: 'Budget', text: 'Count whole systems. A Kraken includes its controller. A NEO needs a SPARK, and a Minion needs a Talon FXS.' },
         { icon: 'Wrench', title: 'What you own', text: 'Start from your shelf. KitBot SPARK MAX controllers, NEO V1.1 and Falcon 500 are all still legal.' },
-        { icon: 'Users', title: 'Who can help', text: 'Choose what your mentors, or a team nearby, can debug with you at an event.' },
+        { icon: 'Users', title: 'Who can help', text: 'Choose what your team, or a team nearby, can debug at an event.' },
         { icon: 'Link', title: 'Mixing is allowed', text: 'R504 lists both vendors and one project can use both libraries. You pay with two apps and two update routines.' },
       ],
-      notes: 'REV gives you everything with no paid tier, separate parts, and encoders that wire straight to the controller. CTRE gives you built-in controllers, code generators and deep logging, and some features cost extra. Check today\'s store pages for prices, because they change. Mixing is legal and practical: a Talon FXS can even drive a NEO. Following stays within a vendor, SPARKs stay on the roboRIO CAN bus, and Phoenix swerve needs all CTRE. Timing: 2 minutes.',
+      notes: 'REV gives you everything with no paid tier, separate parts, and encoders that wire straight to the controller. CTRE gives you built-in controllers, code generators and deep logging, and some features cost extra. Check today\'s store pages for prices, because they change. Mixing is legal and practical: a Talon FXS can even drive a NEO. Following stays within a vendor, SPARKs stay on the roboRIO CAN bus, and Phoenix swerve needs all CTRE.',
     }),
 
     L.exercise({
-      id: 'exercise', title: 'Pick the parts for one mechanism', minutes: 4,
+      id: 'exercise', title: 'Pick the parts for one mechanism',
       tasks: [
         'Choose one mechanism: an arm, a shooter or an intake.',
         'Pick a motor and a controller. Check them on the pairing table.',
         'Write down its current limit and where its sensor plugs in.',
         'Open `RevArm.java` or `CtreArm.java` and find the gravity lines.',
       ],
-      done: 'your group can name the motor, controller, current limit and sensor, and point to the gravity lines.',
-      notes: 'Work in pairs. Mix programmers with electrical students if you can, since the sensor question is partly theirs. Either vendor can be a correct answer. Walk around and ask "why that one?" If a group finishes early, have them work out the same pick with the other vendor and list what changes. Back in four minutes. Timing: 4 minutes.',
+      done: 'you have a motor, a controller, a current limit and a sensor, and have found the gravity lines.',
+      notes: 'Either vendor can be a correct answer. Use the pairing table for the motor and controller, and the limits slide for the current limit.',
     }),
 
     L.change2027({
@@ -281,20 +280,20 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { now: 'motor.set() on a Talon', next: 'Alpha: renamed setThrottle()' },
       ],
       note: 'Firmware 27.0.0 is a normal REV release from 2026-10-29. Alpha items may change: REVLib 2027.0.0-alpha-7, Phoenix 6 26.70.0-alpha-2.',
-      notes: 'One item is already real: REV released SPARK firmware 27.0.0 on October 29. Positions are in native sensor units, and velocity is in units per minute. That is why our arm uses rotations and converts in Java, so it does not depend on conversion factors. Everything marked alpha is for Systemcore, the controller replacing the roboRIO, and may change. Systemcore has more CAN buses, so every device must say which bus it is on, which is why we used CANBus today. If you search REV\'s online Java docs, you may land on this alpha API, so trust your installed library. Timing: 1 minute.',
+      notes: 'One item is already real: REV released SPARK firmware 27.0.0 on October 29. Positions are in native sensor units, and velocity is in units per minute. That is why our arm uses rotations and converts in Java, so it does not depend on conversion factors. Everything marked alpha is for Systemcore, the controller replacing the roboRIO, and may change. Systemcore has more CAN buses, so every device must say which bus it is on, which is why this deck uses CANBus. If you search REV\'s online Java docs, you may land on this alpha API, so trust your installed library.',
     }),
 
     L.recap({
       id: 'recap',
       items: [
-        'Match a motor to a controller that really works with it.',
-        'Explain why a 1 kHz loop on the controller beats a 50 Hz loop on the roboRIO.',
-        'Read the same arm in REVLib and in Phoenix 6.',
-        'Say what needs Phoenix Pro or a CANivore, and what does not.',
-        'Choose for your team from budget, parts and mentors.',
+        'Which motors work with which controllers.',
+        'Why a 1 kHz loop on the controller beats a 50 Hz loop on the roboRIO.',
+        'The same arm in REVLib and in Phoenix 6.',
+        'What needs Phoenix Pro or a CANivore, and what does not.',
+        'Choosing from budget, parts and available help.',
       ],
       next: 'That ends the core course. Decks 8 to 10 go deeper.',
-      notes: 'That ends the core course. This deck comes down to two rules: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 cover motors, advanced controls and autonomous path planning. Timing: 30 seconds.',
+      notes: 'That ends the core course. This deck comes down to two rules: let the controller run the fast loop, and put a current limit on every motor. Decks 8 to 10 cover motors, advanced controls and autonomous path planning.',
     }),
 
     L.links({
@@ -305,7 +304,7 @@ config.CurrentLimits.StatorCurrentLimitEnable = true;`,
         { label: 'Phoenix 6 free and Pro', url: 'https://v6.docs.ctr-electronics.com/en/stable/docs/migration/new-to-phoenix.html', short: 'v6.docs.ctr-electronics.com' },
         { label: 'Talon FXS motors', url: 'https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/talonfxs/index.html', short: 'v6.docs.ctr-electronics.com' },
       ],
-      notes: 'Scan these before you leave. The first two are REV: closed loop, and the Hardware Client 2 install page, which you need for 2026 firmware. The next two are CTRE: the exact table of free and Pro features, and the list of motors a Talon FXS can drive. Vendors update these pages often, and this deck is a snapshot from November 2026. Also read the motor rules in the Game Manual when the new one comes out at kickoff. Timing: 30 seconds.',
+      notes: 'The first two are REV: closed loop, and the Hardware Client 2 install page, which you need for 2026 firmware. The next two are CTRE: the exact table of free and Pro features, and the list of motors a Talon FXS can drive. Vendors update these pages often, and this deck is a snapshot from November 2026. Also read the motor rules in the Game Manual when the new one comes out at kickoff.',
     }),
   ],
 };

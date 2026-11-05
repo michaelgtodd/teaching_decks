@@ -320,18 +320,18 @@ must(Math.max(...sCurveSpeeds) > PROFILE.maxV - 1e-6, 'this move should still re
 const profilePts = (speeds) => speeds.filter((_, k) => k % 10 === 0).slice(0, 181).map((v, i) => [i * 0.01, deg(v)]);
 
 export default {
-  no: 9, short: 'Advanced controls', title: 'Advanced controls: driver feel, feedforward and where loops run', minutes: 35,
+  no: 9, short: 'Advanced controls', title: 'Advanced controls: driver feel, feedforward and where loops run',
   description: 'Input shaping, drivetrain feedforward and closed-loop speed, SysId, loops on the controller, and S-curve motion.',
   slides: [
-    L.cover({ title: 'Advanced controls', subtitle: 'Driver feel, drivetrain feedforward, where the loop runs, and smoother motion', minutes: 35,
-      notes: '(30 s) The math is algebra. This deck covers driver feel, drivetrain speed control, where a control loop should run, and smoother motion. Each idea comes as a picture, then the numbers. Everything here is for the 2026 season and the roboRIO.' }),
+    L.cover({ title: 'Advanced controls', subtitle: 'Driver feel, drivetrain feedforward, where the loop runs, and smoother motion',
+      notes: 'The math is algebra. This deck covers driver feel, drivetrain speed control, where a control loop should run, and smoother motion. Each idea comes as a picture, then the numbers. Everything here is for the 2026 season and the roboRIO.' }),
 
-    L.cards({ id: 'outcomes', eyebrow: 'Today', title: 'What this deck covers', items: [
-      { icon: 'Settings', title: 'Shape the stick', text: 'Add a deadband, a curve and a slew-rate limit, in the right order.' },
-      { icon: 'Lightning', title: 'Predict the volts', text: 'Use kS, kV and kA on a drivetrain, and know what SysId measures.' },
-      { icon: 'Clock', title: 'Place the loop', text: 'Choose between 20 ms on the roboRIO and 1 ms on the controller.' },
-      { icon: 'Activity', title: 'Smooth the motion', text: 'Tell an S-curve from a trapezoid, and know what comes after PID.' },
-    ], notes: '(30 s) Four parts, and the first two get the most time. Part one is what a driver feels, and it ends with hands on a robot. Part two is the same control theory as the arm, on a drivetrain, and it ends in the simulator. Parts three and four are shorter. If you are short on time, keep both exercises and shorten the S-curve.' }),
+    L.cards({ id: 'outcomes', eyebrow: 'Overview', title: 'What this deck covers', items: [
+      { icon: 'Settings', title: 'Shape the stick', text: 'A deadband, a curve and a slew-rate limit, in the right order.' },
+      { icon: 'Lightning', title: 'Predict the volts', text: 'kS, kV and kA on a drivetrain, and what SysId measures.' },
+      { icon: 'Clock', title: 'Place the loop', text: '20 ms on the roboRIO or 1 ms on the controller.' },
+      { icon: 'Activity', title: 'Smooth the motion', text: 'S-curves, trapezoids and what comes after PID.' },
+    ], notes: 'Part one is what a driver feels. Part two is the same control theory as the arm, on a drivetrain. Part three is where a loop should run. Part four is smoother motion and what comes next.' }),
 
     L.plot({ id: 'deadband', section: 'Driver feel: deadband, stick curves, slew-rate limits and their order', eyebrow: CT, title: 'A deadband ignores a stick that rests off zero',
       alt: `Output against stick position near center. Both lines stay at zero up to ${DEADBAND}. A plain cut-off then jumps to ${DEADBAND}. applyDeadband rises smoothly from zero.`,
@@ -346,7 +346,7 @@ export default {
         { title: 'The cut-off', text: `A plain \`if\` leaps from 0 to ${fix(DEADBAND * 100, 0)}% of full output.` },
         { title: 'Full stick', text: `Both still reach ${fix(applyDeadband(1, DEADBAND), 0)} at the top of the stick.` },
       ],
-      notes: `(1 min) Picture the free play in a bike's brake lever: you move it a little and nothing happens yet. A deadband builds that in on purpose. A gamepad stick rarely rests at exactly zero, and without a deadband a resting stick can creep the robot. These lines are exact math, the same formula as MathUtil.applyDeadband. Look at the orange jump: a plain if statement goes from nothing to ${fix(DEADBAND * 100, 0)} percent in one step. applyDeadband starts again from zero, so the first bit of real movement is gentle.` }),
+      notes: `A gamepad stick rarely rests at exactly zero, and without a deadband a resting stick can creep the robot. These lines are exact math, the same formula as MathUtil.applyDeadband. In the orange line, a plain if statement goes from nothing to ${fix(DEADBAND * 100, 0)} percent in one step. applyDeadband starts again from zero, so the first bit of real movement is gentle.` }),
 
     L.plot({ id: 'shaping', eyebrow: CT, title: 'Input shaping gives the stick fine control', xLabel: 'Stick position', yLabel: 'Output', xDomain: [0, 1], yDomain: [0, 1], xTicks: [0, 0.25, 0.5, 0.75, 1], yTicks: [0, 0.25, 0.5, 0.75, 1],
       alt: 'Three stick curves. Linear, squared and cubed all reach full output at full stick, and curves with higher exponents stay lower through the middle of the travel.',
@@ -361,9 +361,9 @@ export default {
         { title: 'Already squared', text: '`arcadeDrive` squares its inputs unless you pass `false`.' },
         { title: 'Scale goes first', text: `Deck 2's is squared too: ${DRIVE_SCALE} becomes ${fix(DRIVE_SCALE ** 2, 2)} at full stick.` },
       ],
-      notes: `(1.5 min) Think of a car's accelerator: the first bit of travel is gentle. Input shaping does that to a stick, changing what the stick means without changing its range. Most driving happens at small movements, and a curve spreads your fingers over more of that part of the stick. These curves are exact math, the same formula as MathUtil.copyDirectionPow. From Deck 2: the scale happens before arcadeDrive squares the value, so ${DRIVE_SCALE} turns into ${fix(DRIVE_SCALE ** 2, 2)} at full stick. FIRST's KitBot code does the same.` }),
+      notes: `Input shaping changes what the stick means without changing its range. Most driving happens at small movements, and a curve gives that part of the stick more travel. These curves are exact math, the same formula as MathUtil.copyDirectionPow. From Deck 2: the scale happens before arcadeDrive squares the value, so ${DRIVE_SCALE} turns into ${fix(DRIVE_SCALE ** 2, 2)} at full stick. FIRST's KitBot code does the same.` }),
 
-    L.plot({ id: 'slew', eyebrow: CT, title: 'A slew-rate limit trades snap for smoothness', xLabel: 'Time after full stick (s)', yLabel: 'Simulated robot speed (m/s)', xDomain: [0, 1.2], yDomain: [0, 6], xTicks: [0, 0.3, 0.6, 0.9, 1.2], yTicks: [0, 2, 4, 6],
+    L.plot({ id: 'slew', eyebrow: CT, title: 'A slew-rate limit trades response for smoothness', xLabel: 'Time after full stick (s)', yLabel: 'Simulated robot speed (m/s)', xDomain: [0, 1.2], yDomain: [0, 6], xTicks: [0, 0.3, 0.6, 0.9, 1.2], yTicks: [0, 2, 4, 6],
       alt: 'Simulated robot speed after a full-stick start, with no limit and with slew-rate limits of 3 and 1.5 per second. Stronger limits reach top speed later.',
       series: [
         { name: 'No limiter', color: 'orange', points: speedPts(step), tag: { x: 0.08, y: 5.1 } },
@@ -373,31 +373,31 @@ export default {
       callouts: [
         { title: 'What it does', text: `\`SlewRateLimiter(${SLEW_PER_S})\` lets the value change ${SLEW_PER_S} per second: 0 to full in 1/${SLEW_PER_S} s.` },
         { title: 'Peak current', text: `${peakAmps(step)} A, then ${peakAmps(slew3)} A, then ${peakAmps(slew15)} A per CIM.` },
-        { title: 'Why it feels better', text: 'A gentler shove means less wheel slip and less tipping.' },
+        { title: 'Why it feels better', text: 'Lower acceleration means less wheel slip and less tipping.' },
         { title: 'The cost', text: 'The robot responds later, and that includes stopping.' },
       ],
-      notes: `(1.5 min) Think of pressing a pedal smoothly instead of stamping on it. A slew-rate limiter is a speed limit on how fast a number may change. You keep your top speed and take longer to reach it. This plot is simulated, not measured: ${MODEL}. The limiter updates every 20 ms. Warn them about stopping: while the limiter catches up, the robot keeps going for a moment after the stick is released. If a kid asks: the SPARK has openLoopRampRate too, but it can't tell forward from turning.` }),
+      notes: `A slew-rate limiter limits how fast a number can change. Top speed stays the same and takes longer to reach. This plot is simulated, not measured: ${MODEL}. The limiter updates every 20 ms. While the limiter catches up, the robot keeps moving after the stick is released. The SPARK has openLoopRampRate too, but it can't tell forward from turning.` }),
 
     L.codeNotes({ id: 'feel-code', eyebrow: CT, title: 'The order of the stick steps matters', file: 'FeelRobotContainer.java', src: { file: `${J}/FeelRobotContainer.java`, region: 'feel' }, callouts: [
       { line: [3, 10], title: 'Deadband first', text: 'Throw away drift before anything else sees it.' },
       { line: [4, 11], title: 'Then the curve', text: '`copyDirectionPow` keeps the sign, so reverse works.' },
       { line: [5, 12], title: 'Scale, then limit', text: `Now ${DRIVE_SCALE} stays ${DRIVE_SCALE} at full stick, and the limiter sees the final value.` },
-    ], notes: '(1 min) Order matters, so read it top to bottom. Flip the sign, drop the deadband, apply the curve, scale, and limit last so the limiter sees the final value. A plain power would lose the sign, because a negative number squared is positive, and the robot could not reverse. The limiter is a field, not a local variable, because it has to remember its last value. Call it once per loop, which a supplier does for you. Turning gets a curve but no limiter, like the example in the WPILib docs.' }),
+    ], notes: 'The steps run top to bottom. Flip the sign, drop the deadband, apply the curve, scale, and limit last so the limiter sees the final value. A plain power would lose the sign, because a negative number squared is positive, and the robot could not reverse. The limiter is a field, not a local variable, because it has to remember its last value. Call it once per loop, which a supplier does for you. Turning gets a curve but no limiter, like the example in the WPILib docs.' }),
 
-    L.exercise({ id: 'exercise', title: 'Tune the drive feel', minutes: 10, tasks: [
+    L.exercise({ id: 'exercise', title: 'Tune the drive feel', tasks: [
       'Add the shaping from the last slide, using `MathUtil.copyDirectionPow`.',
       'Stop it being squared twice: call `drive.arcadeDrive(x, z, false)`.',
       'Try exponents 1, 2 and 3. Creep along a tape line with each one.',
       `Add \`new SlewRateLimiter(${SLEW_PER_S})\` on forward, then try 1.5. Watch the stop.`,
       'Put your best numbers in `Constants`, then commit.',
-    ], done: 'a new driver creeps 2 m down the tape and stops within a hand\'s width of the mark.',
-    notes: '(10 min) Work in pairs with a mentor by the robot, in clear floor space, with someone ready on Enter. Keep DRIVE_SCALE low until people are comfortable. One driver should try every setting, so you compare the settings and not the people. Have them say out loud what changed. Ask them to notice the bottom of the cubed stick: it may feel dead. We explain why next. The answer is in FeelRobotContainer, and CANDriveSubsystem has driveArcadeRaw for task 2. No robot free? Do tasks 1 and 2 now, and test when a robot opens up.' }),
+    ], done: 'the robot creeps 2 m down the tape and stops within 10 cm of the mark.',
+    notes: 'Use clear floor space, with one person ready on Enter. The bottom of the cubed stick may feel dead, and the next slides explain why. The answer is in FeelRobotContainer, and CANDriveSubsystem has driveArcadeRaw for task 2.' }),
 
     L.cards({ id: 'ff-terms', section: 'Drivetrain feedforward and closed-loop speed', eyebrow: CT, title: 'Three gains predict the volts a drivetrain needs', intro: '`Volts = kS + kV × speed + kA × acceleration`. Deck 6 did this for an arm.', items: [
-      { icon: 'Wrench', title: 'kS: the first shove', text: `A heavy box won't slide until you push hard enough. We assume ${fix(TRUE.kS, 0)} V of friction.` },
-      { icon: 'Activity', title: 'kV: the steady push', text: `A spinning motor pushes back, so speed costs volts: ${fix(TRUE.kV, 2)} V per m/s.` },
-      { icon: 'Lightning', title: 'kA: the extra push', text: `A loaded cart fights you while it gains speed: ${fix(TRUE.kA, 2)} V per m/s².` },
-    ], notes: `(1.5 min) Feedforward is the volts you can predict. To cruise at ${TEST_MPS} m/s this robot needs ${fix(TRUE.kS, 0)} plus ${fix(TEST_MPS * GAINS.kV, 2)}, so ${fix(GAINS.kS + TEST_MPS * GAINS.kV, 2)} volts. kV comes from the motor data, gearing and wheels, and kA adds the assumed 50 kg. kS is our assumption: WPILib's docs say it is nearly impossible to model, so it must be measured. Remember the dead spot at the bottom of a cubed stick? Volts below kS only fight friction. In this model, with a ${DRIVE_SCALE} scale, the robot would not move until ${fix(firstMoveStick * 100, 0)} percent stick.` }),
+      { icon: 'Wrench', title: 'kS: friction', text: `The volts needed to start moving. We assume ${fix(TRUE.kS, 0)} V.` },
+      { icon: 'Activity', title: 'kV: speed', text: `Back-EMF grows with speed, so speed costs volts: ${fix(TRUE.kV, 2)} V per m/s.` },
+      { icon: 'Lightning', title: 'kA: acceleration', text: `The extra volts needed while gaining speed: ${fix(TRUE.kA, 2)} V per m/s².` },
+    ], notes: `Feedforward is the volts you can predict. To cruise at ${TEST_MPS} m/s this robot needs ${fix(TRUE.kS, 0)} plus ${fix(TEST_MPS * GAINS.kV, 2)}, so ${fix(GAINS.kS + TEST_MPS * GAINS.kV, 2)} volts. kV comes from the motor data, gearing and wheels, and kA adds the assumed 50 kg. kS is our assumption: WPILib's docs say it is nearly impossible to model, so it must be measured. Friction causes the dead spot at the bottom of a cubed stick: volts below kS do not move the robot. In this model, with a ${DRIVE_SCALE} scale, the robot would not move until ${fix(firstMoveStick * 100, 0)} percent stick.` }),
 
     L.plot({ id: 'ff-plot', eyebrow: CT, title: 'Feedforward does the work and P fixes the miss', xLabel: 'Time (s). A push starts at 2 s.', yLabel: 'Simulated robot speed (m/s)', xDomain: [0, 4], yDomain: [0, 2.5], xTicks: [0, 1, 2, 3, 4], yTicks: [0, 0.5, 1, 1.5, 2, 2.5],
       alt: `Simulated speed with a ${TEST_MPS} meter per second goal and a push at 2 seconds. P alone stops near ${fix(spd.pBefore, 1)}. Feedforward alone reaches the goal, then falls to ${fix(spd.ffAfter, 1)} under the push. Feedforward plus P stays near ${fix(spd.bothAfter, 1)}.`,
@@ -412,7 +412,7 @@ export default {
         { title: 'Feedforward only', text: `On the goal, but it can't see the push: ${fix(spd.ffAfter, 2)} m/s.` },
         { title: 'Both', text: `Feedforward carries the speed and P fights the push: ${fix(spd.bothAfter, 2)} m/s.` },
       ],
-      notes: `(1.5 min) Think of a shower: you know roughly where the tap goes, then you adjust by feel. Feedforward is knowing, and P is feeling. The goal ramps to ${TEST_MPS} m/s, then an assumed ${PUSH_N} newton push arrives, like a defender leaning on you. P alone has to stay wrong to make any volts, so it stops short. Feedforward alone lands on the goal but cannot see the push. Together you get both. This is simulated, with an assumed ${fix(TRUE.kS, 0)} volt of friction, and our real Java landed within 0.01 m/s of the model in the WPILib simulator.` }),
+      notes: `The goal ramps to ${TEST_MPS} m/s, then an assumed ${PUSH_N} newton push arrives. P alone has to stay wrong to make any volts, so it stops short. Feedforward alone lands on the goal but cannot see the push. Together you get both. This is simulated, with an assumed ${fix(TRUE.kS, 0)} volt of friction, and our real Java landed within 0.01 m/s of the model in the WPILib simulator.` }),
 
     L.plot({ id: 'sysid', eyebrow: CT, title: 'SysId measures your gains from two simple tests', xLabel: 'Robot speed (m/s)', yLabel: 'Volts in the simulated slow test', xDomain: [0, 2], yDomain: [0, 6], xTicks: [0, 0.5, 1, 1.5, 2], yTicks: [0, 2, 4, 6],
       alt: `Volts against speed during a simulated slow ramp. Nothing moves until about ${fix(fit.kS, 0)} volt, then the points follow a straight line with a slope of ${fix(fit.kV, 2)} volts per meter per second.`,
@@ -427,28 +427,28 @@ export default {
         { title: 'Start: kS', text: `The line starts at ${fix(fit.kS, 2)} V. The true value is ${fix(TRUE.kS, 2)}.` },
         { title: 'The fast test', text: `A ${SYSID.stepVolts} V step shows the extra volts to speed up: kA ${fix(fit.kA, 2)}.` },
       ],
-      notes: `(1.5 min) Think of a check-up at the doctor: a few set tests, and out come your numbers. This plot is simulated: the model runs SysId's two tests, then the same kind of fit SysId does. The routine runs four tests, slow and fast, forward and back, and logs them. The SysId app reads the log and gives you the gains. Our real SysIdRoutine, on the simulated robot, found ${JAVA_FIT.kS.toFixed(2)}, ${JAVA_FIT.kV.toFixed(2)} and ${JAVA_FIT.kA.toFixed(2)}. The slow test here used ${fix(slowTest.distance, 1)} m, so use the floor, not blocks: WPILib says a drive needs 10 to 20 feet. Hold the button to run, so letting go stops it. Treat suggested P and D gains as a starting point.` }),
+      notes: `This plot is simulated: the model runs SysId's two tests, then the same kind of fit SysId does. The routine runs four tests, slow and fast, forward and back, and logs them. The SysId app reads the log and gives you the gains. Our real SysIdRoutine, on the simulated robot, found ${JAVA_FIT.kS.toFixed(2)}, ${JAVA_FIT.kV.toFixed(2)} and ${JAVA_FIT.kA.toFixed(2)}. The slow test here used ${fix(slowTest.distance, 1)} m, so use the floor, not blocks: WPILib says a drive needs 10 to 20 feet. Hold the button to run, so letting go stops it. Treat suggested P and D gains as a starting point.` }),
 
     L.codeNotes({ id: 'speed-loop', eyebrow: CODE, title: 'One speed loop runs each side of the drivetrain', file: 'SpeedLoop.java', src: { file: `${J}/SpeedLoop.java`, region: 'loop' }, callouts: [
       { line: [4, 5], title: 'Feedforward', text: 'Two goals in a row give it the speed and the acceleration.' },
       { line: 7, title: 'P', text: `Works on what is left. \`KP\` is ${fix(GAINS.kP, 0)} volts per m/s of error.` },
       { line: 8, title: 'Remember the goal', text: 'This is why each side gets its own object.' },
       { line: [9, 10], title: 'Add, then clamp', text: `Volts add together, and a motor only gets ${java(SP, 'MAX_VOLTS')}.` },
-    ], notes: '(1.5 min) First, the hardware. A speed loop needs a sensor, and FIRST\'s KitBot code reads no encoders, so you add one per side. Our example uses a REV Through Bore Encoder on each wheel shaft, wired to the roboRIO, so this loop runs in Java every 20 ms. The stick now asks for meters per second instead of a share of the battery. VelocityDriveSubsystem makes one SpeedLoop per side, feeds it each encoder\'s rate, and sends the volts with setVoltage. With kS in the loop, the dead spot is gone: in the simulator, a 0.3 stick creeps along at 0.05 m/s. The sysid section is ready to copy for your own robot.' }),
+    ], notes: 'First, the hardware. A speed loop needs a sensor, and FIRST\'s KitBot code reads no encoders, so you add one per side. Our example uses a REV Through Bore Encoder on each wheel shaft, wired to the roboRIO, so this loop runs in Java every 20 ms. The stick now asks for meters per second instead of a share of the battery. VelocityDriveSubsystem makes one SpeedLoop per side, feeds it each encoder\'s rate, and sends the volts with setVoltage. With kS in the loop, the dead spot is gone: in the simulator, a 0.3 stick creeps along at 0.05 m/s. The sysid section is ready to copy for your own robot.' }),
 
     L.gotcha({ id: 'gotcha-encoder', title: 'One side of the drive runs away',
       symptom: 'You enable the speed loop, and one side slams to full speed. The robot spins or curves hard.',
       cause: 'The sides are mirror images, so one encoder counts backward. Speeding up looks like slowing down, so P pushes harder.',
       fix: 'Disabled, wheels up: turn each wheel forward by hand. Both speeds must rise. If one falls, flip it with `setReverseDirection`.',
-      notes: '(1 min) Deck 6 showed this on an arm, and a drivetrain has a new way to get it, because the two sides face opposite ways. We tried it in the simulator: with the left encoder counting backward, the left side ran to full speed while the right side held the goal. Feedback only works if pushing forward makes the reading go up. So check both sides before the first closed-loop enable, every time an encoder is changed. Keep someone ready on Enter, and start with the wheels off the ground.' }),
+      notes: 'Deck 6 showed this on an arm, and a drivetrain has a new way to get it, because the two sides face opposite ways. We tried it in the simulator: with the left encoder counting backward, the left side ran to full speed while the right side held the goal. Feedback only works if pushing forward makes the reading go up. So check both sides before the first closed-loop enable, every time an encoder is changed. Keep someone ready on Enter, and start with the wheels off the ground.' }),
 
-    L.exercise({ id: 'sim-exercise', title: 'Tune the speed loop in the simulator', minutes: 5, tasks: [
+    L.exercise({ id: 'sim-exercise', title: 'Tune the speed loop in the simulator', tasks: [
       'In `Constants.java`, set `KS`, `KV` and `KA` to 0. Run **Simulate Robot Code**.',
       `Enable and hold A: the goal is ${TEST_MPS} m/s. Note where \`Drive/Left speed (mps)\` stops.`,
       'Put back `KV`, then `KS`, then `KA`. Hold A after each one.',
       'Hold A and Y. Y is a simulated push. Raise `KP` until the push barely matters.',
     ], done: `with A and Y held, \`Drive/Left speed (mps)\` stays within 0.05 of ${TEST_MPS} m/s.`,
-    notes: '(5 min) Mentors, set this up first. In a copy of the examples project, make Robot.java create frc.robot.deck9.VelocityRobotContainer, and check that it runs on the keyboard or a gamepad. Students change only the gains in Constants: stop the simulator, edit, run again. We ran these steps. P alone stops near 1.3 m/s. KV brings it to 1.88 and KS to 2.00. With the push, KP 6 sits 0.11 below the goal and KP 16 is the first whole number within 0.05. The Java only ever talks to the simulated drivetrain here, so no hardware is at risk.' }),
+    notes: 'Setup: in a copy of the examples project, make Robot.java create frc.robot.deck9.VelocityRobotContainer, and check that it runs on the keyboard or a gamepad. Change only the gains in Constants: stop the simulator, edit, run again. We ran these steps. P alone stops near 1.3 m/s. KV brings it to 1.88 and KS to 2.00. With the push, KP 6 sits 0.11 below the goal and KP 16 is the first whole number within 0.05. The Java only ever talks to the simulated drivetrain here, so no hardware is at risk.' }),
 
     L.plot({ id: 'onboard-faster', section: 'Where the loop runs', eyebrow: CODE, title: 'An onboard loop decides faster, on fresher data',
       alt: `Simulated arm angle over 3 seconds at kP ${HOT_KP}. The 20 millisecond loop keeps swinging. The 1 millisecond loop settles in ${fix(fastSettle, 2)} seconds.`,
@@ -462,18 +462,18 @@ export default {
         { title: 'SPARK', text: 'REV updates the loop every 1 ms, with the encoder wired right to it.' },
         { title: 'Same gains', text: `At kP ${HOT_KP} the 20 ms loop shakes. The 1 ms loop settles in ${fix(fastSettle, 2)} s.` },
       ],
-      notes: `(1.5 min) Picture steering a car while looking away and glancing back every few seconds. Every decision is late, so you over-correct. Now look at the road all the time. This is Deck 6's arm at the same kP ${HOT_KP}, with the loop running every millisecond instead of every 20. It still overshoots, but it settles in ${fix(fastSettle, 2)} seconds. REV's docs say the onboard loop updates every 1 ms. The encoder plugs straight into the SPARK, so nothing waits on CAN, and your code only sends a new goal. This plot is our model, with no sensor filtering, so treat it as the idea and not a promise for your robot.` }),
+      notes: `A late reading makes every correction late, so the loop over-corrects. This is Deck 6's arm at the same kP ${HOT_KP}, with the loop running every millisecond instead of every 20. It still overshoots, but it settles in ${fix(fastSettle, 2)} seconds. REV's docs say the onboard loop updates every 1 ms. The encoder plugs straight into the SPARK, so nothing waits on CAN, and your code only sends a new goal. This plot is our model, with no sensor filtering, so a real robot will differ.` }),
 
     L.codeNotes({ id: 'spark-config', eyebrow: CODE, title: 'The arm loop can move onto the SPARK MAX', file: 'SparkArmSubsystem.java', src: { file: `${J}/SparkArmSubsystem.java`, region: 'device' }, callouts: [
       { line: 4, title: 'Native units', text: `\`p\` is duty cycle per NEO rotation. kP 30 is ${fix(SPARK_P_EQUIVALENT, 2)}. Start low.` },
       { line: 7, title: 'kCos, not kG', text: 'WPILib\'s `kG` is REV\'s `kCos`. REV\'s `kG` is for elevators.' },
       { line: 8, title: 'kCosRatio', text: `NEO rotations to arm rotations: \`1 / ${ARM.gearing}\`. The sensor must read 0 at flat.` },
       { line: [14, 15], title: 'Send it once', text: 'Goals are in NEO rotations. One message over CAN, then the SPARK does the work.' },
-    ], notes: '(1.5 min) This is Deck 6\'s arm with the loop handed to the SPARK. Think of giving someone a destination instead of calling out every turn. REV multiplies kCos by the cosine of the arm position, and position times kCosRatio must give arm rotations. So flat must read zero, and below flat must read negative. A through-bore wraps there, so this loop uses the NEO\'s encoder, with the true angle copied in. Watch the names: WPILib kG means REV kCos. Gains change units too: error is in NEO rotations and output is duty cycle, a share of full output, so 30 volts per radian becomes 30 over 12, times 2 pi over 60. Retune D from low.' }),
+    ], notes: 'This is Deck 6\'s arm with the loop handed to the SPARK. REV multiplies kCos by the cosine of the arm position, and position times kCosRatio must give arm rotations. So flat must read zero, and below flat must read negative. A through-bore wraps there, so this loop uses the NEO\'s encoder, with the true angle copied in. The names differ: WPILib kG means REV kCos. Gains change units too: error is in NEO rotations and output is duty cycle, a share of full output, so 30 volts per radian becomes 30 over 12, times 2 pi over 60. Retune D from low.' }),
 
     L.practice({ id: 'where-loop', title: 'Learn the loop in Java, then move it', rule: 'Get a new loop right on the roboRIO, then move it to the controller.',
       why: 'Java loops are easy to log, change and try in the simulator. A controller loop is quicker and fresher, but its gains use other units, so you tune it again.',
-      notes: '(1 min) REV\'s docs recommend doing as much as you can on the motor controller, and a fast mechanism like a shooter wheel needs that. A loop in Java is easier to inspect while it is new: you can log every term and test it in the simulator. Move it to the controller once it works.' }),
+      notes: 'REV\'s docs recommend doing as much as you can on the motor controller, and a fast mechanism like a shooter wheel needs that. A loop in Java is easier to inspect while it is new: you can log every term and test it in the simulator. Move it to the controller once it works.' }),
 
     L.plot({ id: 'scurve', section: 'Smoother motion and what comes next', eyebrow: CT, title: 'An S-curve rounds off the corners of a trapezoid',
       alt: `Planned arm speed for a swing from ${SWING.from} to ${SWING.to} degrees. The trapezoid has sharp corners and takes ${fix(trapTime, 2)} seconds. The S-curve rounds them and takes ${fix(sCurveTime, 2)} seconds.`,
@@ -488,32 +488,32 @@ export default {
         { title: 'The cost', text: `This swing takes ${fix(sCurveTime, 2)} s, not ${fix(trapTime, 2)} s.` },
         { title: 'Where to find it', text: 'CTRE\'s Motion Magic adds it when you set jerk. `TrapezoidProfile` and MAXMotion stay trapezoids.' },
       ],
-      notes: `(1 min) A good elevator eases into its start and stop. A jerky one throws your stomach around. Deck 6's trapezoid is speed against time, and its corners are moments when the push changes all at once. These are the planned speeds for Deck 6's arm, computed, with a jerk we picked for the example: ${JERK} rad/s cubed. The S-curve covers the same distance and takes longer. Chains and tall arms like gentle corners. Start with a trapezoid, and reach for an S-curve only if a mechanism shakes at the corners.` }),
+      notes: `Deck 6's trapezoid is speed against time, and its corners are moments when the push changes all at once. These are the planned speeds for Deck 6's arm, computed, with a jerk we picked for the example: ${JERK} rad/s cubed. The S-curve covers the same distance and takes longer. Chains and tall arms benefit from rounded corners. Start with a trapezoid, and reach for an S-curve only if a mechanism shakes at the corners.` }),
 
     L.lead({ id: 'next', eyebrow: 'Where to go next', title: 'State-space and LQR are the next step up',
       text: '**State-space control** describes a mechanism with a small math model, and `kV` and `kA` are already one. **LQR** then picks the feedback gains from how much error and how many volts you will accept.',
       points: [
-        '**The picture:** sport and eco modes in a car. You choose the trade-off, not the pedal position.',
-        '**You have met it:** SysId uses LQR for the P and D gains it suggests.',
+        '**The trade-off:** you choose how much error and voltage to accept, not the gains.',
+        '**Already in use:** SysId uses LQR for the P and D gains it suggests.',
         '**WPILib\'s advice:** pick the easiest strategy that works on the field.',
       ],
-      notes: '(1 min) LQR stands for Linear-Quadratic Regulator, and it uses matrices, so explore it with a mentor. With PID you turn dials until it feels right. With LQR you say how far off you can tolerate and how many volts you want to spend, and the math picks the gains. If you use SysId, you are already using it. WPILib\'s own advice is to pick the easiest strategy that works, so finish feedforward and PID first. The state-space link on the last slide starts from PID and builds up.' }),
+      notes: 'LQR stands for Linear-Quadratic Regulator, and it uses matrices. With PID you pick the gains by hand. With LQR you say how much error you can tolerate and how many volts you want to spend, and the math picks the gains. If you use SysId, you are already using it. WPILib\'s own advice is to pick the easiest strategy that works, so finish feedforward and PID first. The state-space link on the last slide starts from PID and builds up.' }),
 
     L.recap({ id: 'recap', items: [
-      'Build the stick chain in order: sign, deadband, curve, scale, slew limit.',
-      'Explain kS, kV and kA, and what SysId\'s two tests measure.',
-      'Drive by speed with feedforward plus P, and check encoder direction first.',
-      'Decide where a loop belongs: 20 ms on the roboRIO or 1 ms on the controller.',
-      'Say how an S-curve differs from a trapezoid, and what state-space adds.',
+      'The stick chain in order: sign, deadband, curve, scale, slew limit.',
+      'kS, kV and kA, and what SysId\'s two tests measure.',
+      'Driving by speed with feedforward plus P, after checking encoder direction.',
+      'Where a loop belongs: 20 ms on the roboRIO or 1 ms on the controller.',
+      'How an S-curve differs from a trapezoid, and what state-space adds.',
     ], next: 'Deck 10 compares the autonomous path planning libraries.',
-    notes: '(30 s) Ask for one volunteer per line, in their own words. If nobody can say what kV means, go back to the picture of the steady push. Before people leave, make sure every team has committed the drive settings they liked. This deck builds on Decks 2 and 6.' }),
+    notes: 'This deck builds on Decks 2 and 6.' }),
 
-    L.links({ id: 'links', intro: 'Point your phone camera at a code.', items: [
+    L.links({ id: 'links', items: [
       { label: 'Feedforward in WPILib', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/feedforward.html', short: 'docs.wpilib.org' },
       { label: 'System identification', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/system-identification/introduction.html', short: 'docs.wpilib.org' },
       { label: 'SPARK closed loop', url: 'https://docs.revrobotics.com/revlib/spark/closed-loop', short: 'docs.revrobotics.com' },
       { label: 'State-space intro', url: 'https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-intro.html', short: 'docs.wpilib.org' },
-    ], notes: '(30 s) Leave this up during the break. Start with the feedforward page, then System identification when you have encoders on your robot. The REV page is the reference for loops on the SPARK. The state-space page is for later, with a mentor. The WPILib docs here are the stable version, which moves to next season at kickoff.' }),
+    ], notes: 'The feedforward page covers the gains in this deck, and System identification needs encoders on the robot. The REV page is the reference for loops on the SPARK. The state-space page goes past this deck. The WPILib docs here are the stable version, which moves to next season at kickoff.' }),
   ],
 };
 

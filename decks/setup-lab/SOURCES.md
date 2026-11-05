@@ -75,7 +75,7 @@ The deck therefore tells students to pick the newest 26.x. REVLib 2026.0.5 treat
 | wont-connect | SYS 1 Hz blink means it cannot reach 10.xx.yy.4 | LED Status Indications |
 | change-2027 | All rows | PLAN.md, "Changing for 2027" |
 
-The safety wording "say enabling out loud" and "one operator, with a mentor beside them" is our own good practice, not quoted from a source.
+The safety wording "say enabling out loud" and "one person at the laptop" is our own good practice, not quoted from a source.
 
 ## Could not confirm
 

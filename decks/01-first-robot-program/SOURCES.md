@@ -19,5 +19,4 @@ Rebuilt 2026-11-04 after a newcomer review. Installing and robot setup moved to 
 
 ## Not confirmed
 
-- **Timing.** The 95 minutes and the per-slide cues are the review's estimates, not measurements.
-- **No photos.** The deck has no photos of robot parts, so mentors point at the real robot.
+- **No photos.** The deck has no photos of robot parts.
