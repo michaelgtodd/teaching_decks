@@ -226,7 +226,7 @@ function deckMeta(name) {
 }
 
 function landing(decks) {
-  const row = (d) => `<tr><td>${d.no || ''}</td><td><a href="pdf/${d.name}.pdf">${esc(d.title)}</a></td><td>${d.count}</td><td><a href="decks/${d.name}/">Web</a></td></tr>`;
+  const row = (d) => `<tr><td>${d.no || ''}</td><td><a href="pdf/${d.name}.pdf">${esc(d.title)}</a></td><td>${d.count}</td></tr>`;
   const core = decks.filter((d) => d.no).sort((a, b) => a.no - b.no);
   const other = decks.filter((d) => !d.no);
   return `<!DOCTYPE html>
@@ -244,14 +244,14 @@ td:first-child,td:nth-child(3){color:${C.soft};white-space:nowrap}
 a{color:${C.blue}}
 </style></head><body><main>
 <h1>FRC Java crash course decks</h1>
-<p>WPILib 2026, Java command-based. Each title opens the deck as a PDF. Web opens it to present in the browser: arrow keys change slides, N shows speaker notes. Source: <a href="https://github.com/michaelgtodd/teaching_decks">github.com/michaelgtodd/teaching_decks</a>.</p>
-<table><tr><th>#</th><th>Deck (PDF)</th><th>Slides</th><th>Present</th></tr>
+<p>WPILib 2026, Java command-based. Each title opens the deck as a PDF. Source: <a href="https://github.com/michaelgtodd/teaching_decks">github.com/michaelgtodd/teaching_decks</a>.</p>
+<table><tr><th>#</th><th>Deck (PDF)</th><th>Slides</th></tr>
 ${core.map(row).join('\n')}
 </table>
 <h2>Also</h2>
-<table><tr><th></th><th>Page (PDF)</th><th>Slides</th><th>Present</th></tr>
+<table><tr><th></th><th>Page (PDF)</th><th>Slides</th></tr>
 ${other.map(row).join('\n')}
-<tr><td></td><td><a href="arm-playground/">Arm PID playground</a> (interactive)</td><td></td><td></td></tr>
+<tr><td></td><td><a href="arm-playground/">Arm PID playground</a> (interactive)</td><td></td></tr>
 </table>
 </main></body></html>
 `;
