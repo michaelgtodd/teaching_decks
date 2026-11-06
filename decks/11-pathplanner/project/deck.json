@@ -1,0 +1,72 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-06T09:54:14Z"
+  },
+  "lists": "css",
+  "title": "PathPlanner step by step",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "two-parts",
+    "needs",
+    "install",
+    "vendordep",
+    "open-project",
+    "app-settings",
+    "robot-config",
+    "accel-limit",
+    "project-browser",
+    "path-editor",
+    "reversed",
+    "commands-section",
+    "four-ways",
+    "marker",
+    "auto-menu",
+    "auto",
+    "names",
+    "code-section",
+    "launcher",
+    "load",
+    "configure",
+    "setup",
+    "gotcha-register",
+    "in-code",
+    "practice-names",
+    "telemetry",
+    "exercise",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "Setting up the PathPlanner app and PathPlannerLib for a tank drive, drawing paths and an auto, attaching commands, and running it in the simulator.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Attaching commands to paths and autos.",
+      "start": "commands-section"
+    },
+    "s2": {
+      "description": "Configuring PathPlannerLib and registering commands.",
+      "start": "code-section"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

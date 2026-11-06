@@ -73,6 +73,13 @@ function transformSlide(html, deckDir) {
   out = out.replace(/<x-connector\b[^>]*>\s*<\/x-connector>/g, (m) => connector(m));
   out = out.replace(/<x-embed\b([^>]*)>([\s\S]*?)<\/x-embed>/g, (m, a, body) =>
     `<iframe class="xe" sandbox="allow-scripts" title="Animation" style="${attr(a, 'style') || ''};border:0" srcdoc="${esc(body)}"></iframe>`);
+  // A figure may also name a file in its own deck folder: src="images/foo.png".
+  out = out.replace(/(<img\b[^>]*\ssrc=")(images\/[A-Za-z0-9._-]+)"/g, (m, pre, rel) => {
+    const file = join(deckDir, rel);
+    if (!existsSync(file)) throw new Error(`${deckDir}: image ${rel} is missing`);
+    images.add(file);
+    return `${pre}${rel}"`;
+  });
   out = out.replace(/\/_blob\/([0-9a-f]+)/g, (m, id) => {
     const file = BLOBS[id];
     if (!file) throw new Error(`${deckDir}: no repo image for /_blob/${id}; add it to BLOBS in template/export.mjs`);

@@ -58,7 +58,7 @@ function footer(ctx, { dark, flag2027, id, ref }) {
   if (ref) {
     need(!flag2027, id, 'a slide has room for flag2027 or ref, not both');
     need(ref.url && plain(ref.label).length <= 72, id, 'ref needs a url and a label of 72 chars max');
-    html += `<p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:${T.small}px;color:${soft}">WPILib docs: <a href="${esc(ref.url)}">${esc(smart(ref.label))}</a></p>`;
+    html += `<p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:${T.small}px;color:${soft}">${/^https:\/\/pathplanner\.dev\//.test(ref.url) ? 'PathPlanner docs' : 'WPILib docs'}: <a href="${esc(ref.url)}">${esc(smart(ref.label))}</a></p>`;
   }
   html += `<p style="position:absolute;right:${G.pad}px;bottom:56px;width:100px;text-align:right;font-size:${T.small}px;color:${soft}">${ctx.index + 1}</p>`;
   return html;

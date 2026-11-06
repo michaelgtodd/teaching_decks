@@ -45,6 +45,14 @@ The first half of Deck 1 runs in the simulator on any laptop. The second half ne
 - Print the links slide. Students with no phone can't scan a QR code, and installs happen on the laptop anyway.
 - Deck 1 has a natural stop after the simulator exercise. The motor half needs REVLib installed, which needs internet or the offline zip, and a robot for each group.
 
+## Before Deck 11 (PathPlanner)
+
+- Install the PathPlanner app on each laptop: Microsoft Store, or `PathPlanner-Windows-v2026.1.2.zip` from the GitHub releases page for the install stick. The app's PathPlannerLib version and the vendordep should both be 2026.1.2.
+- Run `cd examples && ./gradlew compileJava` once. The Deck 11 code, the Deck 12 code and Deck 2's sequence slides were written in a session that could not reach Gradle's servers, so they are checked against source but not compiled.
+- Run the Deck 11 exercise yourself first: simulator, PathPlanner Telemetry on Simulator, First Auto in the chooser. Nobody has run it yet.
+- The path and auto files in `examples/src/main/deploy/pathplanner/` were made in the real app. If a student's copy of `examples` is older than this, it won't have them.
+- Deck 11's launcher is a stand-in with CAN IDs 5 and 6, brushed. It is not the KitBot's real mechanism, so don't deploy it to a robot as-is.
+
 ## Running the Setup lab
 
 The slides only list the jobs and their steps. How to run them is here.

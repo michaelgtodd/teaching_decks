@@ -27,4 +27,12 @@ public final class Constants {
 
   }
   // #endregion
+
+  public static final class AutoConstants {
+    // A timed autonomous: no sensors needed. Test with the wheels off the ground first.
+    public static final double AUTO_SPEED = 0.4; // fraction of full output
+    public static final double DRIVE_OUT_SECONDS = 2.0;
+    public static final double PAUSE_SECONDS = 1.0;
+    public static final double TURN_SECONDS = 0.8;
+  }
 }

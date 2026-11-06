@@ -21,7 +21,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | # | Folder | Topic | Slides |
 |---|---|---|---|
 | 1 | `01-first-robot-program` | First command-based program from WPILib's template: one button, one motor | ~25 |
-| 2 | `02-kitbot-drive` | Command-based basics, KitBot drivetrain, joystick | ~21 |
+| 2 | `02-kitbot-drive` | Command-based basics, KitBot drivetrain, joystick, sequences and a timed auto | ~27 |
 | 3 | `03-advantagescope` | Reading robot data live and from logs | ~15 |
 | 4 | `04-sim-in-advantagescope` | Driving the WPILib simulator in AdvantageScope | ~16 |
 | 5 | `05-elastic` | The Elastic dashboard: live data, choosers, tuning | ~14 |
@@ -30,11 +30,13 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 8 | `08-understanding-motors` | Motor curves, gearing, heat, battery sag, current limits | ~20 |
 | 9 | `09-advanced-controls` | Input shaping, drivetrain feedforward, onboard loops, S-curves | ~20 |
 | 10 | `10-auto-path-planning` | PathPlanner, Choreo, BLine and WPILib compared | ~18 |
+| 11 | `11-pathplanner` | PathPlanner step by step: app, settings, paths, autos, commands, code | ~31 |
+| 12 | `12-vision` | Vision: what teams use in 2026, and how camera poses fix odometry | — |
 | Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | 14 |
 
 Every deck follows the same rhythm: cover, outcomes, content, at least one `gotcha`, one `practice`,
 one `exercise`, one slide with eyebrow exactly `Control theory`, `change2027`, `recap`, `links` (QR codes).
-Decks 8 to 10 may skip the full `change2027` slide when there is little to say. Deck 1 and the Setup lab have none: those notes are in `MENTOR-PREP.md`.
+Decks 8 to 12 may skip the full `change2027` slide when there is little to say. Deck 1 and the Setup lab have none: those notes are in `MENTOR-PREP.md`.
 
 ## Verified facts all decks must agree on
 

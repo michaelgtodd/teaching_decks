@@ -1,0 +1,13 @@
+<section id="compose" data-transition="fade" style="background:#F7F5EF;color:#1A2733;font-family:'Public Sans', Arial, sans-serif;padding:88px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#B8430A">Sequences</p><h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#12202E">Ways to combine commands</h2></div><table style="font-family:'Public Sans', Arial, sans-serif;font-size:28px;color:#1A2733;background:#FFFDF8;border:1px solid #D9D3C4">
+<tr style="background:#12202E"><th style="width:34%;color:#F7F5EF">Write this</th><th style="width:34%;color:#F7F5EF">It runs</th><th style="width:32%;color:#F7F5EF">It ends when</th></tr>
+<tr><td>a.andThen(b)</td><td>a, then b</td><td>b ends</td></tr>
+<tr style="background:#ECE8DD"><td>Commands.sequence(a, b, c)</td><td>each one in order</td><td>the last one ends</td></tr>
+<tr><td>a.alongWith(b)</td><td>a and b at the same time</td><td>both have ended</td></tr>
+<tr style="background:#ECE8DD"><td>a.raceWith(b)</td><td>a and b at the same time</td><td>either one ends</td></tr>
+<tr><td>a.deadlineFor(b)</td><td>a and b at the same time</td><td>a ends, and b is cancelled</td></tr>
+<tr style="background:#ECE8DD"><td>a.withTimeout(2.0)</td><td>a for at most 2 seconds</td><td>a ends or the time is up</td></tr>
+<tr><td>a.until(condition)</td><td>a</td><td>a ends or the condition is true</td></tr>
+</table><p style="position:absolute;left:128px;bottom:56px;width:420px;font-size:24px;color:#45545F">Deck 2 · KitBot drive</p><p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:24px;color:#45545F">WPILib docs: <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html">Command Compositions</a></p><p style="position:absolute;right:128px;bottom:56px;width:100px;text-align:right;font-size:24px;color:#45545F">18</p>
+<aside>Each line builds one new command out of others, so the results combine too: a sequence can contain a race, and so on. Commands that run at the same time must not require the same subsystem. The PathPlanner app uses the same four group names, sequential, parallel, deadline and race, so an auto drawn in Deck 11 is built from the same pieces.</aside>
+</section>

@@ -16,6 +16,7 @@ export default {
       '`CANDriveSubsystem` for the four CIM motors on the KitBot.',
       'Binding a gamepad, and a safe first test with the wheels off the ground.',
       'Five common bring-up mistakes and their symptoms.',
+      'Commands that run one after another, and a timed autonomous routine.',
       'Open loop, and why it works with a human driver.',
     ], notes: 'Symptoms identify most bring-up faults directly. Open loop explains why the robot drives differently on a worn battery.' }),
 
@@ -118,6 +119,45 @@ Thread.sleep(2000);
 drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       notes: 'While a loop waits, no buttons are read and no motors are updated. You will see "Loop time of 0.02s overrun" and "CommandScheduler loop overrun". After 0.1 seconds without an update, motor safety stops the drive and reports "DifferentialDrive... Output not updated often enough." So describe what should happen over time, with decorators like withTimeout, and let the scheduler do the waiting.' }),
 
+    L.code({ id: 'then', eyebrow: 'Sequences', title: 'One command that does three things in order', file: 'DriveAutos.java', src: { file: `${J}/DriveAutos.java`, region: 'then' }, highlight: [3, 4, 5],
+      caption: '`withTimeout` ends each step. `andThen` starts the next step when the one before it ends.',
+      notes: 'driveArcade never ends on its own, so withTimeout gives each step an end. andThen builds a sequence: when one step ends, the next one starts, in the same 20 ms loop. The middle step drives at zero, which holds the robot still and keeps the drive updated. Nothing here waits or sleeps. The scheduler keeps looping, reading buttons and updating every subsystem, while this command works through its steps. The method returns one command, so it can be bound to a button or used as an autonomous routine.' }),
+
+    L.gotcha({ id: 'gotcha-wait', title: 'A `waitSeconds` step in a drive sequence',
+      symptom: 'During the pause, the Driver Station shows `DifferentialDrive... Output not updated often enough.`',
+      cause: '`Commands.waitSeconds` runs no drive code, so nothing updates the drive. After 0.1 s, motor safety stops it and reports the error.',
+      fix: 'Hold the drive still with a step that drives at zero for the pause, as on the slide before.',
+      code: `
+// Error during the pause
+forward.andThen(Commands.waitSeconds(1.0)).andThen(turn);`,
+      notes: 'DifferentialDrive has motor safety turned on by default, with a 0.1 second limit. If arcadeDrive is not called within that time, WPILib stops the motors and prints the error. A wait command requires no subsystem and calls no drive code, so a pause made from it lets the limit run out. Driving at zero for the pause keeps calling arcadeDrive with zero, so the drive is updated every loop and stays still. The message text is from WPILib\'s MotorSafety class.' }),
+
+    L.table({ id: 'compose', eyebrow: 'Sequences', title: 'Ways to combine commands', columns: ['Write this', 'It runs', 'It ends when'], widths: [34, 34, 32], fontSize: 28, rows: [
+      ['a.andThen(b)', 'a, then b', 'b ends'],
+      ['Commands.sequence(a, b, c)', 'each one in order', 'the last one ends'],
+      ['a.alongWith(b)', 'a and b at the same time', 'both have ended'],
+      ['a.raceWith(b)', 'a and b at the same time', 'either one ends'],
+      ['a.deadlineFor(b)', 'a and b at the same time', 'a ends, and b is cancelled'],
+      ['a.withTimeout(2.0)', 'a for at most 2 seconds', 'a ends or the time is up'],
+      ['a.until(condition)', 'a', 'a ends or the condition is true'],
+    ], ref: { label: 'Command Compositions', url: 'https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html' },
+    notes: 'Each line builds one new command out of others, so the results combine too: a sequence can contain a race, and so on. Commands that run at the same time must not require the same subsystem. The PathPlanner app uses the same four group names, sequential, parallel, deadline and race, so an auto drawn in Deck 11 is built from the same pieces.' }),
+
+    L.code({ id: 'auto-sequence', eyebrow: 'Autonomous', title: 'An autonomous routine is one command', file: 'DriveAutos.java', src: { file: `${J}/DriveAutos.java`, region: 'sequence' }, highlight: [3, 4, 5, 6],
+      caption: '`getAutonomousCommand()` in `RobotContainer` returns this. `Robot.java` runs it when autonomous starts and cancels it when teleop starts.',
+      notes: 'Commands.sequence takes the steps as a list, which is easier to read and reorder than a chain of andThen calls. Every number comes from Constants, so tuning the routine means changing one line. The routine drives by time, so it is open loop: battery level and carpet change how far the robot goes. The template Robot.java already schedules whatever getAutonomousCommand returns in autonomousInit and cancels it in teleopInit. Deck 11 replaces the timed steps with paths that use encoders and a gyro.' }),
+
+    L.practice({ id: 'fresh-commands', title: 'Build a new command for each use', rule: 'Call the factory again each time. One command object can go in only one group.',
+      why: 'Reusing one makes WPILib throw: `Commands that have been composed may not be added to another composition or scheduled individually!`',
+      code: `
+// Wrong: one command object in two groups
+Command fwd = drive.driveArcade(() -> 0.4, () -> 0.0).withTimeout(2.0);
+Command autoA = Commands.sequence(fwd, Commands.print("A"));
+Command autoB = Commands.sequence(fwd, Commands.print("B")); // throws
+// Right: each call to the method makes a new command
+Command autoC = DriveAutos.leaveAndTurn(drive);`,
+      notes: 'When a command is put in a group, the scheduler marks it as composed. Putting the same object in a second group, or scheduling it alone, throws the error on the slide when the robot code starts. Factory methods avoid this, because each call returns a new command. That is one more reason the habits slide prefers factories.' }),
+
     L.table({ id: 'habits', eyebrow: 'Best practice', title: 'Five habits that keep robot code readable', columns: ['Habit', 'In practice', 'Why'], widths: [32, 34, 34], fontSize: 28, rows: [
       ['Constants, not magic numbers', 'LEFT_LEADER_ID, not 1', 'Swap a motor and change one line'],
       ['The subsystem owns its hardware', 'Motors are private', 'Every use goes through the subsystem'],
@@ -149,6 +189,13 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
     ], done: 'both laps are driven, and your working code is committed.',
     notes: 'Use clear floor space, with one person ready on Enter. The scale changes top speed. Decks 8 and 9 explain why the robot feels the way it does.' }),
 
+    L.exercise({ id: 'exercise-auto', title: 'Run the timed autonomous', tasks: [
+      'Put the robot on blocks, wheels off the ground. Deploy.',
+      'In Driver Station, choose **Autonomous** and enable. Watch the wheels.',
+      'Set `PAUSE_SECONDS` to 2.0, deploy, and run it again.',
+    ], done: 'the wheels drive forward, stop for two seconds, then turn, and the terminal prints Auto finished.',
+    notes: 'One person stays ready on Enter to disable, and Space is the emergency stop. On blocks, "turn" means the left and right wheels spin opposite ways. The routine ends by itself after its last step. Then the default command, the gamepad drive, takes over again, so keep hands off the sticks.' }),
+
     L.change2027({ id: 'change', items: [
       { now: 'roboRIO', next: 'Systemcore: 2026 projects must be imported' },
       { now: 'edu.wpi.first packages', next: 'org.wpilib packages' },
@@ -162,8 +209,8 @@ drive.driveArcade(() -> 0.5, () -> 0).withTimeout(2.0);`,
       'What a subsystem, command, trigger, default command and the scheduler each do.',
       '`CANDriveSubsystem`: brushed motors, followers, one inverted side, `configure()`.',
       'A gamepad binding with flipped signs, a deadband and a scale, tested with wheels up.',
-      'Symptoms: SPARK light colours, CAN ID errors, a spinning robot.',
-      'Open loop, and why it works with a human driver.',
+      'Sequences built with `andThen` and `Commands.sequence`, and a timed autonomous.',
+      'Bring-up symptoms, and open loop: why it works with a human driver.',
     ], next: 'Deck 3: AdvantageScope shows what your robot is doing.',
     notes: 'Deck 3 uses this code to show what the robot is doing.' }),
 

@@ -23,6 +23,18 @@ On 2026-11-04 the `current-limit` and `voltage-comp` slides moved to Deck 8, and
 - Enter, Space, reboot after E-stop, USB Devices tab, Messages tab: [Driver Station](https://docs.wpilib.org/en/stable/docs/software/driverstation/driver-station.html).
 - CIM numbers: `DCMotor.getCIM()`. R, Kt and Kv use the same formulas as the `DCMotor` constructor.
 
+## Sequences and the timed autonomous (added 2026-11-06)
+
+Slides `then`, `gotcha-wait`, `compose`, `auto-sequence`, `fresh-commands` and `exercise-auto`. Code: `examples/src/main/java/frc/robot/deck2/DriveAutos.java`, `AutoConstants` in `Constants.java`, and `getAutonomousCommand()` in `RobotContainer.java`.
+
+**Not compiled or run.** This session could not reach the Maven servers Gradle needs, so the new code was checked against the WPILib source at tag `v2026.2.1` instead. Run `cd examples && ./gradlew compileJava` once before teaching from these slides.
+
+- `andThen(Command...)` returns `SequentialCommandGroup`; `alongWith`, `raceWith`, `deadlineFor`, `withTimeout`, `until`: `Command.java` at the tag. `Commands.sequence`, `parallel`, `race`, `deadline(deadline, others...)`, `waitSeconds`, `print`: `Commands.java`. Ending rules in the `compose` table: the group classes and [Command Compositions](https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html).
+- A wait step lets motor safety stop the drive: `RobotDriveBase` calls `setSafetyEnabled(true)`, `MotorSafety.kDefaultSafetyExpiration = 0.1`, and the message is `getDescription() + "... Output not updated often enough. See https://docs.wpilib.org/motorsafety for more information."`, with `DifferentialDrive.getDescription()` returning `"DifferentialDrive"`. `WaitCommand` requires no subsystem and calls no drive code.
+- "Commands that have been composed may not be added to another composition or scheduled individually!": `CommandScheduler.requireNotComposed`. Putting one object twice in the same group gives a different message, "Cannot compose a command twice in the same composition!", so the slide's example uses two groups.
+- The template `Robot.java` schedules `getAutonomousCommand()` in `autonomousInit` and cancels it in `teleopInit`: `examples/src/main/java/frc/robot/Robot.java`.
+- `+zRotation` is counter-clockwise, so `AUTO_SPEED` as the rotation turns left: PLAN.md, verified facts.
+
 ## REV
 
 - LED patterns: [status LED](https://docs.revrobotics.com/brushless/spark-max/status-led).

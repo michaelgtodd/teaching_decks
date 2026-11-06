@@ -4,7 +4,6 @@ import static frc.robot.deck2.Constants.OperatorConstants.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -27,7 +26,10 @@ public class RobotContainer {
   }
   // #endregion
 
+  // #region auto
+  /** Robot.java schedules this when autonomous starts and cancels it when teleop starts. */
   public Command getAutonomousCommand() {
-    return Commands.none();
+    return DriveAutos.leaveAndTurn(drive);
   }
+  // #endregion
 }

@@ -1,11 +1,11 @@
 # FRC Java crash course decks
 
-Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
+Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 12 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
 | # | Deck (PDF) | Slides |
 |---|---|---|
 | 1 | [Your first robot program](docs/pdf/01-first-robot-program.pdf) | 25 |
-| 2 | [KitBot drive: command-based Java and a joystick](docs/pdf/02-kitbot-drive.pdf) | 21 |
+| 2 | [KitBot drive: command-based Java and a joystick](docs/pdf/02-kitbot-drive.pdf) | 27 |
 | 3 | [AdvantageScope: see what your robot is doing](docs/pdf/03-advantagescope.pdf) | 18 |
 | 4 | [Driving the KitBot in the WPILib simulator](docs/pdf/04-sim-in-advantagescope.pdf) | 20 |
 | 5 | [Elastic: your robot on a dashboard](docs/pdf/05-elastic.pdf) | 17 |
@@ -14,7 +14,8 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 8 | [Understanding motors: how to read a motor curve](docs/pdf/08-understanding-motors.pdf) | 20 |
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](docs/pdf/09-advanced-controls.pdf) | 20 |
 | 10 | [Autonomous path planning libraries](docs/pdf/10-auto-path-planning.pdf) | 18 |
-| | **Total** | **211** |
+| 11 | [PathPlanner step by step](docs/pdf/11-pathplanner.pdf) | 31 |
+| | **Total** | **248** |
 | Lab | [Setup lab: install the tools and set up a robot](docs/pdf/setup-lab.pdf) | 14 |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](docs/pdf/00-template-gallery.pdf) (every slide layout).
@@ -47,6 +48,11 @@ Nothing here has run on a real robot. The web pages and PDFs were checked as hea
 - Prepare the exercise as in Deck 6: in a copy of `examples`, set `includeDesktopSupport` to true and make `Robot.java` create `frc.robot.deck10.RobotContainer`. Then run it once in the real Sim GUI.
 - `firstAuto()` and `ChoreoPaths` need path files made in the apps, so `RobotContainer` doesn't call them.
 
+**Added 2026-11-06: Deck 2 sequences and Deck 11**
+- Run `cd examples && ./gradlew compileJava`. Gradle's servers were unreachable from the session that wrote `frc/robot/deck2/DriveAutos.java` and `frc/robot/deck11/`, so that code was checked against the WPILib and PathPlannerLib source, not compiled.
+- Run the Deck 11 exercise once: First Auto in the simulator, watched on PathPlanner's Telemetry page. Nobody has run it.
+- Deck 11's launcher is a stand-in (CAN IDs 5 and 6, brushed), not the KitBot's mechanism.
+
 **Smaller items**
 - Confirm Elastic appears in the Driver Station `Dashboard Type` list, and try its submit button on a real setup (Deck 5).
 - Using the microSD slot to identify a roboRIO 2 (Setup lab).
@@ -54,7 +60,8 @@ Nothing here has run on a real robot. The web pages and PDFs were checked as hea
 
 ## What was verified
 
-- Every example compiles against WPILib 2026.2.1, REVLib 2026.0.5, Phoenix 26.3.0, PathPlannerLib 2026.1.2, ChoreoLib 2026.0.3 and BLine-Lib 0.9.3.
+- Every example in Decks 1 to 10 compiles against WPILib 2026.2.1, REVLib 2026.0.5, Phoenix 26.3.0, PathPlannerLib 2026.1.2, ChoreoLib 2026.0.3 and BLine-Lib 0.9.3. The code added for Deck 2's sequences and Deck 11 is checked against source only (see above).
+- Deck 11's screenshots come from the real PathPlanner 2026.1.2 app, which also wrote the files in `examples/src/main/deploy/pathplanner/`. Its acceleration slide is computed from those files with the app's own formula and matches the app's readout.
 - The drivetrain, telemetry, roboRIO arms, speed loop, SysId routine and path followers ran in headless WPILib simulation. Results are in each deck's `SOURCES.md`.
 - Not run: WPILib's Simulate Robot Code with its GUI for Decks 8 to 10, the path planning apps, and Choreo's solver.
 - All 55 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
@@ -70,7 +77,7 @@ Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's p
 - `docs/` is the GitHub Pages site: `docs/decks/` (one viewer page per deck), `docs/pdf/`, `docs/fonts/` (Oswald, Public Sans and Roboto Mono under the OFL, so nothing loads from Google) and the playground. `docs/decks/`, `docs/pdf/` and `docs/index.html` are generated: don't edit them by hand.
 - `decks/setup-lab/` is the unnumbered Setup lab.
 - `template/` holds the layouts, Java highlighter, QR encoder and build tools. `template/export.mjs` turns each deck's `project/` into the web page and PDF. `template/GUIDE.md` explains how to write a deck.
-- `examples/` is a complete WPILib project. Every code slide pulls from it. Open it in WPILib VS Code to build it.
+- `examples/` is a complete WPILib project. Every code slide pulls from it. Open it in WPILib VS Code to build it. `examples/src/main/deploy/pathplanner/` holds Deck 11's settings, paths and auto, made in the PathPlanner app.
 - `PLAN.md` holds the plan and the facts all decks share.
 
 ```
