@@ -1,6 +1,6 @@
 # FRC Java crash course decks
 
-Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 12 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
+Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, Decks 8 to 12 go deeper, and Deck 13 previews command-based changes in 2027. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
 | # | Deck (PDF) | Slides |
 |---|---|---|
@@ -15,7 +15,8 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](docs/pdf/09-advanced-controls.pdf) | 20 |
 | 10 | [Autonomous path planning libraries](docs/pdf/10-auto-path-planning.pdf) | 18 |
 | 11 | [PathPlanner step by step](docs/pdf/11-pathplanner.pdf) | 31 |
-| | **Total** | **248** |
+| 13 | [Command-based in 2027](docs/pdf/13-commands-2027.pdf) | 24 |
+| | **Total** | **272** |
 | Lab | [Setup lab: install the tools and set up a robot](docs/pdf/setup-lab.pdf) | 14 |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](docs/pdf/00-template-gallery.pdf) (every slide layout).
@@ -52,6 +53,7 @@ Nothing here has run on a real robot. The web pages and PDFs were checked as hea
 - Run `cd examples && ./gradlew compileJava`. Gradle's servers were unreachable from the session that wrote `frc/robot/deck2/DriveAutos.java` and `frc/robot/deck11/`, so that code was checked against the WPILib and PathPlannerLib source, not compiled.
 - Run the Deck 11 exercise once: First Auto in the simulator, watched on PathPlanner's Telemetry page. Nobody has run it.
 - Deck 11's launcher is a stand-in (CAN IDs 5 and 6, brushed), not the KitBot's mechanism.
+- Deck 13 is built on WPILib 2027.0.0-alpha-8. Its code in `examples-2027/` has not been compiled, and alpha names can change: recheck it against the 2027 release before teaching it.
 
 **Smaller items**
 - Confirm Elastic appears in the Driver Station `Dashboard Type` list, and try its submit button on a real setup (Deck 5).
@@ -77,6 +79,7 @@ Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's p
 - `docs/` is the GitHub Pages site: `docs/decks/` (one viewer page per deck), `docs/pdf/`, `docs/fonts/` (Oswald, Public Sans and Roboto Mono under the OFL, so nothing loads from Google) and the playground. `docs/decks/`, `docs/pdf/` and `docs/index.html` are generated: don't edit them by hand.
 - `decks/setup-lab/` is the unnumbered Setup lab.
 - `template/` holds the layouts, Java highlighter, QR encoder and build tools. `template/export.mjs` turns each deck's `project/` into the web page and PDF. `template/GUIDE.md` explains how to write a deck.
+- `examples-2027/` holds Deck 13's Commands v3 code. It is not a buildable project: see its README.
 - `examples/` is a complete WPILib project. Every code slide pulls from it. Open it in WPILib VS Code to build it. `examples/src/main/deploy/pathplanner/` holds Deck 11's settings, paths and auto, made in the PathPlanner app.
 - `PLAN.md` holds the plan and the facts all decks share.
 

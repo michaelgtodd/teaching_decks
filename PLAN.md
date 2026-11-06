@@ -32,11 +32,12 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 10 | `10-auto-path-planning` | PathPlanner, Choreo, BLine and WPILib compared | ~18 |
 | 11 | `11-pathplanner` | PathPlanner step by step: app, settings, paths, autos, commands, code | ~31 |
 | 12 | `12-vision` | Vision: what teams use in 2026, and how camera poses fix odometry | — |
+| 13 | `13-commands-2027` | Command-based in 2027: Commands v3 next to Deck 2's v2 code (WPILib 2027 alpha-8) | ~24 |
 | Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | 14 |
 
 Every deck follows the same rhythm: cover, outcomes, content, at least one `gotcha`, one `practice`,
 one `exercise`, one slide with eyebrow exactly `Control theory`, `change2027`, `recap`, `links` (QR codes).
-Decks 8 to 12 may skip the full `change2027` slide when there is little to say. Deck 1 and the Setup lab have none: those notes are in `MENTOR-PREP.md`.
+Decks 8 to 13 may skip the full `change2027` slide when there is little to say. Deck 1 and the Setup lab have none: those notes are in `MENTOR-PREP.md`.
 
 ## Verified facts all decks must agree on
 

@@ -1,0 +1,61 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-06T13:06:44Z"
+  },
+  "lists": "css",
+  "title": "Command-based in 2027",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "outcomes",
+    "what-changes",
+    "big-idea",
+    "first-command",
+    "mapping",
+    "gotcha-run",
+    "mechanism",
+    "priority",
+    "sequences-section",
+    "v2-sequence",
+    "v3-sequence",
+    "v3-steps",
+    "compose",
+    "gotcha-cleanup",
+    "practice-yield",
+    "control-loop",
+    "scopes",
+    "robot",
+    "practice-priority",
+    "choose",
+    "exercise",
+    "recap",
+    "links"
+  ],
+  "sections": {
+    "s0": {
+      "description": "What changes for command-based Java in 2027: Commands v3, written as one function per command, next to the v2 code from Deck 2.",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "Deck 2’s timed autonomous, three ways.",
+      "start": "sequences-section"
+    }
+  },
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&display=swap"
+    },
+    "public-sans": {
+      "family": "Public Sans",
+      "href": "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..700&display=swap"
+    },
+    "roboto-mono": {
+      "family": "Roboto Mono",
+      "href": "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

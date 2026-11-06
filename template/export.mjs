@@ -301,11 +301,11 @@ const all = readdirSync('decks').filter((n) => existsSync(join('decks', n, 'proj
 const names = pick.length ? pick : all;
 const done = names.map((n) => ({ ...exportDeck(n), ...deckMeta(n) }));
 done.forEach((d) => console.log(`page ${d.name}: ${d.count} slides`));
-// The landing page always lists every deck, even when only some were re-exported.
-const listed = all.map((n) => done.find((d) => d.name === n) || (() => {
+if (wantPdf) await pdfs(done);
+// The landing page lists every deck that has a PDF, even when only some were re-exported.
+const listed = all.filter((n) => existsSync(join(OUT, 'pdf', `${n}.pdf`))).map((n) => done.find((d) => d.name === n) || (() => {
   const idx = JSON.parse(readFileSync(join('decks', n, 'project', 'deck.json'), 'utf8'));
   return { name: n, title: idx.title, count: idx.order.length, ...deckMeta(n) };
 })());
 writeFileSync(join(OUT, 'index.html'), landing(listed));
 console.log(`site ${SITE}/`);
-if (wantPdf) await pdfs(done);

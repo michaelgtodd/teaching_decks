@@ -1,0 +1,14 @@
+<section id="mapping" data-transition="fade" style="background:#F7F5EF;color:#1A2733;font-family:'Public Sans', Arial, sans-serif;padding:88px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#B8430A">From v2 to v3</p><h2 style="font-family:'Oswald', 'Trebuchet MS', sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#12202E">The v2 words you know, in v3</h2></div><table style="font-family:'Public Sans', Arial, sans-serif;font-size:26px;color:#1A2733;background:#FFFDF8;border:1px solid #D9D3C4">
+<tr style="background:#12202E"><th style="width:33%;color:#F7F5EF">v2</th><th style="width:37%;color:#F7F5EF">v3</th><th style="width:30%;color:#F7F5EF">Note</th></tr>
+<tr><td>extends SubsystemBase</td><td>implements Mechanism</td><td>An interface now</td></tr>
+<tr style="background:#ECE8DD"><td>run(() -&gt; ...)</td><td>runRepeatedly(() -&gt; ...)</td><td>v2’s run repeats</td></tr>
+<tr><td>runOnce(() -&gt; ...)</td><td>run(c -&gt; ...) with no yield</td><td>Ends when it returns</td></tr>
+<tr style="background:#ECE8DD"><td>.withName(“...”)</td><td>.named(“...”)</td><td>Required</td></tr>
+<tr><td>Commands.waitSeconds(1)</td><td>Command.waitFor(Seconds.of(1))</td><td>Times use units</td></tr>
+<tr style="background:#ECE8DD"><td>.finallyDo(...)</td><td>.whenExited(...)</td><td>Runs however it ends</td></tr>
+<tr><td>CommandScheduler.getInstance()</td><td>Scheduler.getDefault()</td><td>Same job</td></tr>
+<tr style="background:#ECE8DD"><td>.asProxy()</td><td>coroutine.await(...)</td><td>Built in</td></tr>
+</table><p style="position:absolute;left:128px;bottom:56px;width:420px;font-size:24px;color:#45545F">Deck 13 · Commands in 2027</p><p style="position:absolute;left:560px;bottom:56px;width:1120px;font-size:24px;color:#45545F">WPILib docs: <a href="https://docs.wpilib.org/en/latest/docs/software/commandbased/commands-v3/migration-guide.html">Migrating from Commands v2</a></p><p style="position:absolute;right:128px;bottom:56px;width:100px;text-align:right;font-size:24px;color:#45545F">6</p>
+<aside>Most of the change is vocabulary. A Mechanism is v2’s subsystem, but it is an interface, and it has no periodic method: call update code from robotPeriodic instead. Times in v3 are WPILib units, such as Seconds.of(1). Proxy commands existed in v2 to stop a group from owning every subsystem for its whole length. In v3, a command started with await owns its mechanism only while it runs, which is what proxies did. WPILib’s migration guide has every pair with examples.</aside>
+</section>
