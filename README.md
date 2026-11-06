@@ -2,24 +2,24 @@
 
 Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
-| # | Deck | Slides | Download |
+| # | Deck (PDF) | Slides | Present |
 |---|---|---|---|
-| 1 | [Your first robot program](https://michaelgtodd.github.io/teaching_decks/decks/01-first-robot-program/) | 25 | [PDF](docs/pdf/01-first-robot-program.pdf) |
-| 2 | [KitBot drive: command-based Java and a joystick](https://michaelgtodd.github.io/teaching_decks/decks/02-kitbot-drive/) | 21 | [PDF](docs/pdf/02-kitbot-drive.pdf) |
-| 3 | [AdvantageScope: see what your robot is doing](https://michaelgtodd.github.io/teaching_decks/decks/03-advantagescope/) | 18 | [PDF](docs/pdf/03-advantagescope.pdf) |
-| 4 | [Driving the KitBot in the WPILib simulator](https://michaelgtodd.github.io/teaching_decks/decks/04-sim-in-advantagescope/) | 20 | [PDF](docs/pdf/04-sim-in-advantagescope.pdf) |
-| 5 | [Elastic: your robot on a dashboard](https://michaelgtodd.github.io/teaching_decks/decks/05-elastic/) | 17 | [PDF](docs/pdf/05-elastic.pdf) |
-| 6 | [Arm PID: control theory and a PID + feedforward arm](https://michaelgtodd.github.io/teaching_decks/decks/06-arm-pid/) | 33 | [PDF](docs/pdf/06-arm-pid.pdf) |
-| 7 | [REV vs CTRE motors and controllers](https://michaelgtodd.github.io/teaching_decks/decks/07-rev-vs-ctre/) | 19 | [PDF](docs/pdf/07-rev-vs-ctre.pdf) |
-| 8 | [Understanding motors: how to read a motor curve](https://michaelgtodd.github.io/teaching_decks/decks/08-understanding-motors/) | 20 | [PDF](docs/pdf/08-understanding-motors.pdf) |
-| 9 | [Advanced controls: driver feel, feedforward and where loops run](https://michaelgtodd.github.io/teaching_decks/decks/09-advanced-controls/) | 20 | [PDF](docs/pdf/09-advanced-controls.pdf) |
-| 10 | [Autonomous path planning libraries](https://michaelgtodd.github.io/teaching_decks/decks/10-auto-path-planning/) | 18 | [PDF](docs/pdf/10-auto-path-planning.pdf) |
+| 1 | [Your first robot program](docs/pdf/01-first-robot-program.pdf) | 25 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/01-first-robot-program/) |
+| 2 | [KitBot drive: command-based Java and a joystick](docs/pdf/02-kitbot-drive.pdf) | 21 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/02-kitbot-drive/) |
+| 3 | [AdvantageScope: see what your robot is doing](docs/pdf/03-advantagescope.pdf) | 18 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/03-advantagescope/) |
+| 4 | [Driving the KitBot in the WPILib simulator](docs/pdf/04-sim-in-advantagescope.pdf) | 20 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/04-sim-in-advantagescope/) |
+| 5 | [Elastic: your robot on a dashboard](docs/pdf/05-elastic.pdf) | 17 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/05-elastic/) |
+| 6 | [Arm PID: control theory and a PID + feedforward arm](docs/pdf/06-arm-pid.pdf) | 33 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/06-arm-pid/) |
+| 7 | [REV vs CTRE motors and controllers](docs/pdf/07-rev-vs-ctre.pdf) | 19 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/07-rev-vs-ctre/) |
+| 8 | [Understanding motors: how to read a motor curve](docs/pdf/08-understanding-motors.pdf) | 20 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/08-understanding-motors/) |
+| 9 | [Advanced controls: driver feel, feedforward and where loops run](docs/pdf/09-advanced-controls.pdf) | 20 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/09-advanced-controls/) |
+| 10 | [Autonomous path planning libraries](docs/pdf/10-auto-path-planning.pdf) | 18 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/10-auto-path-planning/) |
 | | **Total** | **211** | |
-| Lab | [Setup lab: install the tools and set up a robot](https://michaelgtodd.github.io/teaching_decks/decks/setup-lab/) | 14 | [PDF](docs/pdf/setup-lab.pdf) |
+| Lab | [Setup lab: install the tools and set up a robot](docs/pdf/setup-lab.pdf) | 14 | [Web](https://michaelgtodd.github.io/teaching_decks/decks/setup-lab/) |
 
-Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://michaelgtodd.github.io/teaching_decks/decks/00-template-gallery/) (every slide layout). All of it is listed at [michaelgtodd.github.io/teaching_decks/](https://michaelgtodd.github.io/teaching_decks/).
+Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](docs/pdf/00-template-gallery.pdf) (every slide layout). All of it is listed at [michaelgtodd.github.io/teaching_decks/](https://michaelgtodd.github.io/teaching_decks/).
 
-Each deck opens in the browser: arrow keys or a click change slides, N shows the speaker notes, F goes full screen, and `#slide-7` in the address opens slide 7. The PDFs are the same slides, one per page, for offline use or printing. Everything here is public.
+Each title opens the deck as a PDF, one slide per page. **Web** opens it as a page to present in the browser: arrow keys or a click change slides, N shows the speaker notes, F goes full screen, and `#slide-7` in the address opens slide 7. Everything here is public.
 
 ## Check before you teach
 
