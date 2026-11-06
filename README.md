@@ -2,34 +2,34 @@
 
 Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as much control theory as programming. Decks 1 to 7 are the core course, and Decks 8 to 10 go deeper. The Setup lab covers installing and first-time robot setup, and [MENTOR-PREP.md](MENTOR-PREP.md) is the mentor checklist. 2027 and Systemcore appear only as short notes on what's changing.
 
-| # | Deck | Slides |
-|---|---|---|
-| 1 | [Your first robot program](https://claude.ai/artifact/B3kP9E88gSG9nnMEskWSJ1) | 25 |
-| 2 | [KitBot drive: command-based Java and a joystick](https://claude.ai/artifact/GTK83fawoiqT1J83sS2YZS) | 21 |
-| 3 | [AdvantageScope: see what your robot is doing](https://claude.ai/artifact/JaTKFBgGZosZcVh4rAZYfV) | 18 |
-| 4 | [Driving the KitBot in the WPILib simulator](https://claude.ai/artifact/34wN5wfhF5zk26S62gMEP4) | 20 |
-| 5 | [Elastic: your robot on a dashboard](https://claude.ai/artifact/WZPaHFuaBmtMtApk8vHWng) | 17 |
-| 6 | [Arm PID: control theory and a PID + feedforward arm](https://claude.ai/artifact/Qz8eXkwsVK9YstL5HcFmhJ) | 33 |
-| 7 | [REV vs CTRE motors and controllers](https://claude.ai/artifact/JuXBHuqkLPMZLFdaGe2tVr) | 19 |
-| 8 | [Understanding motors: how to read a motor curve](https://claude.ai/artifact/B48BWKmNvk9TpxTMFg7GJM) | 20 |
-| 9 | [Advanced controls: driver feel, feedforward and where loops run](https://claude.ai/artifact/YS56vBJqScFo9JWrXdnfQe) | 20 |
-| 10 | [Autonomous path planning libraries](https://claude.ai/artifact/DdUaYbmE7fb19UkBPKJaEk) | 18 |
-| | **Total** | **211** |
-| Lab | [Setup lab: install the tools and set up a robot](https://claude.ai/artifact/LfS8WrtcswnGFNMLMatN1F) | 14 |
+| # | Deck | Slides | Download |
+|---|---|---|---|
+| 1 | [Your first robot program](https://michaelgtodd.github.io/teaching_decks/decks/01-first-robot-program/) | 25 | [PDF](docs/pdf/01-first-robot-program.pdf) |
+| 2 | [KitBot drive: command-based Java and a joystick](https://michaelgtodd.github.io/teaching_decks/decks/02-kitbot-drive/) | 21 | [PDF](docs/pdf/02-kitbot-drive.pdf) |
+| 3 | [AdvantageScope: see what your robot is doing](https://michaelgtodd.github.io/teaching_decks/decks/03-advantagescope/) | 18 | [PDF](docs/pdf/03-advantagescope.pdf) |
+| 4 | [Driving the KitBot in the WPILib simulator](https://michaelgtodd.github.io/teaching_decks/decks/04-sim-in-advantagescope/) | 20 | [PDF](docs/pdf/04-sim-in-advantagescope.pdf) |
+| 5 | [Elastic: your robot on a dashboard](https://michaelgtodd.github.io/teaching_decks/decks/05-elastic/) | 17 | [PDF](docs/pdf/05-elastic.pdf) |
+| 6 | [Arm PID: control theory and a PID + feedforward arm](https://michaelgtodd.github.io/teaching_decks/decks/06-arm-pid/) | 33 | [PDF](docs/pdf/06-arm-pid.pdf) |
+| 7 | [REV vs CTRE motors and controllers](https://michaelgtodd.github.io/teaching_decks/decks/07-rev-vs-ctre/) | 19 | [PDF](docs/pdf/07-rev-vs-ctre.pdf) |
+| 8 | [Understanding motors: how to read a motor curve](https://michaelgtodd.github.io/teaching_decks/decks/08-understanding-motors/) | 20 | [PDF](docs/pdf/08-understanding-motors.pdf) |
+| 9 | [Advanced controls: driver feel, feedforward and where loops run](https://michaelgtodd.github.io/teaching_decks/decks/09-advanced-controls/) | 20 | [PDF](docs/pdf/09-advanced-controls.pdf) |
+| 10 | [Autonomous path planning libraries](https://michaelgtodd.github.io/teaching_decks/decks/10-auto-path-planning/) | 18 | [PDF](docs/pdf/10-auto-path-planning.pdf) |
+| | **Total** | **211** | |
+| Lab | [Setup lab: install the tools and set up a robot](https://michaelgtodd.github.io/teaching_decks/decks/setup-lab/) | 14 | [PDF](docs/pdf/setup-lab.pdf) |
 
-Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://claude.ai/artifact/WzcPfnPBQ1gA6uvLpfdEji) (every slide layout).
+Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](https://michaelgtodd.github.io/teaching_decks/decks/00-template-gallery/) (every slide layout). All of it is listed at [michaelgtodd.github.io/teaching_decks/](https://michaelgtodd.github.io/teaching_decks/).
 
-This repo and the playground are public. The slide links above stay private to the owner until shared from each deck.
+Each deck opens in the browser: arrow keys or a click change slides, N shows the speaker notes, F goes full screen, and `#slide-7` in the address opens slide 7. The PDFs are the same slides, one per page, for offline use or printing. Everything here is public.
 
 ## Check before you teach
 
-Nothing here has run on a real robot, and no one has viewed the slides, the animated embed or the playground in a browser yet.
+Nothing here has run on a real robot. The web pages and PDFs were checked as headless Chromium screenshots of every slide, but no one has presented them on a projector, and no one has opened the playground in a browser yet.
 
 **Worth doing first**
 - Work through [MENTOR-PREP.md](MENTOR-PREP.md). Deck 1 needs installed laptops, and a robot for its second half.
-- Page through each deck once. Layout was checked by estimate only.
+- Page through each deck once on the projector you will use. Layout was checked in screenshots, not on a real screen.
 - Scan a few QR codes with a phone, from the back of the room. They pass a decoder check, but no phone has tried them.
-- Export PDFs if the shop wifi is unreliable. Fonts load from the web.
+- Download the PDFs if the shop wifi is unreliable. The web pages need no outside fonts, but they do need the network to load.
 
 **SPARK firmware**
 - Use 2026 firmware (26.x) on every SPARK. REVLib 2026 reports firmware 27 as too new, and REVLib 2027 doesn't run on a roboRIO.
@@ -58,6 +58,7 @@ Nothing here has run on a real robot, and no one has viewed the slides, the anim
 - The drivetrain, telemetry, roboRIO arms, speed loop, SysId routine and path followers ran in headless WPILib simulation. Results are in each deck's `SOURCES.md`.
 - Not run: WPILib's Simulate Robot Code with its GUI for Decks 8 to 10, the path planning apps, and Choreo's solver.
 - All 55 QR codes round-trip through a separate decoder, and all 54 slide links return 200.
+- The exported pages render every slide inside the 1920×1080 canvas with no text overflow, and each PDF has one page per slide.
 
 Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's popularity numbers are our own count of public repos, and its plot comes from stored run data in `sim-runs.json`.
 
@@ -66,14 +67,15 @@ Each deck's `SOURCES.md` lists its sources and anything unconfirmed. Deck 10's p
 ## Layout
 
 - `decks/NN-name/deck.mjs` is the source for a deck. `project/` is generated from it.
-- `docs/` is the GitHub Pages site, which only holds the playground.
+- `docs/` is the GitHub Pages site: `docs/decks/` (one viewer page per deck), `docs/pdf/`, `docs/fonts/` (Oswald, Public Sans and Roboto Mono under the OFL, so nothing loads from Google) and the playground. `docs/decks/`, `docs/pdf/` and `docs/index.html` are generated: don't edit them by hand.
 - `decks/setup-lab/` is the unnumbered Setup lab.
-- `template/` holds the layouts, Java highlighter, QR encoder and build tools. `template/GUIDE.md` explains how to write a deck.
+- `template/` holds the layouts, Java highlighter, QR encoder and build tools. `template/export.mjs` turns each deck's `project/` into the web page and PDF. `template/GUIDE.md` explains how to write a deck.
 - `examples/` is a complete WPILib project. Every code slide pulls from it. Open it in WPILib VS Code to build it.
 - `PLAN.md` holds the plan and the facts all decks share.
 
 ```
 node template/build.mjs [deck]        # build decks and enforce fit limits
+node template/export.mjs --pdf [deck] # web pages + PDFs in docs/ (PDFs need Playwright)
 node template/verify-qr.mjs           # round-trip every QR code
 node template/check-links.mjs [deck]  # fetch every link
 cd examples && ./gradlew compileJava  # compile all example code (JDK 17)
