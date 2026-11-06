@@ -31,7 +31,7 @@ Never teach 2027 APIs. WPILib 2027 is at Alpha 8 (2026-10-30); treat all of it a
 | 9 | `09-advanced-controls` | Input shaping, drivetrain feedforward, onboard loops, S-curves | ~20 |
 | 10 | `10-auto-path-planning` | PathPlanner, Choreo, BLine and WPILib compared | ~18 |
 | 11 | `11-pathplanner` | PathPlanner step by step: app, settings, paths, autos, commands, code | ~31 |
-| 12 | `12-vision` | Vision: what teams use in 2026, and how camera poses fix odometry | — |
+| 12 | `12-vision` | Vision: what teams use in 2026, and how camera poses fix odometry | ~24 |
 | 13 | `13-commands-2027` | Command-based in 2027: Commands v3 next to Deck 2's v2 code (WPILib 2027 alpha-8) | ~24 |
 | Lab | `setup-lab` | Installing WPILib and first-time robot setup, QR codes to official docs | 14 |
 

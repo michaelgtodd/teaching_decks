@@ -15,8 +15,9 @@ Mini decks for young FRC teams: WPILib 2026, Java command-based only, with as mu
 | 9 | [Advanced controls: driver feel, feedforward and where loops run](docs/pdf/09-advanced-controls.pdf) | 20 |
 | 10 | [Autonomous path planning libraries](docs/pdf/10-auto-path-planning.pdf) | 18 |
 | 11 | [PathPlanner step by step](docs/pdf/11-pathplanner.pdf) | 31 |
+| 12 | [Vision: AprilTags and camera choices](docs/pdf/12-vision.pdf) | 24 |
 | 13 | [Command-based in 2027](docs/pdf/13-commands-2027.pdf) | 24 |
-| | **Total** | **272** |
+| | **Total** | **296** |
 | Lab | [Setup lab: install the tools and set up a robot](docs/pdf/setup-lab.pdf) | 14 |
 
 Extras: [Arm PID playground](https://michaelgtodd.github.io/teaching_decks/arm-playground/) (interactive sliders, source in `docs/arm-playground/`) and the [template gallery](docs/pdf/00-template-gallery.pdf) (every slide layout).
@@ -50,7 +51,7 @@ Nothing here has run on a real robot. The web pages and PDFs were checked as hea
 - `firstAuto()` and `ChoreoPaths` need path files made in the apps, so `RobotContainer` doesn't call them.
 
 **Added 2026-11-06: Deck 2 sequences and Deck 11**
-- Run `cd examples && ./gradlew compileJava`. Gradle's servers were unreachable from the session that wrote `frc/robot/deck2/DriveAutos.java` and `frc/robot/deck11/`, so that code was checked against the WPILib and PathPlannerLib source, not compiled.
+- Run `cd examples && ./gradlew compileJava`. Gradle's servers were unreachable from the session that wrote `frc/robot/deck2/DriveAutos.java`, `frc/robot/deck11/` and `frc/robot/deck12/`, so that code was checked against the WPILib, PathPlannerLib, PhotonLib and LimelightHelpers source, not compiled.
 - Run the Deck 11 exercise once: First Auto in the simulator, watched on PathPlanner's Telemetry page. Nobody has run it.
 - Deck 11's launcher is a stand-in (CAN IDs 5 and 6, brushed), not the KitBot's mechanism.
 - Deck 13 is built on WPILib 2027.0.0-alpha-8. Its code in `examples-2027/` has not been compiled, and alpha names can change: recheck it against the 2027 release before teaching it.
